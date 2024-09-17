@@ -26,4 +26,4 @@ app.get('/api/get', (req, res) => {
     res.json({ express: 'YOURwww123 EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
-app.use('/api/user', authRouter);
+app.use('/api/auth', authRouter);
