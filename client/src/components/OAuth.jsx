@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { googleLoginUser, signInSuccess } from '../store/user/authSlice';
+import { googleLoginUser } from '../store/user/authSlice';
 import { useDispatch } from 'react-redux';
 import { app } from '../firebase';
 import { signInWithPopup, GoogleAuthProvider, getAuth } from 'firebase/auth';

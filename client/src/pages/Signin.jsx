@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { signInStart, signInSuccess, signInFailure, loginUser } from '../store/user/authSlice'
+import { loginUser } from '../store/user/authSlice'
 import OAuth from '../components/OAuth';
 
 export default function Signin() {
@@ -10,8 +10,6 @@ export default function Signin() {
   const { currentUser, error, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
 
   console.log('cur user', currentUser);
 

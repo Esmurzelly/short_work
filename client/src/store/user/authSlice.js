@@ -65,7 +65,7 @@ export const loginUser = createAsyncThunk(
 
 export const googleLoginUser = createAsyncThunk(
     'auth/googleLoginUser',
-    async({ name, email, role, avatar }) => {
+    async ({ name, email, role, avatar }) => {
         try {
             const response = await fetch('/api/auth/google', {
                 method: "POST",
@@ -79,97 +79,177 @@ export const googleLoginUser = createAsyncThunk(
                     avatar,
                 })
             });
-            console.log('response from asyncThunk', response);
-    
+
             const data = await response.json();
-            console.log('data from asyncThunk', data);
-    
+
             if (data.success === false) {
                 console.log(data.message)
             };
             if (!data) {
                 throw new Error('No data returned from server');
             }
-    
+
             return data;
         } catch (error) {
             console.log(error)
         }
-        
+
     }
 );
 
-export const userSlice = createSlice({
+export const signOutUser = createAsyncThunk(
+    'auth/signOutUser',
+    async () => {
+        try {
+            const response = await fetch('/api/auth/signout', {
+                method: "POST"
+            });
+            console.log('response from asyncThunk', response);
+
+            const data = await response.json();
+
+            if (data.success === false) {
+                dispatch(signOutFailure(data.message));
+                return;
+            }
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const updateUser = createAsyncThunk(
+    'auth/updateUser',
+    async ({ id, name, email, password, avatar, role }) => {
+        console.log('data from authSlice', {id, name, email, password, avatar, role})
+        try {
+            const response = await fetch(`/api/user/edit/${id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password, avatar, role })
+            });
+            const data = await response.json();
+
+            if (data.success === false) {
+                dispatch(signOutFailure(data.message));
+                return;
+            }
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
+export const authSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        signInStart: (state) => {
-            state.loading = true;
-            state.error = false;
-        },
-        signInSuccess: (state, action) => {
-            state.currentUser = action.payload;
-            state.loading = false;
-            state.error = false;
-        },
-        signInFailure: (state, action) => {
-            state.error = action.payload;
-            state.loading = false;
-        },
+        // signInStart: (state) => {
+        //     state.loading = true;
+        //     state.error = false;
+        // },
+        // signInSuccess: (state, action) => {
+        //     state.currentUser = action.payload;
+        //     state.loading = false;
+        //     state.error = false;
+        // },
+        // signInFailure: (state, action) => {
+        //     state.error = action.payload;
+        //     state.loading = false;
+        // },
 
-        signOutStart: (state) => {
-            state.loading = true;
-        },
-        signOutSuccess: (state, action) => {
-            state.currentUser = null;
-            state.loading = false;
-            state.error = false;
-        },
-        signOutFailure: (state, action) => {
-            state.error = action.payload;
-            state.loading = false;
-        },
+        // signOutStart: (state) => {
+        //     state.loading = true;
+        // },
+        // signOutSuccess: (state, action) => {
+        //     state.currentUser = null;
+        //     state.loading = false;
+        //     state.error = false;
+        // },
+        // signOutFailure: (state, action) => {
+        //     state.error = action.payload;
+        //     state.loading = false;
+        // },
     },
     extraReducers: builder => {
         builder.addCase(registerUser.pending, (state) => {
             state.loading = true;
         }),
-        builder.addCase(registerUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.currentUser = action.payload; // change maybe
-            state.error = null;
-        }),
-        builder.addCase(registerUser.rejected, (state, action) => {
-            state.error = action.payload;
-        }),
+            builder.addCase(registerUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload; // change maybe
+                state.error = null;
+            }),
+            builder.addCase(registerUser.rejected, (state, action) => {
+                state.error = action.payload;
+            }),
 
 
-        builder.addCase(loginUser.pending, (state) => {
-            state.loading = true;
-        }),
-        builder.addCase(loginUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.currentUser = action.payload;
-            state.error = null;
-        }),
-        builder.addCase(loginUser.rejected, (state, action) => {
-            state.error = action.payload;
-        }),
+            builder.addCase(loginUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(loginUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+                state.error = null;
+            }),
+            builder.addCase(loginUser.rejected, (state, action) => {
+                state.error = action.payload;
+            }),
 
-        builder.addCase(googleLoginUser.pending, (state) => {
-            state.loading = true;
-        }),
-        builder.addCase(googleLoginUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.currentUser = action.payload;
-            state.error = null;
-        }),
-        builder.addCase(googleLoginUser.rejected, (state, action) => {
-            state.error = action.payload;
-        })
+            builder.addCase(googleLoginUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(googleLoginUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+                state.error = null;
+            }),
+            builder.addCase(googleLoginUser.rejected, (state, action) => {
+                state.error = action.payload;
+            }),
+
+
+            builder.addCase(signOutUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(signOutUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = null;
+                state.error = null;
+            }),
+            builder.addCase(signOutUser.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+
+            
+            builder.addCase(updateUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(updateUser.fulfilled, (state, action) => {
+                state.currentUser = action.payload;
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(updateUser.rejected, (state, action) => {
+                state.error = action.payload;
+            })
     }
 });
 
-export const { signInStart, signInSuccess, signInFailure, signOutFailure, signOutStart, signOutSuccess } = userSlice.actions;
+// export const { signInStart, signInSuccess, signInFailure, signOutFailure, signOutStart, signOutSuccess } = userSlice.actions;
+export const { } = authSlice.actions;
 
-export default userSlice.reducer;
+export default authSlice.reducer;

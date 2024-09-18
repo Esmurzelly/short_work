@@ -6,7 +6,7 @@ export default function Home() {
     const { currentUser } = useSelector(state => state.user);
 
     return (
-        <div className='text-center'>
+        <div className='flex flex-1 text-center'>
             {currentUser && (
                 <>
                     <h1>{currentUser?.name}</h1>

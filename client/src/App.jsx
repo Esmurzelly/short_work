@@ -9,50 +9,54 @@ import Signin from './pages/Signin';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import PrivateProfile from './components/PrivateProfile';
+import SideBar from './components/SideBar';
 
 
 function App() {
-  const [data, setData] = useState();
-  const [error, setError] = useState(null);
+  // const [data, setData] = useState();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('api/get');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('api/get');
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setData(result);
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const result = await response.json();
+  //       setData(result);
 
-      } catch (error) {
-        console.log('Fetch error:', error);
-        setError(error.message);
+  //     } catch (error) {
+  //       console.log('Fetch error:', error);
 
-      }
-    }
+  //     }
+  //   }
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  console.log('fetched data', data);
+  // console.log('fetched data', data);
+
   return (
     <BrowserRouter>
-    <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route element={<PrivateProfile />}>
-          <Route path='/create-job' element={<CreateJob />} />
-          <Route path='/profile' element={<Profile />} />
-        </Route>
-        
-        <Route path='/sign-up' element={<Signup />} />
-        <Route path='/sign-in' element={<Signin />} />
-        
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <div className='flex flex-col h-screen p-2'>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+
+          <Route element={<PrivateProfile />}>
+            <Route path='/create-job' element={<CreateJob />} />
+            <Route path='/profile' element={<Profile />} />
+          </Route>
+
+          <Route path='/sign-up' element={<Signup />} />
+          <Route path='/sign-in' element={<Signin />} />
+
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+        <SideBar />
+      </div>
     </BrowserRouter>
   )
 }

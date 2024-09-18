@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { currentUser, loading, error } = useSelector(state => state.user);
+  
 
   if (loading) {
     return <p>Loading...</p>;

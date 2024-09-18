@@ -42,7 +42,7 @@ export default function Signup() {
 
       // setLoading(false);
       // setFormData(data);
-      navigate('/sign-in')
+      navigate('/')
     } catch (error) {
       console.log(error)
     }

@@ -1,10 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { signOutStart, signOutSuccess, signOutFailure } from '../store/user/authSlice';
+import { signOutUser } from '../store/user/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import ChangeUserData from '../components/ChangeUserData';
 
 export default function Profile() {
   const { currentUser, loading } = useSelector(state => state.user);
+  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,27 +19,32 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     try {
-      dispatch(signOutStart());
+      dispatch(signOutUser());
+      // dispatch(signOutStart());
 
-      const res = await fetch('/api/auth/signout', {
-        method: "POST"
-      });
-      const data = await res.json();
+      // const res = await fetch('/api/auth/signout', {
+      //   method: "POST"
+      // });
+      // const data = await res.json();
 
-      if (data.success === false) {
-        dispatch(signOutFailure(data.message));
-        return;
-      }
+      // if (data.success === false) {
+      //   dispatch(signOutFailure(data.message));
+      //   return;
+      // }
 
-      dispatch(signOutSuccess());
+      // dispatch(signOutSuccess());
       navigate('/sign-in')
     } catch (error) {
       console.log(error)
     }
-  }
+  };
+
+  const changeOpenModal = () => {
+    setModal(prev => !prev);
+  };
 
   return (
-    <div>
+    <div className='flex flex-col flex-1'>
       <h1>Profile data</h1>
 
       <div className='border rounded-md bg-slate-300'>
@@ -49,8 +57,21 @@ export default function Profile() {
           jobs.map(item => <p>{item.name}</p>)
         )}
 
+        <button onClick={changeOpenModal} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+          Change My Data
+        </button>
+
+        {modal && (
+          <div className='fixed inset-0 flex items-center justify-center z-50'>
+            <div className='absolute inset-0 bg-black opacity-50'></div>
+            <div className='relative bg-white p-1 rounded-lg shadow-lg z-10'>
+              <ChangeUserData setModal={setModal} />
+            </div>
+          </div>
+        )}
+
         <button onClick={handleSignOut} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-         Sign Out
+          Sign Out
         </button>
       </div>
     </div>
