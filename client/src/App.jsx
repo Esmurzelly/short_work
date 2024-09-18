@@ -11,6 +11,8 @@ import Header from './components/Header';
 import PrivateProfile from './components/PrivateProfile';
 import SideBar from './components/SideBar';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // const [data, setData] = useState();
@@ -56,6 +58,7 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
         <SideBar />
+        <ToastContainer />
       </div>
     </BrowserRouter>
   )

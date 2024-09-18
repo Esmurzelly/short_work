@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { signOutUser } from '../store/user/authSlice';
+import { signOutUser, deleteUser } from '../store/user/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ChangeUserData from '../components/ChangeUserData';
@@ -10,8 +10,6 @@ export default function Profile() {
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(currentUser)
 
   if (!currentUser) {
     return <p>Loading...</p>;
@@ -43,6 +41,15 @@ export default function Profile() {
     setModal(prev => !prev);
   };
 
+  const handleDelele = () => {
+    try {
+      dispatch(deleteUser({id: currentUser._id}));
+      navigate('/sign-in')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='flex flex-col flex-1'>
       <h1>Profile data</h1>
@@ -72,6 +79,10 @@ export default function Profile() {
 
         <button onClick={handleSignOut} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
           Sign Out
+        </button>
+
+        <button onClick={handleDelele} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+          Delete Account
         </button>
       </div>
     </div>

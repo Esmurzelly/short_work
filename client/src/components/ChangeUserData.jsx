@@ -10,7 +10,6 @@ export default function ChangeUserData({ setModal }) {
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
 
-    console.log('formData data from chaneDataComponents', formData);
     console.log('currentUser', currentUser);
 
     const options = [
@@ -34,8 +33,6 @@ export default function ChangeUserData({ setModal }) {
 
       const handleSubmit = e => {
         e.preventDefault();
-
-        console.log('e.target.id', e.target);
 
         try {
             dispatch(updateUser({

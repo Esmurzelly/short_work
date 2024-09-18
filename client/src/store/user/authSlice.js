@@ -123,10 +123,11 @@ export const signOutUser = createAsyncThunk(
     }
 );
 
+
+
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
     async ({ id, name, email, password, avatar, role }) => {
-        console.log('data from authSlice', {id, name, email, password, avatar, role})
         try {
             const response = await fetch(`/api/user/edit/${id}`, {
                 method: "POST",
@@ -138,7 +139,35 @@ export const updateUser = createAsyncThunk(
             const data = await response.json();
 
             if (data.success === false) {
-                dispatch(signOutFailure(data.message));
+                console.log(data.message);
+                return;
+            }
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const deleteUser = createAsyncThunk(
+    'auth/deleteUser',
+    async ({ id }) => {
+        try {
+            const response = await fetch(`/api/user/delete/${id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (data.success === false) {
+                console.log(data.message);
                 return;
             }
             if (!data) {
@@ -244,6 +273,19 @@ export const authSlice = createSlice({
                 state.error = null;
             }),
             builder.addCase(updateUser.rejected, (state, action) => {
+                state.error = action.payload;
+            }),
+
+
+            builder.addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(deleteUser.fulfilled, (state, action) => {
+                state.currentUser = null;
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(deleteUser.rejected, (state, action) => {
                 state.error = action.payload;
             })
     }

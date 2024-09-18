@@ -4,12 +4,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { loginUser } from '../store/user/authSlice'
 import OAuth from '../components/OAuth';
+import { useEffect } from 'react';
 
 export default function Signin() {
   const [formData, setFormData] = useState({});
   const { currentUser, error, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(currentUser) {
+      navigate('/')
+    }
+  }, [currentUser, navigate])
 
   console.log('cur user', currentUser);
 
@@ -43,7 +50,6 @@ export default function Signin() {
 
       // dispatch(signInSuccess(data));
       // setFormData(data);
-      navigate('/')
     } catch (error) {
       // dispatch(signInFailure());
       console.log(error);
