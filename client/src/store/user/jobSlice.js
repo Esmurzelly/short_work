@@ -34,7 +34,7 @@ export const jobCreate = createAsyncThunk(
             console.log(error)
         }
     }
-)
+);
 
 export const jobSlice = createSlice({
     name: 'user',

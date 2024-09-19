@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOutUser, deleteUser } from '../store/user/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -60,9 +60,9 @@ export default function Profile() {
         <p>email: {currentUser.email}</p>
         {currentUser.avatar && <p>avatar: <img className='w-10 h-10' src={currentUser?.avatar} alt="" /></p>}
 
-        {/* {currentUser.jobs.length > 0 && (
+        {loading && currentUser && currentUser.jobs && currentUser.jobs.length > 0 && (
           jobs.map(item => <p>{item.name}</p>)
-        )} */}
+        )}
 
         <button onClick={changeOpenModal} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
           Change My Data
