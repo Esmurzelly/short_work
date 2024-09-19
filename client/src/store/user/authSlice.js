@@ -263,10 +263,10 @@ export const authSlice = createSlice({
                 state.error = action.payload;
             })
 
-            
-            builder.addCase(updateUser.pending, (state) => {
-                state.loading = true;
-            }),
+
+        builder.addCase(updateUser.pending, (state) => {
+            state.loading = true;
+        }),
             builder.addCase(updateUser.fulfilled, (state, action) => {
                 state.currentUser = action.payload;
                 state.loading = false;

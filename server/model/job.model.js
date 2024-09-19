@@ -20,7 +20,7 @@ const jobSchema = Schema({
     },
     neededSkils: {
         type: Array,
-        required: true,
+        required: false,
     },
     imageUrls: {
         type: Array,
@@ -28,7 +28,8 @@ const jobSchema = Schema({
     },
     loc: {
         type: { type: String },
-        coordinates: [Number]
+        coordinates: [Number],
+        // required: false,
     },
     userRef: {
         type: mongoose.Types.ObjectId,
