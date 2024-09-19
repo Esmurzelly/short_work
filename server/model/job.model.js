@@ -14,7 +14,7 @@ const jobSchema = Schema({
         type: String,
         required: true,
     },
-    salaty: {
+    salary: {
         type: Number,
         required: true,
     },
@@ -26,11 +26,11 @@ const jobSchema = Schema({
         type: Array,
         required: false,
     },
-    location: {
-        type: String,
-        required: false
+    loc: {
+        type: { type: String },
+        coordinates: [Number]
     },
-    userUref: {
+    userRef: {
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: false,
