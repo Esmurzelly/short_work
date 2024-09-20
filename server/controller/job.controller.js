@@ -29,7 +29,36 @@ export const updateJob = async (req, res, next) => {
     const neededJob = await Job.findById(req.params.id);
 
     if (!neededJob) {
-        const err = new Error("Listing not found");
+        const err = new Error("Job not found");
+        err.statusCode = 404;
+        return next(err);
+    }
+
+    if (req.user.id !== String(neededJob.userRef)) {
+        const err = new Error("You are not allowed to edit this user");
+        err.statusCode = 403;
+        return next(err);
+    }
+
+    try {
+        const updatedJob = await Job.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        return res.status(201).json({ message: "Your job was updated successfully", data: updatedJob });
+    } catch (error) {
+        next(error);
+        console.log(error);
+    }
+}
+
+export const deleteJob = async (req, res, next) => {
+    const neededJob = await Job.findById(req.params.id);
+
+    if (!neededJob) {
+        const err = new Error("Job not found");
         err.statusCode = 404;
         return next(err);
     }
@@ -43,19 +72,15 @@ export const updateJob = async (req, res, next) => {
         return next(err);
     }
 
-
-
     try {
-        const updatedJob = await Job.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
+        const deletedJob = await Job.findByIdAndDelete(req.params.id)
+        return res.status(201).json({ message: "Your job was deleted successfully", data: deletedJob });
 
-        return res.status(201).json({ message: "Your job was updated successfully", data: updatedJob });
     } catch (error) {
-        next(error);
-        console.log(error);
+        const err = new Error("Server issue");
+        err.statusCode = 500;
+        console.log(error)
+        return next(err);
     }
 }
 
