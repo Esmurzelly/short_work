@@ -15,7 +15,7 @@ export default function Header() {
   }
 
   return (
-    <div className='w-full flex flex-row justify-between items-center'>
+    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 bg-white p-2'>
       <Link to={'/'}>
         <div>Logo</div>
       </Link>

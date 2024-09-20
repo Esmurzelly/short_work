@@ -155,7 +155,8 @@ export const jobSlice = createSlice({
         }),
             builder.addCase(jobCreate.fulfilled, (state, action) => {
                 state.loading = false;
-                state.jobs = action.payload;
+                // state.jobs = action.payload;
+                state.jobs.push(action.payload.data); // data ?
                 state.error = null;
             }),
             builder.addCase(jobCreate.rejected, (state, action) => {
@@ -206,7 +207,7 @@ export const jobSlice = createSlice({
             builder.addCase(deletejob.fulfilled, (state, action) => {
                 state.loading = false;
                 state.job = null;
-                state.jobs = state.jobs.filter(job => job._id !== action.meta.arg.id);
+                state.jobs = state.jobs.filter(job => job._id !== action.meta.arg.id); // action.meta.arg.id -> get id from deletejob({ id: job._id })
                 state.error = null;
             }),
             builder.addCase(deletejob.rejected, (state, action) => {

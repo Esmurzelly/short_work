@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { jobCreate } from '../store/user/jobSlice';
+import { getAllJobs, jobCreate } from '../store/user/jobSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateJob() {
   const { currentUser, loading } = useSelector(state => state.user);
   const [formData, setFormData] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = e => {
     setFormData({
@@ -22,6 +24,8 @@ export default function CreateJob() {
         ...formData,
         userRef: currentUser._id
       }));
+      dispatch(getAllJobs())
+      navigate('/');
     } catch (error) {
       console.log(error)
     }

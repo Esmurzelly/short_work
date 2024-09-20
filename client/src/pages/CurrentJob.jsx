@@ -3,19 +3,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
+import { findUserByUserRefJob } from '../store/user/authSlice';
 
 
 export default function CurrentJob() {
     const { job, loading } = useSelector(state => state.job);
+    const { currentUser, jobOwner } = useSelector(state => state.user);
     const [modal, setModal] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
 
-    console.log('cur job', job)
+    console.log('jobOwner', jobOwner)
+
 
     useEffect(() => {
         dispatch(getJobById(params));
+        dispatch(findUserByUserRefJob(params.id))
     }, [params.id]);
 
     if (!job || loading) return <p>Loading....</p>
@@ -40,6 +44,7 @@ export default function CurrentJob() {
                     <p>address {job.address}</p>
                     <p>salary: {job.salary}</p>
                     {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job?.imageUrls[0] || "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70"} alt="imgUrl" /></p>}
+                    <p>Owener: {jobOwner.name}</p>
                 </div>
             )}
 
@@ -52,8 +57,15 @@ export default function CurrentJob() {
                 </div>
             )}
 
-            <button onClick={() => setModal(true)} className='bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Change</button>
-            <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Delete</button>
+            {job.userRef == currentUser._id && (
+                <div className='flex flex-col gap-4'>
+                    <button onClick={() => setModal(true)} className='bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Change</button>
+                    <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Delete</button>
+                </div>
+            )}
+
+            <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Back</button>
+
         </div>
     )
 }

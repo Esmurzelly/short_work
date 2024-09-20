@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
     currentUser: null,
+    jobOwner: null,
     error: null,
     loading: false,
 };
@@ -122,6 +123,32 @@ export const signOutUser = createAsyncThunk(
         }
     }
 );
+
+export const findUserByUserRefJob = createAsyncThunk(
+    'auth/findUserByUserRefJob',
+    async (id) => {
+        try {
+            const response = await fetch(`/api/user/getOwner/${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            
+            const data = await response.json();
+            console.log('data of owner from redux', data.data);
+
+            if (!data || data.success === false) {
+                throw new Error(data.message || 'Data not found');
+            }
+
+            return data.data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
 
 
 
@@ -287,6 +314,21 @@ export const authSlice = createSlice({
             }),
             builder.addCase(deleteUser.rejected, (state, action) => {
                 state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(findUserByUserRefJob.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(findUserByUserRefJob.fulfilled, (state, action) => {
+                state.jobOwner = action.payload; // ? owner
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(findUserByUserRefJob.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
             })
     }
 });

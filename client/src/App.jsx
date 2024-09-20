@@ -16,8 +16,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import CurrentJob from './pages/CurrentJob';
 
 function App() {
-  // const [data, setData] = useState();
-
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -42,7 +40,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='flex flex-col h-screen p-2'>
+      <div className='flex flex-col h-screen'>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
