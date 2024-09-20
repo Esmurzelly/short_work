@@ -14,9 +14,6 @@ export default function CreateJob() {
     });
   };
 
-  console.log('formData from createJob', formData);
-  console.log('currentUser', currentUser);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 

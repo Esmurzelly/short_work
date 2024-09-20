@@ -13,6 +13,7 @@ import SideBar from './components/SideBar';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CurrentJob from './pages/CurrentJob';
 
 function App() {
   // const [data, setData] = useState();
@@ -45,6 +46,7 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='job/:id' element={<CurrentJob />} />
           <Route path='/about' element={<About />} />
 
           <Route element={<PrivateProfile />}>

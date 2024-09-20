@@ -25,6 +25,40 @@ export const createJob = async (req, res, next) => {
     }
 }
 
+export const updateJob = async (req, res, next) => {
+    const neededJob = await Job.findById(req.params.id);
+
+    if (!neededJob) {
+        const err = new Error("Listing not found");
+        err.statusCode = 404;
+        return next(err);
+    }
+
+    console.log('req.user.id', req.user.id)
+    console.log('neededJob.userRef', String(neededJob.userRef))
+
+    if (req.user.id !== String(neededJob.userRef)) {
+        const err = new Error("You are not allowed to edit this user");
+        err.statusCode = 403;
+        return next(err);
+    }
+
+
+
+    try {
+        const updatedJob = await Job.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        return res.status(201).json({ message: "Your job was updated successfully", data: updatedJob });
+    } catch (error) {
+        next(error);
+        console.log(error);
+    }
+}
+
 export const getAllJobs = async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
@@ -59,3 +93,22 @@ export const getAllJobs = async (req, res, next) => {
         return next(err);
     }
 }
+export const getJobById = async (req, res, next) => {
+    try {
+        const currentJob = await Job.findById(req.params.id);
+
+        if (!currentJob) {
+            const err = new Error("Wrong job's id");
+            err.statusCode = 404;
+            return next(err);
+        }
+
+        res.status(201).json({ message: "Current Job", data: currentJob });
+    } catch (error) {
+        const err = new Error("Server issue");
+        err.statusCode = 500;
+        console.log(error)
+        return next(err);
+    }
+}
+
