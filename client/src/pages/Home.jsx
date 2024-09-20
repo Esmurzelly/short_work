@@ -5,7 +5,7 @@ import { getAllJobs } from '../store/user/jobSlice';
 
 export default function Home() {
     const { currentUser } = useSelector(state => state.user);
-    const { jobs } = useSelector(state => state.job);
+    const { jobs, loading } = useSelector(state => state.job);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -13,6 +13,10 @@ export default function Home() {
     }, []);
 
     console.log(jobs)
+
+    if(loading) return (
+        <p>Loading....</p>
+    )
 
     return (
         <div className='flex flex-col flex-1 text-center'>
@@ -24,7 +28,7 @@ export default function Home() {
             )}
 
             <div className='flex flex-col justify-start items-start'>
-                {jobs.map((item) => <JobCard key={item._id} jobItem={item} />)}
+                {!loading && jobs.length > 0 && jobs.map((item) => <JobCard key={item._id} jobItem={item} />)}
             </div>
         </div>
     )

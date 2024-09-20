@@ -72,11 +72,65 @@ export const getJobById = createAsyncThunk(
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // body: JSON.stringify({ id, title, description, address, salary, neededSkils, imageUrls, loc, userRef })
             });
 
             const data = await response.json();
 
+            if (data.success === false) {
+                console.log(data.message)
+            };
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const updatejob = createAsyncThunk(
+    'job/updatejob',
+    async ({ id, title, description, address, salary }) => {
+        try {
+            const response = await fetch(`/api/job/update/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id, title, description, address, salary })
+            });
+
+            console.log('response from update Redux', response);
+
+            const data = await response.json();
+
+            console.log('data from update Redux', data);
+
+            if (data.success === false) {
+                console.log(data.message)
+            };
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const deletejob = createAsyncThunk(
+    'job/deletejob',
+    async ({ id }) => {
+        try {
+            const response = await fetch(`/api/job/delete/${id}`, {
+                method: "POST"
+            });
+
+            const data = await response.json();
             if (data.success === false) {
                 console.log(data.message)
             };
@@ -120,15 +174,42 @@ export const jobSlice = createSlice({
                 state.error = action.payload;
             })
 
-            builder.addCase(getJobById.pending, (state) => {
-                state.loading = true;
-            }),
+        builder.addCase(getJobById.pending, (state) => {
+            state.loading = true;
+        }),
             builder.addCase(getJobById.fulfilled, (state, action) => {
                 state.loading = false;
-                state.job = action.payload.data; // fix maybe
+                state.job = action.payload.data;
                 state.error = null;
             }),
             builder.addCase(getJobById.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+            builder.addCase(updatejob.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(updatejob.fulfilled, (state, action) => {
+                state.loading = false;
+                state.job = action.payload.data;
+                state.error = null;
+            }),
+            builder.addCase(updatejob.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+            builder.addCase(deletejob.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(deletejob.fulfilled, (state, action) => {
+                state.loading = false;
+                state.job = null;
+                state.jobs = state.jobs.filter(job => job._id !== action.meta.arg.id);
+                state.error = null;
+            }),
+            builder.addCase(deletejob.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

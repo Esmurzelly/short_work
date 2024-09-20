@@ -6,11 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../store/user/authSlice';
 
 export default function ChangeUserData({ setModal }) {
-    const { currentUser, loading } = useSelector(state => state.user);
+    const { job, loading } = useSelector(state => state.job);
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
-
-    console.log('currentUser', currentUser);
 
     const options = [
         { value: 'admin', label: 'admin' },
@@ -50,6 +48,8 @@ export default function ChangeUserData({ setModal }) {
     return (
         <div className='max-w-5xl mx-auto flex flex-row justify-between bg-stone-800 text-white p-2'>
             <form onSubmit={handleSubmit} className='flex flex-col items-start gap-4'>
+                <img src={currentUser} alt="" />
+
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="name" id="name" />
                     <label htmlFor="name">name</label>
