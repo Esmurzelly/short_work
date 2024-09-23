@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
 import { findUserByUserRefJob } from '../store/user/authSlice';
 import Contact from '../components/Contact';
-
+import { Triangle } from 'react-loader-spinner'
 
 export default function CurrentJob() {
     const { job, loading } = useSelector(state => state.job);
@@ -16,15 +16,25 @@ export default function CurrentJob() {
     const navigate = useNavigate();
     const params = useParams();
 
-    console.log('jobOwner', jobOwner)
-
 
     useEffect(() => {
         dispatch(getJobById(params));
         dispatch(findUserByUserRefJob(params.id))
     }, [params.id]);
 
-    if (!job || loading) return <p>Loading....</p>
+    if (!job || loading || !jobOwner) {
+        return <div className='w-full min-h-screen flex items-center justify-center'>
+            <Triangle
+                visible={true}
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="triangle-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
+        </div>
+    }
 
     const handleDelete = () => {
         try {
@@ -46,7 +56,7 @@ export default function CurrentJob() {
                     <p>address {job.address}</p>
                     <p>salary: {job.salary}</p>
                     {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job?.imageUrls[0] || "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70"} alt="imgUrl" /></p>}
-                    <p>Owener: {jobOwner.name}</p>
+                    <p>Owener: {jobOwner?.name}</p>
                 </div>
             )}
 

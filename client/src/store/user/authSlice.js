@@ -137,7 +137,6 @@ export const findUserByUserRefJob = createAsyncThunk(
 
             
             const data = await response.json();
-            console.log('data of owner from redux', data.data);
 
             if (!data || data.success === false) {
                 throw new Error(data.message || 'Data not found');

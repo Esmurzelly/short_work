@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loginUser } from '../store/user/authSlice'
 import OAuth from '../components/OAuth';
 import { useEffect } from 'react';
+import { Triangle } from 'react-loader-spinner';
 
 export default function Signin() {
   const [formData, setFormData] = useState({});
@@ -16,7 +17,23 @@ export default function Signin() {
     if(currentUser) {
       navigate('/')
     }
-  }, [currentUser, navigate])
+  }, [currentUser, navigate]);
+
+  if (loading) {
+    return <div className='w-full min-h-screen flex items-center justify-center'>
+      <Triangle
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="triangle-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+    </div>
+  }
+
+  if (error) return <p>Error...</p>
 
   console.log('cur user', currentUser);
 

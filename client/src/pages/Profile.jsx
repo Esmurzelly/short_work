@@ -4,6 +4,7 @@ import { signOutUser, deleteUser } from '../store/user/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ChangeUserData from '../components/ChangeUserData';
+import { Triangle } from 'react-loader-spinner';
 
 export default function Profile() {
   const { currentUser, loading } = useSelector(state => state.user);
@@ -11,8 +12,20 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  if (!currentUser) {
-    return <p>Loading...</p>;
+  console.log('cur user', currentUser)
+
+  if (!currentUser || loading) {
+    return <div className='w-full min-h-screen flex items-center justify-center'>
+      <Triangle
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="triangle-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+    </div>
   }
 
   const handleSignOut = async () => {
@@ -43,7 +56,7 @@ export default function Profile() {
 
   const handleDelele = () => {
     try {
-      dispatch(deleteUser({id: currentUser._id}));
+      dispatch(deleteUser({ id: currentUser._id }));
       navigate('/sign-in')
     } catch (error) {
       console.log(error)

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import JobCard from '../components/JobCard';
 import { getAllJobs } from '../store/user/jobSlice';
+import { Triangle } from 'react-loader-spinner';
 
 export default function Home() {
     const { currentUser } = useSelector(state => state.user);
@@ -12,11 +13,19 @@ export default function Home() {
         dispatch(getAllJobs())
     }, []);
 
-    console.log(jobs)
-
-    if(loading) return (
-        <p>Loading....</p>
-    )
+    if (loading) {
+        return <div className='w-full min-h-screen flex items-center justify-center'>
+            <Triangle
+                visible={true}
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="triangle-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
+        </div>
+    }
 
     return (
         <div className='flex flex-col flex-1 text-center'>

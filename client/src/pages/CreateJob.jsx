@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJobs, jobCreate } from '../store/user/jobSlice';
 import { useNavigate } from 'react-router-dom';
+import { Triangle } from 'react-loader-spinner';
 
 export default function CreateJob() {
   const { currentUser, loading } = useSelector(state => state.user);
@@ -30,6 +31,21 @@ export default function CreateJob() {
       console.log(error)
     }
   }
+
+  if (loading) {
+    return <div className='w-full min-h-screen flex items-center justify-center'>
+      <Triangle
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="triangle-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+    </div>
+  }
+
   return (
     <div className='flex flex-col flex-1'>
       <h1>Create job</h1>
