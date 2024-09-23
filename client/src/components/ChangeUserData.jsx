@@ -4,8 +4,10 @@ import { IoMdClose } from "react-icons/io";
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../store/user/authSlice';
+import { uploadAvatar, deleteAvatar } from '../store/user/authSlice';
 
 export default function ChangeUserData({ setModal }) {
+    const { currentUser } = useSelector(state => state.user);
     const { job, loading } = useSelector(state => state.job);
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
@@ -17,19 +19,19 @@ export default function ChangeUserData({ setModal }) {
 
     const handleChange = e => {
         setFormData({
-          ...formData,
-          [e.target.id]: e.target.value
+            ...formData,
+            [e.target.id]: e.target.value
         });
-      };
+    };
 
     const handleSelect = (selectedOption) => {
         setFormData({
-          ...formData,
-          "role": selectedOption.value
+            ...formData,
+            "role": selectedOption.value
         })
-      };
+    };
 
-      const handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
 
         try {
@@ -43,7 +45,7 @@ export default function ChangeUserData({ setModal }) {
         } catch (error) {
             console.log(error)
         }
-      }
+    }
 
     return (
         <div className='max-w-5xl mx-auto flex flex-row justify-between bg-stone-800 text-white p-2'>

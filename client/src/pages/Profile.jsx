@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { signOutUser, deleteUser } from '../store/user/authSlice';
+import { signOutUser, deleteUser, uploadAvatar, deleteAvatar } from '../store/user/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ChangeUserData from '../components/ChangeUserData';
 import { Triangle } from 'react-loader-spinner';
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
 
 export default function Profile() {
   const { currentUser, loading } = useSelector(state => state.user);
   const [modal, setModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const avatarRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log('cur user', currentUser)
+  console.log('cur user', currentUser);
+
+  const handleAvatarClick = () => {
+    avatarRef.current.click();
+  }
 
   if (!currentUser || loading) {
     return <div className='w-full min-h-screen flex items-center justify-center'>
@@ -61,6 +70,26 @@ export default function Profile() {
     } catch (error) {
       console.log(error)
     }
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    const reader = new FileReader();
+
+    const selectedFile = e.target.files[0];
+    if (selectedFile) reader.readAsDataURL(selectedFile);
+
+    reader.onload = readerEvent => {
+      if (selectedFile.type.includes("image")) {
+        setImagePreview(readerEvent.target.result);
+      }
+    }
+  };
+
+  const handleUploadAvatar = () => {
+    dispatch(uploadAvatar(selectedFile));
+    setImagePreview(null);
+    setSelectedFile(null);
   }
 
   return (
@@ -71,7 +100,37 @@ export default function Profile() {
         <p>name: {currentUser.name}</p>
         <p>role: {currentUser.role}</p>
         <p>email: {currentUser.email}</p>
-        {currentUser.avatar && <p>avatar: <img className='w-10 h-10' src={currentUser?.avatar} alt="" /></p>}
+
+        <div className='flex flex-col items-start p-2 gap-3'>
+          <div className='flex flex-row items-end'>
+            {imagePreview !== null ? (
+              <div className='flex flex-row items-center gap-6'>
+                <img onClick={handleAvatarClick} className='w-10 h-10' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
+                <FaArrowRightArrowLeft className='w-5 h-5' />
+                {imagePreview != null && <img className='w-20 rounded-md' src={imagePreview} alt="imagePreview" />}
+
+                <button className='ml-8' onClick={handleUploadAvatar}> 
+                  <FaCloudUploadAlt className='w-6 h-6 cursor-pointer text-light-blue' />
+                </button>
+
+                <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
+                  <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
+                </button>
+              </div>
+            ) : (
+              <>
+                <img onClick={handleAvatarClick} className='w-10 h-10' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
+
+                <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
+                  <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
+                </button>
+              </>
+            )}
+          </div>
+          <input className='hidden' ref={avatarRef} onChange={handleFileChange} accept='image/*' type="file" name="" id="" />
+        </div>
+
+        {/* {currentUser.avatar && <p>avatar: </p>} */}
 
         {loading && currentUser && currentUser.jobs && currentUser.jobs.length > 0 && (
           jobs.map(item => <p>{item.name}</p>)

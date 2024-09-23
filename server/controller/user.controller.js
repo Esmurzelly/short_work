@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import Job from '../model/job.model.js';
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
+import { ChildProcess } from 'child_process';
 
 export const editUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) {
@@ -41,14 +42,12 @@ export const editUser = async (req, res, next) => {
 export const uploadAvatar = async (req, res, next) => {
     const IMAGE_STORAGE = process.env.IMAGE_STORAGE;
 
-    if (req.user.id !== req.params.id) {
-        const err = new Error("You are not allowed to upload the user's avatar");
-        err.statusCode = 403;
-        return next(err);
-    }
-    
     try {
         const file = req.files.file;
+
+        if (!req.files || !req.files.file) {
+            return res.status(400).json({ success: false, message: "No file uploaded" });
+        }
         
         const user = await User.findById(req.user.id);
 
@@ -57,7 +56,7 @@ export const uploadAvatar = async (req, res, next) => {
         }
 
         const avatarName = uuidv4() + '.jpg';
-        file.mv(IMAGE_STORAGE + avatarName);
+        file.mv(`${IMAGE_STORAGE}/${avatarName}`);
         user.avatar = avatarName;
 
         await user.save();
@@ -73,12 +72,6 @@ export const uploadAvatar = async (req, res, next) => {
 
 export const deleteAvatar = async (req, res, next) => {
     const IMAGE_STORAGE = process.env.IMAGE_STORAGE;
-
-    if (req.user.id !== req.params.id) {
-        const err = new Error("You are not allowed to upload the user's avatar");
-        err.statusCode = 403;
-        return next(err);
-    }
 
     try {
         const user = await User.findById(req.user.id);

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 const initialState = {
     currentUser: null,
@@ -124,6 +124,58 @@ export const signOutUser = createAsyncThunk(
     }
 );
 
+export const uploadAvatar = createAsyncThunk(
+    'auth/uploadAvatar',
+    async (avatar) => {
+        try {
+            const formData = new FormData();
+            formData.append('file', avatar);
+
+            const response = await fetch('api/user/avatar', {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+           
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const deleteAvatar = createAsyncThunk(
+    'auth/deleteAvatar',
+    async () => {
+        try {
+            const response = await fetch('api/user/avatar', {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            const data = await response.data; // check
+
+            if (data.success === false) {
+                console.log(data.message)
+            };
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
 export const findUserByUserRefJob = createAsyncThunk(
     'auth/findUserByUserRefJob',
     async (id) => {
@@ -135,7 +187,7 @@ export const findUserByUserRefJob = createAsyncThunk(
                 }
             });
 
-            
+
             const data = await response.json();
 
             if (!data || data.success === false) {
@@ -148,8 +200,6 @@ export const findUserByUserRefJob = createAsyncThunk(
         }
     }
 )
-
-
 
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
@@ -326,6 +376,40 @@ export const authSlice = createSlice({
                 state.error = null;
             }),
             builder.addCase(findUserByUserRefJob.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(uploadAvatar.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(uploadAvatar.fulfilled, (state, action) => {
+                state.currentUser = {
+                    ...state.currentUser,
+                    avatar: action.payload.avatar
+                }
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(uploadAvatar.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(deleteAvatar.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(deleteAvatar.fulfilled, (state, action) => {
+                state.currentUser = {
+                    ...state.currentUser,
+                    avatar: null
+                }
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(deleteAvatar.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })
