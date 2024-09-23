@@ -27,7 +27,7 @@ export default function Home() {
                 </>
             )}
 
-            <div className='flex flex-col justify-start items-start'>
+            <div className='flex flex-raw justify-around flex-wrap gap-4'>
                 {!loading && jobs.length > 0 && jobs.map((item) => <JobCard key={item._id} jobItem={item} />)}
             </div>
         </div>

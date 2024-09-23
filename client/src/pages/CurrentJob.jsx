@@ -4,12 +4,14 @@ import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
 import { findUserByUserRefJob } from '../store/user/authSlice';
+import Contact from '../components/Contact';
 
 
 export default function CurrentJob() {
     const { job, loading } = useSelector(state => state.job);
     const { currentUser, jobOwner } = useSelector(state => state.user);
     const [modal, setModal] = useState(false);
+    const [contact, setContact] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
@@ -63,6 +65,11 @@ export default function CurrentJob() {
                     <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Delete</button>
                 </div>
             )}
+
+            <button onClick={() => setContact(true)} className='bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                Contact with owner
+            </button>
+            {contact && <Contact />}
 
             <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Back</button>
 
