@@ -5,6 +5,7 @@ const initialState = {
     job: null,
     error: null,
     loading: false,
+    total: 0,
 };
 
 export const jobCreate = createAsyncThunk(
@@ -38,9 +39,10 @@ export const jobCreate = createAsyncThunk(
 
 export const getAllJobs = createAsyncThunk(
     'job/getAllJobs',
-    async () => {
+    async ({ page = 0, limit = 10 }) => {
+        const startIndex = page * limit;
         try {
-            const response = await fetch('/api/job/getAllJobs', {
+            const response = await fetch(`/api/job/getAllJobs?limit=${limit}&startIndex=${startIndex}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -143,7 +145,7 @@ export const deletejob = createAsyncThunk(
             console.log(error)
         }
     }
-)
+);
 
 export const jobSlice = createSlice({
     name: 'job',
@@ -169,10 +171,12 @@ export const jobSlice = createSlice({
             builder.addCase(getAllJobs.fulfilled, (state, action) => {
                 state.loading = false;
                 state.jobs = action.payload.data;
+                state.total = action.payload.total;
                 state.error = null;
             }),
             builder.addCase(getAllJobs.rejected, (state, action) => {
                 state.error = action.payload;
+                state.loading = false;
             })
 
         builder.addCase(getJobById.pending, (state) => {

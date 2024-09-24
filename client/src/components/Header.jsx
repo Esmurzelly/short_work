@@ -32,7 +32,7 @@ export default function Header() {
       <input type="text" />
       {currentUser?.avatar ? (
         <Link to={'/profile'}>
-          <img className='w-6 h-6 block' src={currentUser.avatar} alt="avatar" />
+          <img className='w-6 h-6 block' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="avatar" />
         </Link>
       ) : (
         <p>No Avatar</p>

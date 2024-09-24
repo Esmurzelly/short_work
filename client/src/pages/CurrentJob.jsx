@@ -69,7 +69,7 @@ export default function CurrentJob() {
                 </div>
             )}
 
-            {job.userRef == currentUser._id && (
+            {job.userRef == currentUser?._id && (
                 <div className='flex flex-col gap-4'>
                     <button onClick={() => setModal(true)} className='bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Change</button>
                     <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Delete</button>

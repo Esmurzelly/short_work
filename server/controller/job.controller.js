@@ -93,6 +93,10 @@ export const getAllJobs = async (req, res, next) => {
         const sort = req.query.sort || "createdAt";
         const order = req.query.order || 'desc';
 
+        const totalJobs = await Job.countDocuments({
+            title: { $regex: searchTerm, $options: 'i' },
+        });
+
         const jobs = await Job.find({
             title: { $regex: searchTerm, $options: 'i' },
         })
@@ -110,7 +114,7 @@ export const getAllJobs = async (req, res, next) => {
             return res.status(404).json({ message: "No jobs found" });
         };
 
-        return res.status(201).json({ message: "You found job listing", data: jobs });
+        return res.status(201).json({ message: "You found job listing", data: jobs, total: totalJobs });
     } catch (error) {
         const err = new Error("Server issue");
         err.statusCode = 500;
