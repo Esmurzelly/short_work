@@ -7,6 +7,12 @@ import { findUserByUserRefJob } from '../store/user/authSlice';
 import Contact from '../components/Contact';
 import { Triangle } from 'react-loader-spinner'
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css/bundle'
+import 'swiper/css';
+
+
 export default function CurrentJob() {
     const { job, loading } = useSelector(state => state.job);
     const { currentUser, jobOwner } = useSelector(state => state.user);
@@ -16,6 +22,7 @@ export default function CurrentJob() {
     const navigate = useNavigate();
     const params = useParams();
 
+    console.log('cur job', job);
 
     useEffect(() => {
         dispatch(getJobById(params));
@@ -55,7 +62,7 @@ export default function CurrentJob() {
                     <p>description {job.description}</p>
                     <p>address {job.address}</p>
                     <p>salary: {job.salary}</p>
-                    {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job?.imageUrls[0] || "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70"} alt="imgUrl" /></p>}
+                    {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={`http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` || "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70"} alt="imgUrl" /></p>}
                     <p>Owener: {jobOwner?.name}</p>
                 </div>
             )}
@@ -83,6 +90,32 @@ export default function CurrentJob() {
 
             <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Back</button>
 
+            {job && job?.imageUrls && (
+                <div>
+                    <Swiper navigation={true} modules={[Navigation]}>
+                        {job.imageUrls.map((item) => (
+                            <SwiperSlide key={item}>
+                            <div
+                                className='h-[550px] w-full'
+                                style={{
+                                    background: `url(http://localhost:3000/static/jobAvatar/${item}) center no-repeat`,
+                                    backgroundSize: 'cover',
+                                }}
+                            ></div>
+                        </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+
+
+                // <Swiper navigation={true} modules={[Navigation]}>
+                //     {job.imageUrls.map((item) => (
+                //         <div className='w-full'>
+                //             <SwiperSlide key={item}>Slide 1</SwiperSlide>
+                //         </div>
+                //     ))}
+                // </Swiper>
+            )}
         </div>
     )
 }

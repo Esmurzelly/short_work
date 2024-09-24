@@ -105,9 +105,9 @@ export default function Profile() {
           <div className='flex flex-row items-end'>
             {imagePreview !== null ? (
               <div className='flex flex-row items-center gap-6'>
-                <img onClick={handleAvatarClick} className='w-10 h-10' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
+                <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
                 <FaArrowRightArrowLeft className='w-5 h-5' />
-                {imagePreview != null && <img className='w-20 rounded-md' src={imagePreview} alt="imagePreview" />}
+                {imagePreview != null && <img className='w-40 cursor-pointer rounded-md' src={imagePreview} alt="imagePreview" />}
 
                 <button className='ml-8' onClick={handleUploadAvatar}> 
                   <FaCloudUploadAlt className='w-6 h-6 cursor-pointer text-light-blue' />
@@ -119,7 +119,7 @@ export default function Profile() {
               </div>
             ) : (
               <>
-                <img onClick={handleAvatarClick} className='w-10 h-10' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
+                <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
 
                 <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
                   <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />

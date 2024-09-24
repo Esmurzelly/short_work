@@ -7,6 +7,7 @@ import { Triangle } from 'react-loader-spinner';
 export default function CreateJob() {
   const { currentUser, loading } = useSelector(state => state.user);
   const [formData, setFormData] = useState([]);
+  const [selectedFile, setSelectedFile] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,14 +18,33 @@ export default function CreateJob() {
     });
   };
 
+  const handleFileChange = e => {
+    setSelectedFile(e.target.files);
+  };
+
+  console.log('selectedFile from client', selectedFile);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // if(selectedFile.length > 0) {
+    //   for(let i = 0; i < selectedFile.length; i++) {
+    //     setFormData({
+    //       ...formData,
+    //       imageUrls: selectedFile[i]
+    //     })
+    //   };
+    // };
+
+    console.log('formData from client', formData);
 
     try {
       dispatch(jobCreate({
         ...formData,
-        userRef: currentUser._id
+        userRef: currentUser._id,
+        imageUrls: selectedFile,
       }));
+      // dispatch(jobCreate(jobData));
       dispatch(getAllJobs())
       navigate('/');
     } catch (error) {
@@ -70,15 +90,16 @@ export default function CreateJob() {
           <label htmlFor="salary">salary</label>
         </div>
 
+        <div className='flex flex-row items-center gap-2'>
+          <input className='bg-slate-700' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
+          <label htmlFor="imageUrls">Choose Image/Images</label>
+        </div>
+
         {/* <div className='flex flex-row items-center gap-2'>
           <input className='bg-slate-700' onChange={handleChange} type="text" name="neededSkils" id="neededSkils" />
           <label htmlFor="neededSkils">neededSkils</label>
         </div>
 
-        <div className='flex flex-row items-center gap-2'> 
-          <input className='bg-slate-700' onChange={handleChange} type="text" name="imageUrls" id="imageUrls" />
-          <label htmlFor="imageUrls">imageUrls</label>
-        </div>
 
         <div className='flex flex-row items-center gap-2'> 
           <input className='bg-slate-700' onChange={handleChange} type="text" name="loc" id="loc" />

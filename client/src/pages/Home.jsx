@@ -21,21 +21,9 @@ export default function Home() {
         dispatch(getAllJobs({ page, limit }))
     }, [dispatch, page, limit]);
 
-    const handleNextPage = () => {
-        setPage(prevPage => prevPage + 1)
-    };
-
-    const handlePreviousPage = () => {
-        if (page > 0) setPage(prevPage => prevPage - 1)
-    };
-
     const handlePageClick = e => {
         setPage(e.selected);
     };
-
-    const handleLimitChange = e => {
-        setLimit(Number(e.target.value))
-    }
 
     if (loading) {
         return <div className='w-full min-h-screen flex items-center justify-center'>
@@ -60,8 +48,8 @@ export default function Home() {
                 </>
             )}
 
-            <div className='flex flex-col gap-4'>
-x                <ul className='flex flex-row justify-around flex-wrap gap-4'>
+            <div className='flex flex-col gap-4 mt-4'>
+                <ul className='flex flex-row justify-around flex-wrap gap-4'>
                     {!loading && jobs && jobs.length > 0 ? (
                         jobs.map((item) => (
                             <JobCard key={item._id} jobItem={item} />

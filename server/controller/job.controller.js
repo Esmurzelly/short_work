@@ -1,10 +1,34 @@
-import errorHandler from "../middleware/errorHandler.js";
-import Job from "../model/job.model.js"
+import Job from "../model/job.model.js";
 import User from "../model/user.model.js";
+import { v4 as uuidv4 } from 'uuid';
+import fs from 'fs';
 
 export const createJob = async (req, res, next) => {
+    console.log("req.body from createJob", req.body);
+    console.log("req.files from createJob", req.files);
     try {
+        const IMAGE_STORAGE_JOB = process.env.IMAGE_STORAGE_JOB;
         const job = await Job.create(req.body);
+
+        if (req.files && req.files.imageUrls) {
+            const imageFiles = Array.isArray(req.files.imageUrls) ? req.files.imageUrls : [req.files.imageUrls];
+            const imagePath = [];
+
+            for(let file of imageFiles) {
+                const fileName = uuidv4() + '.jpg';
+                file.mv(`${IMAGE_STORAGE_JOB}/${fileName}`, err => {
+                    if (err) {
+                        console.log('File upload error:', err);
+                        return res.status(500).send(err);
+                    }
+                });
+                imagePath.push(fileName);
+            }
+
+            job.imageUrls.push(...imagePath);
+            await job.save();
+        }
+
         const updatedUser = await User.findByIdAndUpdate(req.user.id,
             { $push: { jobs: job._id } },
             { new: true }
@@ -14,7 +38,10 @@ export const createJob = async (req, res, next) => {
             const err = new Error("User not found");
             err.statusCode = 404;
             return next(err);
-        }
+        };
+
+        console.log("job.imageUrls from createJob", job.imageUrls);
+        console.log('job from createJob', job);
 
         return res.status(201).json({ message: "Job was created successfully", data: job });
     } catch (error) {

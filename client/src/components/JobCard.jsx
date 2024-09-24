@@ -9,7 +9,7 @@ export default function JobCard({ jobItem }) {
             <Link to={`/job/${jobItem._id}`}>
                 <img
                     src={
-                        jobItem.imageUrls && jobItem.imageUrls.length > 0 && jobItem.imageUrls[0] ||
+                        jobItem.imageUrls && jobItem.imageUrls.length > 0 && `http://localhost:3000/static/jobAvatar/${jobItem.imageUrls[0]}` ||
                         'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg?width=595&height=400&name=real-estate-business-compressor.jpg'
                     }
                     alt='job cover'

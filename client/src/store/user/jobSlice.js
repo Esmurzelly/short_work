@@ -12,12 +12,28 @@ export const jobCreate = createAsyncThunk(
     'job/jobCreate',
     async ({ title, description, address, salary, neededSkils, imageUrls, loc, userRef }) => {
         try {
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('address', address);
+            formData.append('salary', salary);
+            formData.append('neededSkils', neededSkils);
+            formData.append('loc', loc);
+            formData.append('userRef', userRef);
+
+            if(imageUrls && imageUrls.length > 0) {
+                for(let i = 0; i < imageUrls.length; i++) {
+                    formData.append('imageUrls', imageUrls[i]);
+                }
+            }
+
             const response = await fetch('/api/job/create', {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ title, description, address, salary, neededSkils, imageUrls, loc, userRef })
+                body: formData,
+                // headers: {
+                //     "Content-Type": "application/json",
+                // },
+                // body: JSON.stringify({ title, description, address, salary, neededSkils, imageUrls, loc, userRef })
             });
 
             const data = await response.json();
@@ -158,7 +174,7 @@ export const jobSlice = createSlice({
             builder.addCase(jobCreate.fulfilled, (state, action) => {
                 state.loading = false;
                 // state.jobs = action.payload;
-                state.jobs.push(action.payload.data); // data ?
+                state.jobs.push(action.payload.data);
                 state.error = null;
             }),
             builder.addCase(jobCreate.rejected, (state, action) => {
