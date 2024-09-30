@@ -62,7 +62,7 @@ export default function CurrentJob() {
                     <p>description {job.description}</p>
                     <p>address {job.address}</p>
                     <p>salary: {job.salary}</p>
-                    {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={`http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` || "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70"} alt="imgUrl" /></p>}
+                    {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
                     <p>Owener: {jobOwner?.name}</p>
                 </div>
             )}
@@ -95,14 +95,14 @@ export default function CurrentJob() {
                     <Swiper navigation={true} modules={[Navigation]}>
                         {job.imageUrls.map((item) => (
                             <SwiperSlide key={item}>
-                            <div
-                                className='h-[550px] w-full'
-                                style={{
-                                    background: `url(http://localhost:3000/static/jobAvatar/${item}) center no-repeat`,
-                                    backgroundSize: 'cover',
-                                }}
-                            ></div>
-                        </SwiperSlide>
+                                <div
+                                    className='h-[550px] w-full'
+                                    style={{
+                                        background: `url(http://localhost:3000/static/jobAvatar/${item}) center no-repeat`,
+                                        backgroundSize: 'cover',
+                                    }}
+                                ></div>
+                            </SwiperSlide>
                         ))}
                     </Swiper>
                 </div>

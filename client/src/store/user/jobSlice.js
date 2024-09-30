@@ -55,10 +55,11 @@ export const jobCreate = createAsyncThunk(
 
 export const getAllJobs = createAsyncThunk(
     'job/getAllJobs',
-    async ({ page = 0, limit = 10 }) => {
+    async ({ page = 0, limit = 10, searchTerm = "", order = "desc", minSalary = 0, maxSalary = Infinity }) => {
         const startIndex = page * limit;
+
         try {
-            const response = await fetch(`/api/job/getAllJobs?limit=${limit}&startIndex=${startIndex}`, {
+            const response = await fetch(`/api/job/getAllJobs?limit=${limit}&startIndex=${startIndex}&searchTerm=${searchTerm}&order=${order}&minSalary=${minSalary}&maxSalary=${maxSalary}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

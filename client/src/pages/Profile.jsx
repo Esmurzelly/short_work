@@ -86,6 +86,7 @@ export default function Profile() {
     }
   };
 
+
   const handleUploadAvatar = () => {
     dispatch(uploadAvatar(selectedFile));
     setImagePreview(null);

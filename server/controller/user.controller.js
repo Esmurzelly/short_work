@@ -56,7 +56,7 @@ export const uploadAvatar = async (req, res, next) => {
         }
 
         const avatarName = uuidv4() + '.jpg';
-        file.mv(`${IMAGE_STORAGE}/${avatarName}`);
+        file.mv(`${IMAGE_STORAGE}/${avatarName}`);  
         user.avatar = avatarName;
 
         await user.save();

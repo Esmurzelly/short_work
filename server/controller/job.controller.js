@@ -4,8 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 
 export const createJob = async (req, res, next) => {
-    console.log("req.body from createJob", req.body);
-    console.log("req.files from createJob", req.files);
     try {
         const IMAGE_STORAGE_JOB = process.env.IMAGE_STORAGE_JOB;
         const job = await Job.create(req.body);
@@ -39,9 +37,6 @@ export const createJob = async (req, res, next) => {
             err.statusCode = 404;
             return next(err);
         };
-
-        console.log("job.imageUrls from createJob", job.imageUrls);
-        console.log('job from createJob', job);
 
         return res.status(201).json({ message: "Job was created successfully", data: job });
     } catch (error) {
@@ -120,12 +115,16 @@ export const getAllJobs = async (req, res, next) => {
         const sort = req.query.sort || "createdAt";
         const order = req.query.order || 'desc';
 
+        const minSalary = parseInt(req.query.minSalary) || 0;
+        const maxSalary = parseInt(req.query.maxSalary) || Infinity;
+
         const totalJobs = await Job.countDocuments({
             title: { $regex: searchTerm, $options: 'i' },
         });
 
         const jobs = await Job.find({
             title: { $regex: searchTerm, $options: 'i' },
+            salary: { $gte: minSalary, $lte: maxSalary }
         })
             .sort({ [sort]: order })
             .limit(limit)
@@ -149,6 +148,7 @@ export const getAllJobs = async (req, res, next) => {
         return next(err);
     }
 }
+
 export const getJobById = async (req, res, next) => {
     try {
         const currentJob = await Job.findById(req.params.id);

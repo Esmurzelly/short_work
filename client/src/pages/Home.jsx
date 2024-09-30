@@ -5,20 +5,24 @@ import { getAllJobs } from '../store/user/jobSlice';
 import { Triangle } from 'react-loader-spinner';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRight, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
+import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
+import ChangeFilterData from '../components/ChangeFilterData';
 
 
 export default function Home() {
+    const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });
+
     const { currentUser } = useSelector(state => state.user);
     const { jobs, loading, total } = useSelector(state => state.job);
     const dispatch = useDispatch();
-    console.log(total)
 
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
 
+    const [showFilter, setShowFilter] = useState(false);
+
     useEffect(() => {
-        dispatch(getAllJobs({ page, limit }))
+        dispatch(getAllJobs({ page, limit, searchTerm: filterData.searchTerm, order: filterData.order }));
     }, [dispatch, page, limit]);
 
     const handlePageClick = e => {
@@ -42,17 +46,22 @@ export default function Home() {
     return (
         <div className='flex flex-col flex-1 text-center'>
             {currentUser && (
-                <>
-                    <h1>{currentUser?.name}</h1>
-                    <h1>{currentUser?.role}</h1>
-                </>
+                <div className='flex flex-col items-start'>
+                    <h1>name: {currentUser?.name}</h1>
+                    <h1>role: {currentUser?.role}</h1>
+                </div>
             )}
+
+            <div className='flex flex-col items-end gap-2'>
+                <button onClick={() => setShowFilter(prevState => !prevState)}>Filter</button>
+                {showFilter && <ChangeFilterData filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
+            </div>
 
             <div className='flex flex-col gap-4 mt-4'>
                 <ul className='flex flex-row justify-around flex-wrap gap-4'>
                     {!loading && jobs && jobs.length > 0 ? (
-                        jobs.map((item) => (
-                            <JobCard key={item._id} jobItem={item} />
+                        jobs.map((item, index) => (
+                            <JobCard key={`${item._id}-${index}`} jobItem={item} />
                         ))
                     ) : (
                         <p>No jobs found</p>
