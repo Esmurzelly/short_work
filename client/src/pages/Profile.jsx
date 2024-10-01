@@ -106,11 +106,16 @@ export default function Profile() {
           <div className='flex flex-row items-end'>
             {imagePreview !== null ? (
               <div className='flex flex-row items-center gap-6'>
-                <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
+                <img onClick={handleAvatarClick} className='w-20 cursor-pointer' src={
+                  currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   ? `${currentUser?.avatar}`
+                   : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                } alt="" />
                 <FaArrowRightArrowLeft className='w-5 h-5' />
-                {imagePreview != null && <img className='w-40 cursor-pointer rounded-md' src={imagePreview} alt="imagePreview" />}
+                {imagePreview != null && <img className='w-20 cursor-pointer rounded-md' src={imagePreview} alt="imagePreview" />}
 
-                <button className='ml-8' onClick={handleUploadAvatar}> 
+                <button className='ml-8' onClick={handleUploadAvatar}>
                   <FaCloudUploadAlt className='w-6 h-6 cursor-pointer text-light-blue' />
                 </button>
 
@@ -120,8 +125,12 @@ export default function Profile() {
               </div>
             ) : (
               <>
-                <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="" />
-
+                <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={
+                  currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s' ? `${currentUser?.avatar}`
+                   : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   : !currentUser?.avatar ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                } alt="avatar" />
                 <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
                   <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
                 </button>

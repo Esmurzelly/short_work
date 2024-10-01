@@ -6,18 +6,32 @@ import { loginUser } from '../store/user/authSlice'
 import OAuth from '../components/OAuth';
 import { useEffect } from 'react';
 import { Triangle } from 'react-loader-spinner';
+import { useForm } from 'react-hook-form';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signin() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const [formData, setFormData] = useState({});
   const { currentUser, error, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(currentUser) {
+    if (currentUser) {
       navigate('/')
     }
   }, [currentUser, navigate]);
+
+  useEffect(() => {
+    if (errors.email?.type === 'required' || errors.password?.type === 'required') toast.error("All of fields are required")
+  }, [errors]);
 
   if (loading) {
     return <div className='w-full min-h-screen flex items-center justify-center'>
@@ -44,11 +58,12 @@ export default function Signin() {
     });
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    
+  const handleSubmitForm = async (data) => {
+    // e.preventDefault();
+    console.log('formData from client', data);
+
     try {
-      dispatch(loginUser(formData))
+      dispatch(loginUser(data));
       // dispatch(signInStart());
       // const response = await fetch(`/api/auth/signin`, {
       //   method: "POST",
@@ -78,13 +93,13 @@ export default function Signin() {
   return (
     <div className='w-full bg-slate-600 h-screen'>
       <h1>Sign In</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
+      <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col gap-3'>
         <div className='flex flex-row items-center gap-4'>
-          <input onChange={handleChange} placeholder='email' id='email' type="email" />
+          <input {...register("email", { required: true })} placeholder='email' id='email' type="email" />
           <label className='text-white' htmlFor="email">email</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
-          <input onChange={handleChange} placeholder='password' id='password' type="password" />
+          <input {...register("password", { required: true })} placeholder='password' id='password' type="password" />
           <label className='text-white' htmlFor="password">password</label>
         </div>
 

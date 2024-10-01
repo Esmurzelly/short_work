@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 const initialState = {
+    allUsers: null,
     currentUser: null,
+    neededUser: null,
     jobOwner: null,
     error: null,
     loading: false,
@@ -98,6 +100,58 @@ export const googleLoginUser = createAsyncThunk(
     }
 );
 
+export const getAllUsers = createAsyncThunk(
+    'auth/getAllUsers',
+    async ({ page = 0, limit = 10, searchTerm = "" }) => {
+        const startIndex = page * limit;
+        try {
+            const response = await fetch(`api/user/getAllUsers?limit=${limit}&searchTerm=${searchTerm}&startIndex=${startIndex}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            const data = await response.json();
+
+            if (!data || !data.data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error);
+        };
+    }
+);
+
+export const getUserById = createAsyncThunk(
+    'auth/getUserById',
+    async ({ id }) => {
+        try {
+            const response = await fetch(`api/user/currentUser/${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const data = await response.json();
+
+            if (data.success === false) {
+                console.log(data.message)
+            };
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
 export const signOutUser = createAsyncThunk(
     'auth/signOutUser',
     async () => {
@@ -137,7 +191,7 @@ export const uploadAvatar = createAsyncThunk(
             });
 
             const data = await response.json();
-           
+
             if (!data) {
                 throw new Error('No data returned from server');
             }
@@ -160,11 +214,8 @@ export const deleteAvatar = createAsyncThunk(
                 },
             });
 
-            const data = await response.data; // check
+            const data = await response.json();
 
-            if (data.success === false) {
-                console.log(data.message)
-            };
             if (!data) {
                 throw new Error('No data returned from server');
             }
@@ -371,7 +422,7 @@ export const authSlice = createSlice({
                 state.loading = true;
             }),
             builder.addCase(findUserByUserRefJob.fulfilled, (state, action) => {
-                state.jobOwner = action.payload; // ? owner
+                state.jobOwner = action.payload;
                 state.loading = false;
                 state.error = null;
             }),
@@ -410,6 +461,34 @@ export const authSlice = createSlice({
                 state.error = null;
             }),
             builder.addCase(deleteAvatar.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(getAllUsers.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(getAllUsers.fulfilled, (state, action) => {
+                state.allUsers = action.payload.data;
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(getAllUsers.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(getUserById.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(getUserById.fulfilled, (state, action) => {
+                state.neededUser = action.payload;
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(getUserById.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

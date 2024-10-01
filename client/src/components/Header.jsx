@@ -32,10 +32,17 @@ export default function Header() {
       <input type="text" />
       {currentUser?.avatar ? (
         <Link to={'/profile'}>
-          <img className='w-6 h-6 block' src={`http://localhost:3000/static/userAvatar/${currentUser?.avatar}`} alt="avatar" />
+          <img className='w-6 h-6 block' src={
+                  currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   ? `${currentUser?.avatar}`
+                   : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                   : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                } alt="avatar" />
         </Link>
       ) : (
-        <p>No Avatar</p>
+        <Link to={'/profile'}>
+          <img className='w-6 h-6 block' src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'} />
+        </Link>
       )}
 
     </div>

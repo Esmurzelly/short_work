@@ -10,10 +10,12 @@ import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import PrivateProfile from './components/PrivateProfile';
 import SideBar from './components/SideBar';
+import CurrentJob from './pages/CurrentJob';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CurrentJob from './pages/CurrentJob';
+import Users from './pages/Users';
+import CurrentUser from './pages/CurrentUser';
 
 function App() {
   // useEffect(() => {
@@ -46,6 +48,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='job/:id' element={<CurrentJob />} />
           <Route path='/about' element={<About />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/user/:id' element={<CurrentUser />} />
 
           <Route element={<PrivateProfile />}>
             <Route path='/create-job' element={<CreateJob />} />

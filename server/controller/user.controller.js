@@ -3,13 +3,63 @@ import bcrypt from 'bcryptjs';
 import Job from '../model/job.model.js';
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
-import { ChildProcess } from 'child_process';
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const limit = parseInt(req.query.limit) || 10;
+        const startIndex = parseInt(req.query.startIndex) || 0;
+
+        const searchTerm = req.query.searchTerm || "";
+
+        const totalUsers = await User.countDocuments({
+            name: { $regex: searchTerm, $options: 'i' },
+            role: "employee"
+        });
+
+        const users = await User.find({
+            name: { $regex: searchTerm, $options: 'i' },
+            role: "employee"
+        })
+        .limit(limit)
+        .skip(startIndex)
+
+        if (!users) {
+            const err = new Error("No users");
+            err.statusCode = 404;
+            return next(err);
+        };
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: "No users found" });
+        };
+
+        return res.status(201).json({ message: "You found user listing", data: users, total: totalUsers });
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const getUserById = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            const err = new Error("Wrong job's id");
+            err.statusCode = 404;
+            return next(err);
+        }
+
+        return res.status(201).json({ message: "Current User", data: user });
+    } catch (error) {
+        next(error);
+    };
+};
 
 export const editUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) {
         const err = new Error("You are not allowed to edit this user");
-        err.statusCode = 403; // Устанавливаем HTTP-код ошибки
-        return next(err); // Передаем ошибку в middleware для обработки
+        err.statusCode = 403;
+        return next(err);
     }
 
     try {
@@ -48,7 +98,7 @@ export const uploadAvatar = async (req, res, next) => {
         if (!req.files || !req.files.file) {
             return res.status(400).json({ success: false, message: "No file uploaded" });
         }
-        
+
         const user = await User.findById(req.user.id);
 
         if (!user) {
@@ -56,7 +106,7 @@ export const uploadAvatar = async (req, res, next) => {
         }
 
         const avatarName = uuidv4() + '.jpg';
-        file.mv(`${IMAGE_STORAGE}/${avatarName}`);  
+        file.mv(`${IMAGE_STORAGE}/${avatarName}`);
         user.avatar = avatarName;
 
         await user.save();

@@ -1,9 +1,6 @@
 import React from 'react'
-import { useState } from 'react';
 import { getAllJobs } from '../store/user/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useCallback } from 'react';
 
 export default function ChangeFilterData({ page, limit, setFilterData, filterData }) {
     const dispatch = useDispatch();
@@ -36,7 +33,9 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
             minSalary: "",
             maxSalary: "",
             order: "desc",
-        })
+        });
+
+        dispatch(getAllJobs({ page, limit }))
     }
 
 
@@ -44,18 +43,18 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
         <form onSubmit={handleSubmit} className='w-full flex flex-col items-start'>
             <div>
                 <span>Search: </span>
-                <input className='border' onChange={handleChange} value={filterData.searchTerm} type="text" name="searchTerm" id="searchTerm" />
+                <input className='border' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
             </div>
 
             <div className='flex flex-col items-start'>
                 <div className='flex flex-row items-center gap-1'>
                     <span>Min Salary:</span>
-                    <input className='border' onChange={handleChange} value={filterData.minSalary} type="number" name="minSalary" id="minSalary" />
+                    <input className='border' onChange={handleChange} value={filterData.minSalary || ""} type="number" name="minSalary" id="minSalary" />
                 </div>
 
                 <div className='flex flex-row items-center gap-1'>
                     <span>Max Salary:</span>
-                    <input className='border' onChange={handleChange} value={filterData.maxSalary} type="number" name="maxSalary" id="maxSalary" />
+                    <input className='border' onChange={handleChange} value={filterData.maxSalary || ""} type="number" name="maxSalary" id="maxSalary" />
                 </div>
 
             </div>

@@ -8,13 +8,13 @@ import { uploadAvatar, deleteAvatar } from '../store/user/authSlice';
 
 export default function ChangeUserData({ setModal }) {
     const { currentUser } = useSelector(state => state.user);
-    const { job, loading } = useSelector(state => state.jobs);
+    // const { job, loading } = useSelector(state => state.jobs);
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
 
     const options = [
-        { value: 'admin', label: 'admin' },
-        { value: 'user', label: 'user' },
+        { value: 'employer', label: 'employer' },
+        { value: 'employee', label: 'employee' },
     ];
 
     const handleChange = e => {
