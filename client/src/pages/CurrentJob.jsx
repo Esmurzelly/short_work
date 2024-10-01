@@ -106,15 +106,6 @@ export default function CurrentJob() {
                         ))}
                     </Swiper>
                 </div>
-
-
-                // <Swiper navigation={true} modules={[Navigation]}>
-                //     {job.imageUrls.map((item) => (
-                //         <div className='w-full'>
-                //             <SwiperSlide key={item}>Slide 1</SwiperSlide>
-                //         </div>
-                //     ))}
-                // </Swiper>
             )}
         </div>
     )

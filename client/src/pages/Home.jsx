@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
 import ChangeFilterData from '../components/ChangeFilterData';
+import { Link } from 'react-router-dom';
 
 
 export default function Home() {
@@ -49,6 +50,8 @@ export default function Home() {
                 <div className='flex flex-col items-start'>
                     <h1>name: {currentUser?.name}</h1>
                     <h1>role: {currentUser?.role}</h1>
+
+                    <Link to={'/users'}>Users List</Link>
                 </div>
             )}
 

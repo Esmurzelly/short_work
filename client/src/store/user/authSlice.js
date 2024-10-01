@@ -129,12 +129,18 @@ export const getUserById = createAsyncThunk(
     'auth/getUserById',
     async ({ id }) => {
         try {
-            const response = await fetch(`api/user/currentUser/${id}`, {
+            const response = await fetch(`/api/user/currentUser/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    
                 },
             });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+              }
+
 
             const data = await response.json();
 
@@ -484,7 +490,7 @@ export const authSlice = createSlice({
                 state.loading = true;
             }),
             builder.addCase(getUserById.fulfilled, (state, action) => {
-                state.neededUser = action.payload;
+                state.neededUser = action.payload.data; // ?
                 state.loading = false;
                 state.error = null;
             }),

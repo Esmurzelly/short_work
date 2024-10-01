@@ -6,8 +6,6 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
     const dispatch = useDispatch();
     const { jobs, loading, total } = useSelector(state => state.job);
 
-    console.log('filterData info', filterData)
-
     const handleChange = e => {
         setFilterData({
             ...filterData,
