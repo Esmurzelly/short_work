@@ -46,14 +46,14 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='job/:id' element={<CurrentJob />} />
           <Route path='/about' element={<About />} />
-          <Route path='/users' element={<Users />} />
-          <Route path='/user/:id' element={<CurrentUser />} />
 
           <Route element={<PrivateProfile />}>
             <Route path='/create-job' element={<CreateJob />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='job/:id' element={<CurrentJob />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/user/:id' element={<CurrentUser />} />
           </Route>
 
           <Route path='/sign-up' element={<Signup />} />

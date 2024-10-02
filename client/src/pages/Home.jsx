@@ -45,13 +45,11 @@ export default function Home() {
     }
 
     return (
-        <div className='flex flex-col flex-1 text-center'>
+        <div className='flex flex-col flex-1 text-center text-black bg-white dark:text-white dark:bg-black'>
             {currentUser && (
                 <div className='flex flex-col items-start'>
                     <h1>name: {currentUser?.name}</h1>
                     <h1>role: {currentUser?.role}</h1>
-
-                    <Link to={'/users'}>Users List</Link>
                 </div>
             )}
 

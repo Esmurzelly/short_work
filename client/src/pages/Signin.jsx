@@ -91,16 +91,16 @@ export default function Signin() {
   console.log('formData', formData);
 
   return (
-    <div className='w-full bg-slate-600 h-screen'>
+    <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col gap-3'>
-        <div className='flex flex-row items-center gap-4'>
-          <input {...register("email", { required: true })} placeholder='email' id='email' type="email" />
-          <label className='text-white' htmlFor="email">email</label>
+        <div className='flex flex-row items-center gap-4 text-black'>
+          <input className='dark:bg-slate-800 dark:text-white' {...register("email", { required: true })} placeholder='email' id='email' type="email" />
+          <label className='text-black dark:text-white' htmlFor="email">email</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
-          <input {...register("password", { required: true })} placeholder='password' id='password' type="password" />
-          <label className='text-white' htmlFor="password">password</label>
+          <input className='dark:bg-slate-800 dark:text-white' {...register("password", { required: true })} placeholder='password' id='password' type="password" />
+          <label className='text-black dark:text-white' htmlFor="password">password</label>
         </div>
 
         <OAuth />

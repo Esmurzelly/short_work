@@ -10,7 +10,7 @@ import ChangeFilterDataUsersList from '../components/ChangeFilterDataUsersList';
 export default function Users() {
   const { allUsers, loading } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const [filterData, setFilterData] = useState({ searchTerm: ''});
+  const [filterData, setFilterData] = useState({ searchTerm: '' });
 
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -42,7 +42,7 @@ export default function Users() {
   }
 
   return (
-    <div className='flex flex-col flex-1 text-center w-full'>
+    <div className='flex flex-col flex-1 text-center w-full text-black bg-white dark:text-white dark:bg-black'>
       <span>Total number of all users: {allUsers.length}</span>
 
       <div className='flex flex-col items-end gap-2'>
@@ -52,16 +52,18 @@ export default function Users() {
 
       <ul className='flex flex-row flex-wrap gap-10 items-end w-full mt-4'>
         {allUsers.map((item) => (
-          <li key={item._id} className='flex flex-col items-end'>
-            <Link to={`/user/${item._id}`}>
-              <div className='flex flex-col justify-start items-start'>
+          <li key={item._id} className='flex flex-col border h-36 w-36'>
+            <Link to={`/user/${item._id}`} className='h-full'>
+              <div className='flex flex-col items-start justify-between text-start h-full'>
                 <img className='w-16' src={
                   item?.avatar === null ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"
                     : (item?.avatar.includes('https://lh3.googleusercontent.com') || item?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${item?.avatar}`
                       : `http://localhost:3000/static/userAvatar/${item?.avatar}`
                 } alt="" />
-                <p>name: {item.name}</p>
-                <p>role: {item.role}</p>
+                <div className='flex flex-col'>
+                  <p>name: {item.name.length >= 6 ? item.name.slice(0, 5) + "..." : item.name}</p>
+                  <p>role: {item.role}</p>
+                </div>
               </div>
             </Link>
           </li>

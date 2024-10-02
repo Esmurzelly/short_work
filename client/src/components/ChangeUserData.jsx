@@ -48,10 +48,8 @@ export default function ChangeUserData({ setModal }) {
     }
 
     return (
-        <div className='max-w-5xl mx-auto flex flex-row justify-between bg-stone-800 text-white p-2'>
+        <div className='max-w-5xl mx-auto flex flex-row justify-between p-2 text-black bg-white dark:text-white dark:bg-black'>
             <form onSubmit={handleSubmit} className='flex flex-col items-start gap-4'>
-                <img src={currentUser} alt="" />
-
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="name" id="name" />
                     <label htmlFor="name">name</label>
@@ -74,7 +72,7 @@ export default function ChangeUserData({ setModal }) {
 
                 <button type='submit'>Update</button>
             </form>
-            <IoMdClose onClick={() => setModal(false)} className='w-3 h-3' />
+            <IoMdClose onClick={() => setModal(false)} className='w-3 h-3 cursor-pointer' />
         </div>
     )
 }

@@ -54,7 +54,7 @@ export default function CurrentJob() {
     }
 
     return (
-        <div className='flex flex-1 flex-col'>
+        <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>
             {job && (
                 <div>
                     <h1>Current Item</h1>

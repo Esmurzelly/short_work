@@ -94,10 +94,10 @@ export default function Profile() {
   }
 
   return (
-    <div className='flex flex-col flex-1'>
+    <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
       <h1>Profile data</h1>
 
-      <div className='border rounded-md bg-slate-300'>
+      <div className='border rounded-md dark:bg-slate-800 dark:border-none p-1'>
         <p>name: {currentUser.name}</p>
         <p>role: {currentUser.role}</p>
         <p>email: {currentUser.email}</p>
@@ -108,9 +108,9 @@ export default function Profile() {
               <div className='flex flex-row items-center gap-6'>
                 <img onClick={handleAvatarClick} className='w-20 cursor-pointer' src={
                   currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                   ? `${currentUser?.avatar}`
-                   : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                   : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                    ? `${currentUser?.avatar}`
+                    : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                      : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
                 } alt="" />
                 <FaArrowRightArrowLeft className='w-5 h-5' />
                 {imagePreview != null && <img className='w-20 cursor-pointer rounded-md' src={imagePreview} alt="imagePreview" />}
@@ -127,9 +127,9 @@ export default function Profile() {
               <>
                 <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={
                   currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s' ? `${currentUser?.avatar}`
-                   : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                   : !currentUser?.avatar ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                   : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                    : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                      : !currentUser?.avatar ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+                        : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
                 } alt="avatar" />
                 <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
                   <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
@@ -146,9 +146,19 @@ export default function Profile() {
           jobs.map(item => <p>{item.name}</p>)
         )}
 
-        <button onClick={changeOpenModal} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          Change My Data
-        </button>
+        <div className='flex flex-row items-center gap-4 mt-5'>
+          <button onClick={changeOpenModal} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+            Change My Data
+          </button>
+
+          <button onClick={handleSignOut} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+            Sign Out
+          </button>
+
+          <button onClick={handleDelele} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+            Delete Account
+          </button>
+        </div>
 
         {modal && (
           <div className='fixed inset-0 flex items-center justify-center z-50'>
@@ -158,14 +168,6 @@ export default function Profile() {
             </div>
           </div>
         )}
-
-        <button onClick={handleSignOut} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          Sign Out
-        </button>
-
-        <button onClick={handleDelele} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          Delete Account
-        </button>
       </div>
     </div>
   )

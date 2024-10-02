@@ -67,28 +67,28 @@ export default function Signup() {
   ];
 
   return (
-    <div className='w-full bg-slate-600 h-screen'>
+    <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
+      <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-3'>
         <div className='flex flex-row items-center gap-4'>
-          <input {...register("name", { required: true, minLength: 3, maxLength: 99 })} id='name' type="text" />
-          <label className='text-white' htmlFor="name">name</label>
+          <input className='dark:text-black dark:bg-slate-500 border' {...register("name", { required: true, minLength: 3, maxLength: 99 })} id='name' type="text" />
+          <label className='text-black dark:text-white' htmlFor="name">name</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
-          <input {...register("email", { required: true, minLength: 5, maxLength: 99 })} id='email' type="email" />
-          <label className='text-white' htmlFor="email">email</label>
+          <input className='dark:text-black dark:bg-slate-500 border' {...register("email", { required: true, minLength: 5, maxLength: 99 })} id='email' type="email" />
+          <label className='text-black dark:text-white' htmlFor="email">email</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
-          <input {...register("password", { required: true, minLength: 5, maxLength: 99 })} id='password' type="password" />
-          <label className='text-white' htmlFor="password">password</label>
+          <input className='dark:text-black dark:bg-slate-500 border' {...register("password", { required: true, minLength: 5, maxLength: 99 })} id='password' type="password" />
+          <label className='text-black dark:text-white' htmlFor="password">password</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
-          <input {...register("age", { required: true, pattern: /^[0-9]+$/ })} id='age' type="number" />
-          <label className='text-white' htmlFor="age">age</label>
+          <input className='dark:text-black dark:bg-slate-500 border' {...register("age", { required: true, pattern: /^[0-9]+$/ })} id='age' type="number" />
+          <label className='text-black dark:text-white' htmlFor="age">age</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
           <Select onChange={(e) => handleSelect(e)} options={options} />
-          <label className='text-white' htmlFor="role">role</label>
+          <label className='text-black dark:text-white' htmlFor="role">role</label>
         </div>
 
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>

@@ -80,7 +80,7 @@ export default function CreateJob() {
   }
 
   return (
-    <div className='flex flex-col flex-1'>
+    <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
       <h1>Create job</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>

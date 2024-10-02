@@ -27,7 +27,7 @@ export default function Contact() {
                 value={message}
                 onChange={onChange}
                 placeholder='Enter your message here...'
-                className='w-full border p-3 rounded-lg'
+                className='w-full border p-3 rounded-lg dark:text-white dark:bg-slate-800 resize-none'
             ></textarea>
 
             <Link
