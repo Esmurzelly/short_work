@@ -14,8 +14,28 @@ export default function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const avatarRef = useRef(null);
+  const modalRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleEvent  = (event) => {
+        if(modalRef.current && (event.type === 'mousedown' && !modalRef.current.contains(event.target)) || event.type === 'keydown' && event.keyCode === 27) setModal(false);
+    };
+
+    if (modal) {
+      document.addEventListener('mousedown', handleEvent);
+      document.addEventListener('keydown', handleEvent);
+    } else {
+      document.removeEventListener('mousedown', handleEvent);
+      document.removeEventListener('keydown', handleEvent);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleEvent);
+      document.removeEventListener('keydown', handleEvent);
+    };
+  }, [modal]);
 
   console.log('cur user', currentUser);
 
@@ -163,7 +183,7 @@ export default function Profile() {
         {modal && (
           <div className='fixed inset-0 flex items-center justify-center z-50'>
             <div className='absolute inset-0 bg-black opacity-50'></div>
-            <div className='relative bg-white p-1 rounded-lg shadow-lg z-10'>
+            <div ref={modalRef} className='relative bg-white p-1 rounded-lg shadow-lg z-10'>
               <ChangeUserData setModal={setModal} />
             </div>
           </div>

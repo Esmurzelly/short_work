@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 const initialState = {
     allUsers: null,
+    totalUsers: null,
     currentUser: null,
     neededUser: null,
     jobOwner: null,
@@ -477,6 +478,7 @@ export const authSlice = createSlice({
             }),
             builder.addCase(getAllUsers.fulfilled, (state, action) => {
                 state.allUsers = action.payload.data;
+                state.totalUsers = action.payload.total;
                 state.loading = false;
                 state.error = null;
             }),
@@ -490,7 +492,7 @@ export const authSlice = createSlice({
                 state.loading = true;
             }),
             builder.addCase(getUserById.fulfilled, (state, action) => {
-                state.neededUser = action.payload.data; // ?
+                state.neededUser = action.payload.data;
                 state.loading = false;
                 state.error = null;
             }),
