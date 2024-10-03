@@ -16,7 +16,6 @@ export default function CreateJob() {
     formState: { errors }
   } = useForm();
   const { currentUser, loading } = useSelector(state => state.user);
-  // const [formData, setFormData] = useState([]);
 
   const [selectedFile, setSelectedFile] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -42,13 +41,6 @@ export default function CreateJob() {
     }
   }, [errors]);
 
-  // const handleChange = e => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.id]: e.target.value
-  //   });
-  // };
-
   const handleFileChange = e => {
     setSelectedFile(e.target.files);
   };
@@ -59,7 +51,7 @@ export default function CreateJob() {
   };
 
   const handleSubmitForm = (data) => {
-    console.log('formData from client', data); // ignor
+    console.log('formData from client', data);
 
     try {
       dispatch(jobCreate({

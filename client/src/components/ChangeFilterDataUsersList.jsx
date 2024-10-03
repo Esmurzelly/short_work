@@ -1,6 +1,6 @@
 import React from 'react'
 import { getAllUsers } from '../store/user/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function ChangeFilterDataUsersList({ page, limit, setFilterData, filterData }) {
     const dispatch = useDispatch();

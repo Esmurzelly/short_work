@@ -4,11 +4,9 @@ import { IoMdClose } from "react-icons/io";
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../store/user/authSlice';
-import { uploadAvatar, deleteAvatar } from '../store/user/authSlice';
 
 export default function ChangeUserData({ setModal }) {
     const { currentUser } = useSelector(state => state.user);
-    // const { job, loading } = useSelector(state => state.jobs);
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
 

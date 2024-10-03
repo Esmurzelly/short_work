@@ -59,31 +59,11 @@ export default function Signin() {
   };
 
   const handleSubmitForm = async (data) => {
-    // e.preventDefault();
     console.log('formData from client', data);
 
     try {
       dispatch(loginUser(data));
-      // dispatch(signInStart());
-      // const response = await fetch(`/api/auth/signin`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData)
-      // });
-      // const data = await response.json();
-
-      // if(data.success === false) {
-      //   dispatch(signInFailure(data.message));
-      //   console.log(data.message);
-      //   return;
-      // }
-
-      // dispatch(signInSuccess(data));
-      // setFormData(data);
     } catch (error) {
-      // dispatch(signInFailure());
       console.log(error);
     };
   };

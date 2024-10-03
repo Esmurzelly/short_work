@@ -9,7 +9,6 @@ import ChangeFilterDataUsersList from '../components/ChangeFilterDataUsersList';
 import ReactPaginate from 'react-paginate';
 import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from 'react-icons/tb';
 
-
 export default function Users() {
   const { allUsers, totalUsers, loading } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ export default function Users() {
   const [showFilter, setShowFilter] = useState(false);
 
   console.log("allUsers arr", allUsers);
-  console.log("totalUsers num", totalUsers);
 
   useEffect(() => {
     dispatch(getAllUsers({ page, limit, searchTerm: filterData.searchTerm }));
@@ -56,7 +54,7 @@ export default function Users() {
 
       <ul className='flex flex-row flex-wrap gap-10 items-end w-full mt-4'>
         {allUsers.map((item) => (
-          <li key={item._id} className='flex flex-col border w-full h-32 md:h-52 md:w-52'> {/**asdasdasdasdasdas */}
+          <li key={item._id} className='flex flex-col border w-full h-32 md:h-52 md:w-52'> 
             <Link to={`/user/${item._id}`} className='h-full'>
               <div className='gap-2 flex flex-row md:flex-col items-end md:items-start md:justify-between text-start h-full'>
                 <img className='w-16' src={

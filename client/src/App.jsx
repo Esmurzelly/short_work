@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -12,34 +11,12 @@ import PrivateProfile from './components/PrivateProfile';
 import SideBar from './components/SideBar';
 import CurrentJob from './pages/CurrentJob';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Users from './pages/Users';
 import CurrentUser from './pages/CurrentUser';
 
 function App() {
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('api/get');
-
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       const result = await response.json();
-  //       setData(result);
-
-  //     } catch (error) {
-  //       console.log('Fetch error:', error);
-
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, []);
-
-  // console.log('fetched data', data);
-
   return (
     <BrowserRouter>
       <div className='flex flex-col h-screen'>

@@ -1,10 +1,9 @@
 import React from 'react'
 import { getAllJobs } from '../store/user/jobSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function ChangeFilterData({ page, limit, setFilterData, filterData }) {
     const dispatch = useDispatch();
-    const { jobs, loading, total } = useSelector(state => state.job);
 
     const handleChange = e => {
         setFilterData({

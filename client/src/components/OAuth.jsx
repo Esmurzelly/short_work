@@ -17,24 +17,7 @@ export default function OAuth() {
             const result = await signInWithPopup(auth, provider);
 
             dispatch(googleLoginUser({ name: result.user.displayName, email: result.user.email, role: "user", avatar: result.user.photoURL }))
-            // console.log('google click result', result);
-
-            // const res = await fetch('/api/auth/google', {
-            //     method: "POST",
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         name: result.user.displayName,
-            //         email: result.user.email,
-            //         role: "user",
-            //         avatar: result.user.photoURL,
-            //     })
-            // });
-
-            // const data = await res.json();
-            // console.log('google oath', data);
-            // dispatch(signInSuccess(data));
+            
             navigate('/');
         } catch (error) {
             console.log(error)

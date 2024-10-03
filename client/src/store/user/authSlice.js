@@ -134,14 +134,12 @@ export const getUserById = createAsyncThunk(
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    
                 },
             });
 
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
-              }
-
+            }
 
             const data = await response.json();
 
@@ -166,7 +164,6 @@ export const signOutUser = createAsyncThunk(
             const response = await fetch('/api/auth/signout', {
                 method: "POST"
             });
-            console.log('response from asyncThunk', response);
 
             const data = await response.json();
 
@@ -245,7 +242,6 @@ export const findUserByUserRefJob = createAsyncThunk(
                 }
             });
 
-
             const data = await response.json();
 
             if (!data || data.success === false) {
@@ -318,41 +314,14 @@ export const deleteUser = createAsyncThunk(
 export const authSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-        // signInStart: (state) => {
-        //     state.loading = true;
-        //     state.error = false;
-        // },
-        // signInSuccess: (state, action) => {
-        //     state.currentUser = action.payload;
-        //     state.loading = false;
-        //     state.error = false;
-        // },
-        // signInFailure: (state, action) => {
-        //     state.error = action.payload;
-        //     state.loading = false;
-        // },
-
-        // signOutStart: (state) => {
-        //     state.loading = true;
-        // },
-        // signOutSuccess: (state, action) => {
-        //     state.currentUser = null;
-        //     state.loading = false;
-        //     state.error = false;
-        // },
-        // signOutFailure: (state, action) => {
-        //     state.error = action.payload;
-        //     state.loading = false;
-        // },
-    },
+    reducers: {},
     extraReducers: builder => {
         builder.addCase(registerUser.pending, (state) => {
             state.loading = true;
         }),
             builder.addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.currentUser = action.payload; // change maybe
+                state.currentUser = action.payload;
                 state.error = null;
             }),
             builder.addCase(registerUser.rejected, (state, action) => {
@@ -503,7 +472,6 @@ export const authSlice = createSlice({
     }
 });
 
-// export const { signInStart, signInSuccess, signInFailure, signOutFailure, signOutStart, signOutSuccess } = userSlice.actions;
 export const { } = authSlice.actions;
 
 export default authSlice.reducer;

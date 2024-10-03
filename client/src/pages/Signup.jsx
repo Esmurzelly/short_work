@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
-  // const [formData, setFormData] = useState([]);
   const [selectedOption, setSelectedOption] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -33,13 +32,6 @@ export default function Signup() {
     if (errors.age?.type === 'pattern') toast.error("Age field includes only nubmers");
   }, [errors]);
 
-  // const handleChange = e => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.id]: e.target.value
-  //   });
-  // };
-
   const handleSubmitForm = async (data) => {
     try {
       dispatch(registerUser({
@@ -55,10 +47,6 @@ export default function Signup() {
 
   const handleSelect = (selectedOptionItem) => {
     setSelectedOption(selectedOptionItem.value)
-    // setFormData({
-    //   ...formData,
-    //   "role": selectedOption.value
-    // })
   };
 
   const options = [

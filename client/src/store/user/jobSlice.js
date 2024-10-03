@@ -33,16 +33,9 @@ export const jobCreate = createAsyncThunk(
             const response = await fetch('/api/job/create', {
                 method: "POST",
                 body: formData,
-                // headers: {
-                //     "Content-Type": "application/json",
-                // },
-                // body: JSON.stringify({ title, description, address, salary, neededSkils, imageUrls, loc, userRef })
             });
 
             const data = await response.json();
-
-            console.log('data from jobSlice', data);
-
 
             if (data.success === false) {
                 console.log(data.message)
@@ -126,11 +119,7 @@ export const updatejob = createAsyncThunk(
                 body: JSON.stringify({ id, title, description, address, salary })
             });
 
-            console.log('response from update Redux', response);
-
             const data = await response.json();
-
-            console.log('data from update Redux', data);
 
             if (data.success === false) {
                 console.log(data.message)
@@ -179,7 +168,6 @@ export const jobSlice = createSlice({
         }),
             builder.addCase(jobCreate.fulfilled, (state, action) => {
                 state.loading = false;
-                // state.jobs = action.payload;
                 state.jobs.push(action.payload.data);
                 state.error = null;
             }),

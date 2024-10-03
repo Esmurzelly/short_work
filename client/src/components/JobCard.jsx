@@ -4,8 +4,8 @@ import { MdLocationOn } from 'react-icons/md';
 
 export default function JobCard({ jobItem }) {
 
-  return (
-    <div className='shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] text-black bg-white dark:text-white dark:bg-slate-800'>
+    return (
+        <div className='shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] text-black bg-white dark:text-white dark:bg-slate-800'>
             <Link to={`/job/${jobItem._id}`}>
                 <img
                     src={
@@ -16,7 +16,7 @@ export default function JobCard({ jobItem }) {
                     className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300'
                 />
 
-                    <p>id: {jobItem._id}</p>
+                <p>id: {jobItem._id}</p>
                 <div className='p-3 flex flex-col gap-2 w-full'>
                     <p className='truncate text-lg font-semibold'>
                         {jobItem.title}
@@ -37,5 +37,5 @@ export default function JobCard({ jobItem }) {
                 </div>
             </Link>
         </div>
-  )
+    )
 }

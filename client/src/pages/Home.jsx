@@ -7,8 +7,6 @@ import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
 import ChangeFilterData from '../components/ChangeFilterData';
-import { Link } from 'react-router-dom';
-
 
 export default function Home() {
     const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });
