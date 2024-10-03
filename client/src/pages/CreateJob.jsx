@@ -4,6 +4,7 @@ import { getAllJobs, jobCreate } from '../store/user/jobSlice';
 import { useNavigate } from 'react-router-dom';
 import { Triangle } from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
+import Select from 'react-select';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +17,10 @@ export default function CreateJob() {
   } = useForm();
   const { currentUser, loading } = useSelector(state => state.user);
   // const [formData, setFormData] = useState([]);
+
   const [selectedFile, setSelectedFile] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +40,7 @@ export default function CreateJob() {
     if (errors.salary?.type === "pattern") {
       toast.error("You should write only numbers");
     }
-  }, [errors]); 
+  }, [errors]);
 
   // const handleChange = e => {
   //   setFormData({
@@ -49,14 +53,20 @@ export default function CreateJob() {
     setSelectedFile(e.target.files);
   };
 
+  const handleSkillsChange = arr => {
+    const newSelectedSkills = arr.map(item => item.label);
+    setSelectedSkills(newSelectedSkills);
+  };
+
   const handleSubmitForm = (data) => {
-    console.log('formData from client', data);
+    console.log('formData from client', data); // ignor
 
     try {
       dispatch(jobCreate({
         ...data,
         userRef: currentUser._id,
-        imageUrls: selectedFile 
+        imageUrls: selectedFile,
+        neededSkils: selectedSkills
       }));
       dispatch(getAllJobs());
       navigate('/');
@@ -64,6 +74,18 @@ export default function CreateJob() {
       console.log(error);
     }
   }
+
+  const skillOptions = [
+    { value: 'ocean', label: 'Ocean', color: '#00B8D9' },
+    { value: 'purple', label: 'Purple', color: '#5243AA' },
+    { value: 'red', label: 'Red', color: '#FF5630' },
+    { value: 'orange', label: 'Orange', color: '#FF8B00' },
+    { value: 'yellow', label: 'Yellow', color: '#FFC400' },
+    { value: 'green', label: 'Green', color: '#36B37E' },
+    { value: 'forest', label: 'Forest', color: '#00875A' },
+    { value: 'slate', label: 'Slate', color: '#253858' },
+    { value: 'silver', label: 'Silver', color: '#666666' },
+  ];
 
   if (loading) {
     return <div className='w-full min-h-screen flex items-center justify-center'>
@@ -84,22 +106,22 @@ export default function CreateJob() {
       <h1>Create job</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700'  type="text" name="title" id="title" />
+          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="title" id="title" />
           <label htmlFor="title">title</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700'  type="text" name="description" id="description" />
+          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700' type="text" name="description" id="description" />
           <label htmlFor="description">description</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700'  type="text" name="address" id="address" />
+          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="address" id="address" />
           <label htmlFor="address">address</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700'  type="text" name="salary" id="salary" />
+          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700' type="text" name="salary" id="salary" />
           <label htmlFor="salary">salary</label>
         </div>
 
@@ -108,16 +130,19 @@ export default function CreateJob() {
           <label htmlFor="imageUrls">Choose Image/Images</label>
         </div>
 
-        {/* <div className='flex flex-row items-center gap-2'>
-          <input className='bg-slate-700' onChange={handleChange} type="text" name="neededSkils" id="neededSkils" />
-          <label htmlFor="neededSkils">neededSkils</label>
+        <div className='flex flex-row items-center gap-2'>
+          <Select
+            {...register("neededSkils", { required: false })}
+            onChange={handleSkillsChange}
+            options={skillOptions}
+            isMulti
+            name='neededSkils'
+            id="neededSkils"
+            classNamePrefix="select"
+          />
+          <label htmlFor="neededSkils">neededSkils / requirements</label>
         </div>
 
-
-        <div className='flex flex-row items-center gap-2'> 
-          <input className='bg-slate-700' onChange={handleChange} type="text" name="loc" id="loc" />
-          <label htmlFor="loc">loc</label>
-        </div> */}
         <button type='submit'>Create</button>
       </form>
     </div>

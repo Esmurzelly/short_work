@@ -70,6 +70,11 @@ export default function ChangeUserData({ setModal }) {
                     <label className='text-white' htmlFor="role">role</label>
                 </div>
 
+                <div className='flex flex-row items-center gap-2'>
+                    <textarea className='resize-none w-6/12 border dark:text-black' onChange={handleChange} placeholder='about yourself' name="about" id="about"></textarea>
+                    <label className='text-white' htmlFor="about">About yourself</label>
+                </div>
+
                 <button type='submit'>Update</button>
             </form>
             <IoMdClose onClick={() => setModal(false)} className='w-3 h-3 cursor-pointer' />

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BsSun } from "react-icons/bs";
 import { FaRegMoon } from "react-icons/fa";
+import Logo from '../assets/hard-work.png';
 
 
 export default function Header() {
@@ -19,7 +20,7 @@ export default function Header() {
       localStorage.setItem("theme", 'dark')
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", 'light')
+      localStorage.setItem("theme", 'light');
     }
   }, [theme]);
 
@@ -46,9 +47,9 @@ export default function Header() {
   }
 
   return (
-    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 p-5 text-black bg-white dark:text-white dark:bg-black'>
+    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 p-4 text-black bg-white dark:text-white dark:bg-black'>
       <Link to={'/'}>
-        <div>Logo</div>
+        <img className='w-8' src={Logo} alt="hard-work" />
       </Link>
 
       <button className='flex flex-row items-center gap-2' onClick={handleSwitchTeme}>

@@ -19,8 +19,8 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleEvent  = (event) => {
-        if(modalRef.current && (event.type === 'mousedown' && !modalRef.current.contains(event.target)) || event.type === 'keydown' && event.keyCode === 27) setModal(false);
+    const handleEvent = (event) => {
+      if (modalRef.current && (event.type === 'mousedown' && !modalRef.current.contains(event.target)) || event.type === 'keydown' && event.keyCode === 27) setModal(false);
     };
 
     if (modal) {
@@ -121,6 +121,7 @@ export default function Profile() {
         <p>name: {currentUser.name}</p>
         <p>role: {currentUser.role}</p>
         <p>email: {currentUser.email}</p>
+        <p className='break-all'>about: {currentUser?.about}</p>
 
         <div className='flex flex-col items-start p-2 gap-3'>
           <div className='flex flex-row items-end'>
@@ -159,8 +160,6 @@ export default function Profile() {
           </div>
           <input className='hidden' ref={avatarRef} onChange={handleFileChange} accept='image/*' type="file" name="" id="" />
         </div>
-
-        {/* {currentUser.avatar && <p>avatar: </p>} */}
 
         {loading && currentUser && currentUser.jobs && currentUser.jobs.length > 0 && (
           jobs.map(item => <p>{item.name}</p>)

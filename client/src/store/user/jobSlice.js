@@ -10,15 +10,18 @@ const initialState = {
 
 export const jobCreate = createAsyncThunk(
     'job/jobCreate',
-    async ({ title, description, address, salary, neededSkils, imageUrls, loc, userRef }) => {
+    async ({ title, description, address, salary, neededSkils, imageUrls, userRef }) => {
         try {
             const formData = new FormData();
             formData.append('title', title);
             formData.append('description', description);
             formData.append('address', address);
             formData.append('salary', salary);
-            formData.append('neededSkils', neededSkils);
-            formData.append('loc', loc);
+
+            neededSkils.forEach(skill => {
+                formData.append('neededSkils', skill);
+            });
+            
             formData.append('userRef', userRef);
 
             if(imageUrls && imageUrls.length > 0) {
@@ -37,6 +40,8 @@ export const jobCreate = createAsyncThunk(
             });
 
             const data = await response.json();
+
+            console.log('data from jobSlice', data);
 
 
             if (data.success === false) {

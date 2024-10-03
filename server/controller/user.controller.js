@@ -63,7 +63,7 @@ export const editUser = async (req, res, next) => {
     }
 
     try {
-        const { name, email, password, avatar, role } = req.body;
+        const { name, email, password, avatar, role, about } = req.body;
 
         if (req.body.password) {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
@@ -74,18 +74,19 @@ export const editUser = async (req, res, next) => {
             $set: {
                 name,
                 email,
+                about,
                 password,
                 avatar,
-                role
+                role,
             }
         }, { new: true });
 
         res.status(201).json(updatedUser);
     } catch (error) {
         const err = new Error("Server issue");
-        err.statusCode = 500; // Устанавливаем HTTP-код ошибки
+        err.statusCode = 500;
         console.log(error)
-        return next(err); // Передаем ошибку в middleware для обработки
+        return next(err);
     }
 };
 

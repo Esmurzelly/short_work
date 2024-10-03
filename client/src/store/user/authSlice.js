@@ -261,14 +261,14 @@ export const findUserByUserRefJob = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
-    async ({ id, name, email, password, avatar, role }) => {
+    async ({ id, name, email, password, avatar, role, about }) => {
         try {
             const response = await fetch(`/api/user/edit/${id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password, avatar, role })
+                body: JSON.stringify({ name, email, password, avatar, role, about })
             });
             const data = await response.json();
 

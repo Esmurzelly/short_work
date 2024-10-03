@@ -63,7 +63,13 @@ export default function CurrentJob() {
                     <p>address {job.address}</p>
                     <p>salary: {job.salary}</p>
                     {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
-                    <p>Owener: {jobOwner?.name}</p>
+                    <p>Owner: {jobOwner?.name}</p>
+                    <div className='flex flex-row items-center gap-2'>
+                        <p>Skills: </p>
+                        {job.neededSkils && job.neededSkils.map(item => <span>{item}, </span>) }
+                    </div>
+
+
                 </div>
             )}
 
