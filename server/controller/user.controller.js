@@ -83,10 +83,8 @@ export const editUser = async (req, res, next) => {
 
         res.status(201).json(updatedUser);
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 };
 
@@ -114,10 +112,8 @@ export const uploadAvatar = async (req, res, next) => {
 
         res.status(201).json(user);
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 };
 
@@ -137,10 +133,8 @@ export const deleteAvatar = async (req, res, next) => {
 
         return res.json(user);
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }
 
@@ -156,10 +150,8 @@ export const deleteUser = async (req, res, next) => {
         res.clearCookie();
         res.status(201).json({ message: `User ${deletedUser.name} was deleted successfully`, user: deletedUser });
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 };
 
@@ -180,9 +172,7 @@ export const findUserByUserRef = async (req, res, next) => {
 
         res.status(201).json({ message: "Owner is found", data: findedUser });
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }

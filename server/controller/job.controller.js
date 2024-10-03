@@ -27,6 +27,8 @@ export const createJob = async (req, res, next) => {
             await job.save();
         }
 
+        
+
         const updatedUser = await User.findByIdAndUpdate(req.user.id,
             { $push: { jobs: job._id } },
             { new: true }
@@ -40,10 +42,8 @@ export const createJob = async (req, res, next) => {
 
         return res.status(201).json({ message: "Job was created successfully", data: job });
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }
 
@@ -99,10 +99,8 @@ export const deleteJob = async (req, res, next) => {
         return res.status(201).json({ message: "Your job was deleted successfully", data: deletedJob });
 
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }
 
@@ -142,10 +140,8 @@ export const getAllJobs = async (req, res, next) => {
 
         return res.status(201).json({ message: "You found job listing", data: jobs, total: totalJobs });
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }
 
@@ -161,10 +157,8 @@ export const getJobById = async (req, res, next) => {
 
         res.status(201).json({ message: "Current Job", data: currentJob });
     } catch (error) {
-        const err = new Error("Server issue");
-        err.statusCode = 500;
         console.log(error)
-        return next(err);
+        return next(error);
     }
 }
 
