@@ -1,7 +1,6 @@
 import Job from "../model/job.model.js";
 import User from "../model/user.model.js";
 import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
 
 export const createJob = async (req, res, next) => {
     try {
@@ -12,7 +11,7 @@ export const createJob = async (req, res, next) => {
             const imageFiles = Array.isArray(req.files.imageUrls) ? req.files.imageUrls : [req.files.imageUrls];
             const imagePath = [];
 
-            for(let file of imageFiles) {
+            for (let file of imageFiles) {
                 const fileName = uuidv4() + '.jpg';
                 file.mv(`${IMAGE_STORAGE_JOB}/${fileName}`, err => {
                     if (err) {
@@ -27,7 +26,7 @@ export const createJob = async (req, res, next) => {
             await job.save();
         }
 
-        
+
 
         const updatedUser = await User.findByIdAndUpdate(req.user.id,
             { $push: { jobs: job._id } },
