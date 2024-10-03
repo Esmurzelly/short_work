@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import ChangeFilterDataUsersList from '../components/ChangeFilterDataUsersList';
 import ReactPaginate from 'react-paginate';
 import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from 'react-icons/tb';
+import { useTranslation } from 'react-i18next';
 
 export default function Users() {
   const { allUsers, totalUsers, loading } = useSelector(state => state.user);
@@ -18,6 +19,7 @@ export default function Users() {
   const [limit, setLimit] = useState(10);
 
   const [showFilter, setShowFilter] = useState(false);
+  const { t } = useTranslation();
 
   console.log("allUsers arr", allUsers);
 
@@ -45,10 +47,10 @@ export default function Users() {
 
   return (
     <div className='flex flex-col flex-1 text-center w-full text-black bg-white dark:text-white dark:bg-black p-4'>
-      <span>Total number of all users: {allUsers.length}</span>
+      <span>{t('total_users')}: {allUsers.length}</span>
 
       <div className='flex flex-col items-end gap-2'>
-        <button onClick={() => setShowFilter(prevState => !prevState)}>Filter</button>
+        <button onClick={() => setShowFilter(prevState => !prevState)}>{t('filter')}</button>
         {showFilter && <ChangeFilterDataUsersList filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
       </div>
 
@@ -63,8 +65,8 @@ export default function Users() {
                       : `http://localhost:3000/static/userAvatar/${item?.avatar}`
                 } alt="" />
                 <div className='flex flex-col grow md:grow-0'>
-                  <p>name: {item.name.length >= 6 ? item.name.slice(0, 5) + "..." : item.name}</p>
-                  <p>role: {item.role}</p>
+                  <p>{t('name')}: {item.name.length >= 6 ? item.name.slice(0, 5) + "..." : item.name}</p>
+                  <p>{t('role')}: {item.role}</p>
                 </div>
               </div>
             </Link>

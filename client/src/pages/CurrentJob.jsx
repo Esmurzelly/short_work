@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/bundle'
 import 'swiper/css';
+import { useTranslation } from 'react-i18next';
 
 
 export default function CurrentJob() {
@@ -21,6 +22,7 @@ export default function CurrentJob() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
+    const { t } = useTranslation();
 
     console.log('cur job', job);
 
@@ -57,16 +59,18 @@ export default function CurrentJob() {
         <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>
             {job && (
                 <div>
-                    <h1>Current Item</h1>
-                    <p>title {job.title}</p>
-                    <p>description {job.description}</p>
-                    <p>address {job.address}</p>
-                    <p>salary: {job.salary}</p>
-                    {job.imageUrls && <p>avatar: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
-                    <p>Owner: {jobOwner?.name}</p>
+                    <h1>{t('current_item')}</h1>
+                    <p>{t('title')}: {job.title}</p>
+                    <p>{t('description')}: {job.description}</p>
+                    <p>{t('address')}: {job.address}</p>
+                    <p>{t('salary')}: {job.salary}</p>
+                    {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
+                    <p>{t('owner')}: {jobOwner?.name}</p>
                     <div className='flex flex-row items-center gap-2'>
-                        <p>Skills: </p>
-                        {job.neededSkils && job.neededSkils.map(item => <span>{item}, </span>) }
+                        <p>{t('skills')}: </p>
+                        <ul>
+                            {job.neededSkils && job.neededSkils.map((item, index) => <li key={index}>{item}, </li>) }
+                        </ul>
                     </div>
 
 
@@ -84,17 +88,17 @@ export default function CurrentJob() {
 
             {job.userRef == currentUser?._id && (
                 <div className='flex flex-col gap-4'>
-                    <button onClick={() => setModal(true)} className='bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Change</button>
-                    <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Delete</button>
+                    <button onClick={() => setModal(true)} className='bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('change')}</button>
+                    <button onClick={handleDelete} className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Delete')}</button>
                 </div>
             )}
 
             <button onClick={() => setContact(true)} className='bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-                Contact with owner
+                {t('contact_with_owner')}
             </button>
             {contact && <Contact />}
 
-            <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Back</button>
+            <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
 
             {job && job?.imageUrls && (
                 <div>

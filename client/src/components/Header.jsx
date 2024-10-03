@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { BsSun } from "react-icons/bs";
 import { FaRegMoon } from "react-icons/fa";
 import Logo from '../assets/hard-work.png';
+import ChangeLanguage from './ChangeLanguage';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Header() {
@@ -13,6 +15,7 @@ export default function Header() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "light"
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -53,9 +56,11 @@ export default function Header() {
       </Link>
 
       <button className='flex flex-row items-center gap-2' onClick={handleSwitchTeme}>
-        <span>Change Theme</span>
+        <span>{t('change_theme')}</span>
         {theme === 'dark' ? <BsSun className='w-3' /> : <FaRegMoon className='w-3' />}
       </button>
+
+      <ChangeLanguage />
 
       {currentUser?.avatar ? (
         <Link to={'/profile'}>

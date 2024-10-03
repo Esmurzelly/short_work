@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoMdClose } from "react-icons/io";
 import { updatejob } from '../store/user/jobSlice';
+import { useTranslation } from 'react-i18next';
 
 export default function ChangeJobData({ setModal }) {
     const [formData, setFormData] = useState([]);
     const { job, loading } = useSelector(state => state.job);
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const handleChange = e => {
         setFormData({
@@ -35,25 +37,25 @@ export default function ChangeJobData({ setModal }) {
             <form onSubmit={handleSubmit} className='flex flex-col items-start gap-4'>
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="title" id="title" />
-                    <label htmlFor="title">title</label>
+                    <label htmlFor="title">{t('title')}</label>
                 </div>
 
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="description" id="description" />
-                    <label htmlFor="description">description</label>
+                    <label htmlFor="description">{t('description')}</label>
                 </div>
 
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="address" id="address" />
-                    <label htmlFor="address">address</label>
+                    <label htmlFor="address">{t('address')}</label>
                 </div>
 
                 <div className='flex flex-row items-center gap-2'>
                     <input className='bg-slate-700' onChange={handleChange} type="text" name="salary" id="salary" />
-                    <label htmlFor="salary">salary</label>
+                    <label htmlFor="salary">{t('salary')}</label>
                 </div>
 
-                <button type='submit'>Update</button>
+                <button type='submit'>{t('update')}</button>
             </form>
             <IoMdClose onClick={() => setModal(false)} className='w-3 h-3' />
         </div>

@@ -3,13 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Triangle } from 'react-loader-spinner'
 import { getUserById } from '../store/user/authSlice';
 import { useSelector, useDispatch } from 'react-redux'
-
+import { useTranslation } from 'react-i18next';
 
 export default function CurrentUser() {
   const { neededUser, loading } = useSelector(state => state.user);
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   console.log('neededUser', neededUser);
 
@@ -34,8 +35,8 @@ export default function CurrentUser() {
 
   return (
     <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
-      <p>name: {neededUser.name}</p>
-      <p>role: {neededUser.role}</p>
+      <p>{t('name')}: {neededUser.name}</p>
+      <p>{t('role')}: {neededUser.role}</p>
       <p>email: {neededUser.email}</p>
 
       <img className='w-40 cursor-pointer' src={
@@ -44,7 +45,7 @@ export default function CurrentUser() {
             : `http://localhost:3000/static/userAvatar/${neededUser?.avatar}`
       } alt="avatar" />
 
-      <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Back</button>
+      <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
     </div>
   )
 }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export default function Contact() {
     const [message, setMessage] = useState('');
     const { job, loading } = useSelector(state => state.job);
+    const { t } = useTranslation();
     
     const { currentUser, jobOwner } = useSelector(state => state.user);
 
@@ -12,13 +14,13 @@ export default function Contact() {
         setMessage(e.target.value);
     };
 
-    if (!job || loading) return <p>Loading....</p>
+    if (!job || loading) return <p>{t("loading")}</p>
 
     return (
         <div className='flex flex-col gap-2'>
             <p>
-                Contact with <span className='font-semibold'>{jobOwner.name}</span>{' '}
-                for {job.title}
+                {t("Contact_with")} <span className='font-semibold'>{jobOwner.name}</span>{' '}
+                {t("for")} {job.title}
             </p>
             <textarea
                 name='message'
@@ -33,7 +35,7 @@ export default function Contact() {
             <Link
                 to={`mailto:${jobOwner.email}?subject=Regarding ${job.title}&body=${message}`}
                 className='bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95'
-            >Send message</Link>
+            >{t('Send_message')}</Link>
         </div>
     )
 }

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
 import ChangeFilterData from '../components/ChangeFilterData';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
     const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });
@@ -19,6 +20,8 @@ export default function Home() {
     const [limit, setLimit] = useState(10);
 
     const [showFilter, setShowFilter] = useState(false);
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         dispatch(getAllJobs({ page, limit, searchTerm: filterData.searchTerm, order: filterData.order }));
@@ -46,13 +49,13 @@ export default function Home() {
         <div className='flex flex-col flex-1 text-center text-black bg-white dark:text-white dark:bg-black'>
             {currentUser && (
                 <div className='flex flex-col items-start'>
-                    <h1>name: {currentUser?.name}</h1>
-                    <h1>role: {currentUser?.role}</h1>
+                    <h1>{t('name')}: {currentUser?.name}</h1>
+                    <h1>{t('role')}: {currentUser?.role}</h1>
                 </div>
             )}
 
             <div className='flex flex-col items-end gap-2'>
-                <button onClick={() => setShowFilter(prevState => !prevState)}>Filter</button>
+                <button onClick={() => setShowFilter(prevState => !prevState)}>{t('filter')}</button>
                 {showFilter && <ChangeFilterData filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
             </div>
 
@@ -63,7 +66,7 @@ export default function Home() {
                             <JobCard key={`${item._id}-${index}`} jobItem={item} />
                         ))
                     ) : (
-                        <p>No jobs found</p>
+                        <p>{t('jobNotFound')}</p>
                     )}
                 </ul>
 

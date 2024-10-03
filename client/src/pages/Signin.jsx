@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Signin() {
   const {
@@ -22,6 +23,7 @@ export default function Signin() {
   const { currentUser, error, loading } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (currentUser) {
@@ -72,7 +74,7 @@ export default function Signin() {
 
   return (
     <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>
-      <h1>Sign In</h1>
+      <h1>{t("sign_in")}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col gap-3'>
         <div className='flex flex-row items-center gap-4 text-black'>
           <input className='dark:bg-slate-800 dark:text-white' {...register("email", { required: true })} placeholder='email' id='email' type="email" />
@@ -80,18 +82,18 @@ export default function Signin() {
         </div>
         <div className='flex flex-row items-center gap-4'>
           <input className='dark:bg-slate-800 dark:text-white' {...register("password", { required: true })} placeholder='password' id='password' type="password" />
-          <label className='text-black dark:text-white' htmlFor="password">password</label>
+          <label className='text-black dark:text-white' htmlFor="password">{t("password")}</label>
         </div>
 
         <OAuth />
 
         <button type='submit' disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          {loading ? 'Loading...' : 'Sign In'}
+          {loading ? `${t("loading")} ` : `${t("sign_in")}`}
         </button>
       </form>
       <div className='flex flex-row items-center gap-4'>
-        <span>Dont have an account?</span>
-        <Link to={'/sign-up'}>Register</Link>
+        <span>{t("Dont_have_an_account")}</span>
+        <Link to={'/sign-up'}>{t("Register")}</Link>
       </div>
     </div>
   )

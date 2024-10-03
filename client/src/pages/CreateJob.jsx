@@ -8,6 +8,7 @@ import Select from 'react-select';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateJob() {
   const {
@@ -22,6 +23,7 @@ export default function CreateJob() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (errors.title?.type === "required" || errors.description?.type === "required" || errors.address?.type === "required" || errors.salary?.type === "required") {
@@ -95,31 +97,31 @@ export default function CreateJob() {
 
   return (
     <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
-      <h1>Create job</h1>
+      <h1>{t('create_job')}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>
           <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="title" id="title" />
-          <label htmlFor="title">title</label>
+          <label htmlFor="title">{t('title')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
           <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700' type="text" name="description" id="description" />
-          <label htmlFor="description">description</label>
+          <label htmlFor="description">{t('description')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
           <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="address" id="address" />
-          <label htmlFor="address">address</label>
+          <label htmlFor="address">{t('address')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
           <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700' type="text" name="salary" id="salary" />
-          <label htmlFor="salary">salary</label>
+          <label htmlFor="salary">{t('salary')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
           <input className='bg-slate-700' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
-          <label htmlFor="imageUrls">Choose Image/Images</label>
+          <label htmlFor="imageUrls">{t('choose_image/images')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
@@ -132,10 +134,10 @@ export default function CreateJob() {
             id="neededSkils"
             classNamePrefix="select"
           />
-          <label htmlFor="neededSkils">neededSkils / requirements</label>
+          <label htmlFor="neededSkils">{t('neededSkils_requirements')}</label>
         </div>
 
-        <button type='submit'>Create</button>
+        <button type='submit'>{t('Create')}</button>
       </form>
     </div>
   )

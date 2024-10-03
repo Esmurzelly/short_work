@@ -9,10 +9,12 @@ import { useForm } from 'react-hook-form';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Signup() {
   const [selectedOption, setSelectedOption] = useState();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -56,11 +58,11 @@ export default function Signup() {
 
   return (
     <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>
-      <h1>Sign Up</h1>
+      <h1>{t('sign_up')}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-3'>
         <div className='flex flex-row items-center gap-4'>
           <input className='dark:text-black dark:bg-slate-500 border' {...register("name", { required: true, minLength: 3, maxLength: 99 })} id='name' type="text" />
-          <label className='text-black dark:text-white' htmlFor="name">name</label>
+          <label className='text-black dark:text-white' htmlFor="name">{t('name')}</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
           <input className='dark:text-black dark:bg-slate-500 border' {...register("email", { required: true, minLength: 5, maxLength: 99 })} id='email' type="email" />
@@ -68,19 +70,19 @@ export default function Signup() {
         </div>
         <div className='flex flex-row items-center gap-4'>
           <input className='dark:text-black dark:bg-slate-500 border' {...register("password", { required: true, minLength: 5, maxLength: 99 })} id='password' type="password" />
-          <label className='text-black dark:text-white' htmlFor="password">password</label>
+          <label className='text-black dark:text-white' htmlFor="password">{t('password')}</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
           <input className='dark:text-black dark:bg-slate-500 border' {...register("age", { required: true, pattern: /^[0-9]+$/ })} id='age' type="number" />
-          <label className='text-black dark:text-white' htmlFor="age">age</label>
+          <label className='text-black dark:text-white' htmlFor="age">{t('age')}</label>
         </div>
         <div className='flex flex-row items-center gap-4'>
           <Select onChange={(e) => handleSelect(e)} options={options} />
-          <label className='text-black dark:text-white' htmlFor="role">role</label>
+          <label className='text-black dark:text-white' htmlFor="role">{t('role')}</label>
         </div>
 
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          {loading ? 'Loading...' : 'Sign Up'}
+          {loading ? `${t("loading")} ` : `${t("sign_up")}`}
         </button>
       </form>
     </div>

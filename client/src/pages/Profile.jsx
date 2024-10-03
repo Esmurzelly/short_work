@@ -7,6 +7,7 @@ import ChangeUserData from '../components/ChangeUserData';
 import { Triangle } from 'react-loader-spinner';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
   const { currentUser, loading } = useSelector(state => state.user);
@@ -17,6 +18,7 @@ export default function Profile() {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleEvent = (event) => {
@@ -102,13 +104,13 @@ export default function Profile() {
 
   return (
     <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
-      <h1>Profile data</h1>
+      <h1>{t('profile_data')}</h1>
 
       <div className='border rounded-md dark:bg-slate-800 dark:border-none p-1'>
-        <p>name: {currentUser.name}</p>
-        <p>role: {currentUser.role}</p>
+        <p>{t('name')}: {currentUser.name}</p>
+        <p>{t('role')}: {currentUser.role}</p>
         <p>email: {currentUser.email}</p>
-        <p className='break-all'>about: {currentUser?.about}</p>
+        <p className='break-all'>{t('about')}: {currentUser?.about}</p>
 
         <div className='flex flex-col items-start p-2 gap-3'>
           <div className='flex flex-row items-end'>
@@ -154,15 +156,15 @@ export default function Profile() {
 
         <div className='flex flex-row items-center gap-4 mt-5'>
           <button onClick={changeOpenModal} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-            Change My Data
+            {t('change_my_data')}
           </button>
 
           <button onClick={handleSignOut} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-            Sign Out
+            {t('Sign_out')}
           </button>
 
           <button onClick={handleDelele} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-            Delete Account
+            {t('Delete_account')}
           </button>
         </div>
 

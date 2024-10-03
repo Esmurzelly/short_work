@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { MdLocationOn } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 export default function JobCard({ jobItem }) {
+    const { t } = useTranslation();
 
     return (
         <div className='shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] text-black bg-white dark:text-white dark:bg-slate-800'>
@@ -32,7 +34,7 @@ export default function JobCard({ jobItem }) {
                         {jobItem.description}
                     </p>
                     <p className='text-sm  line-clamp-2'>
-                        salary: {jobItem.salary}
+                        {t("salary")}: {jobItem.salary}
                     </p>
                 </div>
             </Link>
