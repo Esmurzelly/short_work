@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
 import { findUserByUserRefJob } from '../store/user/authSlice';
 import Contact from '../components/Contact';
-import { Triangle } from 'react-loader-spinner'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';

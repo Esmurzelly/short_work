@@ -9,25 +9,25 @@ export default function SideBar() {
     const { t } = useTranslation();
 
     return (
-        <div className='flex sticky bottom-0 bg-zinc-900 text-white'>
+        <div className='flex sticky bottom-0 text-white bg-beige py-3 px-4'>
             <nav className='w-full flex flex-row items-center justify-between'>
-                <Link className='flex flex-row items-center gap-1' to={'/'}>
-                    <span className='text-lg'>{t('main')}</span>
-                    <IoHomeOutline className='w-7' />
+                <Link className='flex flex-col items-center gap-1' to={'/'}>
+                    <IoHomeOutline className='w-7 h-7 rounded-full p-2 bg-red-light' />
+                    <span className='text-xs'>{t('main')}</span>
                 </Link>
 
-                <Link className='flex flex-row items-center gap-1' to={'/users'}>
-                    <span className='text-lg'>{t('userList')}</span>
-                    <CiUser className='w-7' />
+                <Link className='flex flex-col items-center gap-1' to={'/users'}>
+                    <CiUser className='w-7 h-7 rounded-full p-2 bg-blue-900' />
+                    <span className='text-xs'>{t('userList')}</span>
                 </Link>
 
-                <Link className='flex flex-row items-center gap-1' to={'/create-job'}>
-                    <span className='text-lg'>{t('createJob')}</span>
-                    <CiCirclePlus className='w-7' />
+                <Link className='flex flex-col items-center gap-1' to={'/create-job'}>
+                    <CiCirclePlus className='w-7 h-7 rounded-full p-2 bg-grey-medium' />
+                    <span className='text-xs'>{t('createJob')}</span>
                 </Link>
-                <Link className='flex flex-row items-center gap-1' to={'/profile'}>
-                    <span className='text-lg'>{t('profile')}</span>
-                    <CgProfile className='w-7' />
+                <Link className='flex flex-col items-center gap-1' to={'/profile'}>
+                    <CgProfile className='w-7 h-7 rounded-full p-2 bg-yellow-950' />
+                    <span className='text-xs'>{t('profile')}</span>
                 </Link>
             </nav>
         </div>

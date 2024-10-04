@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJobs, jobCreate } from '../store/user/jobSlice';
 import { useNavigate } from 'react-router-dom';
-import { Triangle } from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
 

@@ -2,6 +2,9 @@ import React from 'react'
 import { getAllJobs } from '../store/user/jobSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { IoArrowUpOutline , IoArrowDownOutline } from "react-icons/io5";
+import { MdDeleteForever } from "react-icons/md";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 export default function ChangeFilterData({ page, limit, setFilterData, filterData }) {
     const dispatch = useDispatch();
@@ -35,39 +38,43 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
         });
 
         dispatch(getAllJobs({ page, limit }))
-    }
+    };
 
 
     return (
-        <form onSubmit={handleSubmit} className='w-full flex flex-col items-start'>
-            <div>
+        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-start mt-3'>
+            <div className='flex flex-row items-center justify-between w-4/5'>
                 <span>{t('Search')}: </span>
                 <input className='border' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
             </div>
 
-            <div className='flex flex-col items-start'>
-                <div className='flex flex-row items-center gap-1'>
-                    <span>{t('Min_Salary')}:</span>
-                    <input className='border' onChange={handleChange} value={filterData.minSalary || ""} type="number" name="minSalary" id="minSalary" />
-                </div>
-
-                <div className='flex flex-row items-center gap-1'>
-                    <span>{t('Max_Salary')}:</span>
-                    <input className='border' onChange={handleChange} value={filterData.maxSalary || ""} type="number" name="maxSalary" id="maxSalary" />
-                </div>
-
+            <div className='flex flex-row items-center justify-between w-4/5'>
+                <span>{t('Min_Salary')}:</span>
+                <input className='border' onChange={handleChange} value={filterData.minSalary || ""} type="number" name="minSalary" id="minSalary" />
             </div>
 
+            <div className='flex flex-row items-center justify-between w-4/5'>
+                <span>{t('Max_Salary')}:</span>
+                <input className='border' onChange={handleChange} value={filterData.maxSalary || ""} type="number" name="maxSalary" id="maxSalary" />
+            </div>
 
-            <div>
+            <div className='flex flex-row items-center justify-between w-4/5'>
                 <span>{t('order')}</span>
-                <button id='asc' onClick={handleClickButton}>{t('asc')}</button>
-                <button id='desc' onClick={handleClickButton}>{t('desc')}</button>
+                <div className='flex flex-row items-center gap-4'>
+                    <button className='flex items-center gap-1' id='asc' onClick={handleClickButton}><IoArrowUpOutline className='w-4' /> {t('asc')}</button>
+                    <button className='flex items-center gap-1' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
+                </div>
             </div>
 
-            <button onClick={handleClearButton} type='button'>{t('clear')}</button>
+            <button className='flex flex-row items-center justify-center gap-2 bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>
+                {t('clear')}
+                <MdDeleteForever className='w-4' />
+            </button>
 
-            <button type='submit'>{t('find')}</button>
+            <button className='flex flex-row items-center justify-center gap-2 bg-blue-600 text-white text-center w-24' type='submit'>
+                {t('find')}
+                <BiSearchAlt2 className='w-4' />
+            </button>
         </form>
     )
 }

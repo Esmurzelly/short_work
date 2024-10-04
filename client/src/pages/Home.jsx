@@ -5,9 +5,9 @@ import { getAllJobs } from '../store/user/jobSlice';
 import { useState } from 'react';
 import ChangeFilterData from '../components/ChangeFilterData';
 import { useTranslation } from 'react-i18next';
-import Loader from '../components/Loader';
 import PaginateComponent from '../components/PaginateComponent';
 import Skeleton from '../components/Skeleton';
+import { IoArrowUpOutline , IoArrowDownOutline } from "react-icons/io5";
 
 export default function Home() {
     const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });
@@ -34,21 +34,28 @@ export default function Home() {
     if (loading) return <Skeleton />
 
     return (
-        <div className='flex flex-col flex-1 text-center text-black bg-white dark:text-white dark:bg-black'>
-            {currentUser && (
-                <div className='flex flex-col items-start'>
-                    <h1>{t('name')}: {currentUser?.name}</h1>
-                    <h1>{t('role')}: {currentUser?.role}</h1>
-                </div>
-            )}
+        <div className='flex flex-col flex-1 text-center text-black bg-grey-light dark:text-white dark:bg-black px-3'>
+            <div className='mt-5 flex flex-row items-start justify-between'>
+                {currentUser && (
+                    <div className='flex flex-col items-start'>
+                        <h1>{t('name')}: {currentUser?.name}</h1>
+                        <h1>{t('role')}: {currentUser?.role}</h1>
+                    </div>
+                )}
 
-            <div className='flex flex-col items-end gap-2'>
-                <button onClick={() => setShowFilter(prevState => !prevState)}>{t('filter')}</button>
-                {showFilter && <ChangeFilterData filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
+                <div>
+                    <button className='flex flex-row items-center gap-1' onClick={() => setShowFilter(prevState => !prevState)}>
+                        {t('filter')}
+                        {showFilter ? <IoArrowUpOutline className='w-4' /> : <IoArrowDownOutline className='w-4' />}
+                    </button>
+                </div>
+                
             </div>
 
+            {showFilter && <ChangeFilterData filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
+
             <div className='flex flex-col gap-4 mt-4'>
-                <ul className='flex flex-row justify-around flex-wrap gap-4'>
+                <ul className='flex flex-row justify-between flex-wrap gap-3'>
                     {!loading && jobs && jobs.length > 0 ? (
                         jobs.map((item, index) => (
                             <JobCard key={`${item._id}-${index}`} jobItem={item} />

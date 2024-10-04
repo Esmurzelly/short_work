@@ -6,7 +6,6 @@ import { getAllUsers } from '../store/user/authSlice';
 import { Link } from 'react-router-dom';
 import ChangeFilterDataUsersList from '../components/ChangeFilterDataUsersList';
 import { useTranslation } from 'react-i18next';
-import Loader from '../components/Loader';
 import { unfacedAvatar } from '../utils/expvars';
 import PaginateComponent from '../components/PaginateComponent';
 import Skeleton from '../components/Skeleton';
