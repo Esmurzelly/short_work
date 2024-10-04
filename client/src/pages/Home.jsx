@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import JobCard from '../components/JobCard';
 import { getAllJobs } from '../store/user/jobSlice';
-import { Triangle } from 'react-loader-spinner';
 import { useState } from 'react';
-import ReactPaginate from 'react-paginate';
-import { TbSquareRoundedArrowLeftFilled, TbSquareRoundedArrowRightFilled } from "react-icons/tb";
 import ChangeFilterData from '../components/ChangeFilterData';
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
+import PaginateComponent from '../components/PaginateComponent';
+import Skeleton from '../components/Skeleton';
 
 export default function Home() {
     const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });
@@ -31,19 +31,7 @@ export default function Home() {
         setPage(e.selected);
     };
 
-    if (loading) {
-        return <div className='w-full min-h-screen flex items-center justify-center'>
-            <Triangle
-                visible={true}
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="triangle-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
-        </div>
-    }
+    if (loading) return <Skeleton />
 
     return (
         <div className='flex flex-col flex-1 text-center text-black bg-white dark:text-white dark:bg-black'>
@@ -70,28 +58,7 @@ export default function Home() {
                     )}
                 </ul>
 
-                <div className="flex flex-row justify-center items-center gap-5 list-none px-20 mb-8">
-                    <ReactPaginate
-                        className='flex flex-row items-center gap-3'
-                        pageClassName="mx-1"
-                        previousClassName="" // prev button class
-                        nextClassName="" // next button class
-                        breakLabel="..."
-                        containerClassName="flex"
-                        activeClassName="bg-blue-600 text-white border-transparent rounded-lg"
-                        previousLabel={<TbSquareRoundedArrowLeftFilled />}
-                        nextLabel={<TbSquareRoundedArrowRightFilled />}
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={2}
-                        pageCount={Math.ceil(total / limit)}
-                        renderOnZeroPageCount={null}
-                        forcePage={page}
-                        pageLinkClassName="rounded-lg px-4 py-1 cursor-pointer"
-                        previousLinkClassName="rounded-lg px-4 py-1 cursor-pointer"
-                        nextLinkClassName="rounded-lg px-4 py-1 cursor-pointer"
-                        breakLinkClassName="border-transparent"
-                    />
-                </div>
+                <PaginateComponent page={page} limit={limit} total={total} handlePageClick={handlePageClick} />
             </div>
         </div>
     )

@@ -9,6 +9,9 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
+
+import { skillOptions } from '../utils/expvars';
 
 export default function CreateJob() {
   const {
@@ -69,31 +72,8 @@ export default function CreateJob() {
     }
   }
 
-  const skillOptions = [
-    { value: 'ocean', label: 'Ocean', color: '#00B8D9' },
-    { value: 'purple', label: 'Purple', color: '#5243AA' },
-    { value: 'red', label: 'Red', color: '#FF5630' },
-    { value: 'orange', label: 'Orange', color: '#FF8B00' },
-    { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-    { value: 'green', label: 'Green', color: '#36B37E' },
-    { value: 'forest', label: 'Forest', color: '#00875A' },
-    { value: 'slate', label: 'Slate', color: '#253858' },
-    { value: 'silver', label: 'Silver', color: '#666666' },
-  ];
+  if (loading) return <Loader />
 
-  if (loading) {
-    return <div className='w-full min-h-screen flex items-center justify-center'>
-      <Triangle
-        visible={true}
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    </div>
-  }
 
   return (
     <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>

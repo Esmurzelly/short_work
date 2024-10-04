@@ -5,12 +5,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loginUser } from '../store/user/authSlice'
 import OAuth from '../components/OAuth';
 import { useEffect } from 'react';
-import { Triangle } from 'react-loader-spinner';
 import { useForm } from 'react-hook-form';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
 
 export default function Signin() {
   const {
@@ -36,17 +36,7 @@ export default function Signin() {
   }, [errors]);
 
   if (loading) {
-    return <div className='w-full min-h-screen flex items-center justify-center'>
-      <Triangle
-        visible={true}
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    </div>
+    return <Loader />
   }
 
   if (error) return <p>Error...</p>

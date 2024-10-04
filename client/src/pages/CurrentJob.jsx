@@ -12,6 +12,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css/bundle'
 import 'swiper/css';
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
 
 
 export default function CurrentJob() {
@@ -31,19 +32,7 @@ export default function CurrentJob() {
         dispatch(findUserByUserRefJob(params.id))
     }, [params.id]);
 
-    if (!job || loading || !jobOwner) {
-        return <div className='w-full min-h-screen flex items-center justify-center'>
-            <Triangle
-                visible={true}
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="triangle-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
-        </div>
-    }
+    if (!job || loading || !jobOwner) return <Loader />
 
     const handleDelete = () => {
         try {
@@ -64,16 +53,14 @@ export default function CurrentJob() {
                     <p>{t('description')}: {job.description}</p>
                     <p>{t('address')}: {job.address}</p>
                     <p>{t('salary')}: {job.salary}</p>
-                    {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `http://localhost:3000/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
+                    {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `${import.meta.env.VITE_HOST}/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
                     <p>{t('owner')}: {jobOwner?.name}</p>
                     <div className='flex flex-row items-center gap-2'>
                         <p>{t('skills')}: </p>
                         <ul>
-                            {job.neededSkils && job.neededSkils.map((item, index) => <li key={index}>{item}, </li>) }
+                            {job.neededSkils && job.neededSkils.map((item, index) => <li key={index}>{item}, </li>)}
                         </ul>
                     </div>
-
-
                 </div>
             )}
 
@@ -93,10 +80,12 @@ export default function CurrentJob() {
                 </div>
             )}
 
-            <button onClick={() => setContact(true)} className='bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-                {t('contact_with_owner')}
-            </button>
-            {contact && <Contact />}
+            <div className='flex flex-col items-start gap-2'>
+                <button onClick={() => setContact(prevState => !prevState)} className='bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                    {t('contact_with_owner')}
+                </button>
+                {contact && <Contact />}
+            </div>
 
             <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
 
@@ -108,7 +97,7 @@ export default function CurrentJob() {
                                 <div
                                     className='h-[550px] w-full'
                                     style={{
-                                        background: `url(http://localhost:3000/static/jobAvatar/${item}) center no-repeat`,
+                                        background: `url(${import.meta.env.VITE_HOST}/static/jobAvatar/${item}) center no-repeat`,
                                         backgroundSize: 'cover',
                                     }}
                                 ></div>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { useDispatch } from 'react-redux'
 import { registerUser } from '../store/user/authSlice';
+import { options } from '../utils/expvars';
 
 import { useForm } from 'react-hook-form';
 
@@ -12,19 +13,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
 
 export default function Signup() {
-  const [selectedOption, setSelectedOption] = useState();
-  const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
-
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
 
+  const [selectedOption, setSelectedOption] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
+  
 
   useEffect(() => {
     if (errors.name?.type === 'required' || errors.email?.type === 'required' || errors.password?.type === 'required' || errors.age?.type === 'required') toast.error("Name, Email, Password and Age fields are required");
@@ -39,7 +39,7 @@ export default function Signup() {
       dispatch(registerUser({
         ...data,
         "role": selectedOption
-      }))
+      }));
 
       navigate('/')
     } catch (error) {
@@ -50,11 +50,6 @@ export default function Signup() {
   const handleSelect = (selectedOptionItem) => {
     setSelectedOption(selectedOptionItem.value)
   };
-
-  const options = [
-    { value: 'employer', label: 'employer' },
-    { value: 'employee', label: 'employee' },
-  ];
 
   return (
     <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>

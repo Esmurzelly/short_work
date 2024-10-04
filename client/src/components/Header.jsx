@@ -8,6 +8,7 @@ import { FaRegMoon } from "react-icons/fa";
 import Logo from '../assets/hard-work.png';
 import ChangeLanguage from './ChangeLanguage';
 import { useTranslation } from 'react-i18next';
+import { unfacedAvatar } from '../utils/expvars';
 
 
 export default function Header() {
@@ -65,15 +66,15 @@ export default function Header() {
       {currentUser?.avatar ? (
         <Link to={'/profile'}>
           <img className='w-6 h-6 block' src={
-            currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
+            currentUser?.avatar === unfacedAvatar
               ? `${currentUser?.avatar}`
-              : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+              : currentUser?.avatar === null || undefined ? unfacedAvatar
+                : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
           } alt="avatar" />
         </Link>
       ) : (
         <Link to={'/profile'}>
-          <img className='w-6 h-6 block' src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'} />
+          <img className='w-6 h-6 block' src={unfacedAvatar} />
         </Link>
       )}
 

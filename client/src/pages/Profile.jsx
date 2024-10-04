@@ -8,6 +8,8 @@ import { Triangle } from 'react-loader-spinner';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
+import { unfacedAvatar } from '../utils/expvars';
 
 export default function Profile() {
   const { currentUser, loading } = useSelector(state => state.user);
@@ -46,17 +48,7 @@ export default function Profile() {
   }
 
   if (!currentUser || loading) {
-    return <div className='w-full min-h-screen flex items-center justify-center'>
-      <Triangle
-        visible={true}
-        height="80"
-        width="80"
-        color="#4fa94d"
-        ariaLabel="triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    </div>
+    return <Loader />
   }
 
   const handleSignOut = async () => {
@@ -136,10 +128,10 @@ export default function Profile() {
             ) : (
               <>
                 <img onClick={handleAvatarClick} className='w-40 cursor-pointer' src={
-                  currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s' ? `${currentUser?.avatar}`
-                    : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                      : !currentUser?.avatar ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                        : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
+                  currentUser?.avatar === unfacedAvatar ? `${currentUser?.avatar}`
+                    : currentUser?.avatar === null || undefined ? unfacedAvatar
+                      : !currentUser?.avatar ? unfacedAvatar
+                        : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
                 } alt="avatar" />
                 <button className='ml-8' onClick={() => dispatch(deleteAvatar())}>
                   <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
