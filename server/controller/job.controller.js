@@ -84,9 +84,6 @@ export const deleteJob = async (req, res, next) => {
         return next(err);
     }
 
-    console.log('req.user.id', req.user.id)
-    console.log('neededJob.userRef', String(neededJob.userRef))
-
     if (req.user.id !== String(neededJob.userRef)) {
         const err = new Error("You are not allowed to edit this user");
         err.statusCode = 403;

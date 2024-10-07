@@ -22,6 +22,14 @@ const userSchema = Schema({
         type: String,
         required: false,
     },
+    clickedJobs: {
+        type: Array,
+        required: false,
+    },
+    // gotClickedUsers: {
+    //     type: Array,
+    //     required: false,
+    // },
     age: {
         type: Number,
         required: false,

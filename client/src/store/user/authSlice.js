@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 const initialState = {
     allUsers: null,
+    clickedJobs: null,
     totalUsers: null,
     currentUser: null,
     neededUser: null,
@@ -276,7 +277,38 @@ export const updateUser = createAsyncThunk(
                 throw new Error('No data returned from server');
             }
 
-            console.log('tel from authSlice', tel);
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
+
+export const clickedJobsByUser = createAsyncThunk(
+    'auth/clickedJobsByUser',
+    async({id}) => {
+        try {
+            const response = await fetch(`/api/user/clickedJob/${id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id})
+            });
+
+            console.log('id from authSlice/clickedJobsByUser', id);
+
+            const data = await response.json();
+
+            if (data.success === false) {
+                console.log(data.message);
+                return;
+            }
+            if (!data) {
+                throw new Error('No data returned from server');
+            }
+
+            console.log('data from authSlice/clickedJobsByUser', data);
 
             return data;
         } catch (error) {
@@ -468,6 +500,20 @@ export const authSlice = createSlice({
                 state.error = null;
             }),
             builder.addCase(getUserById.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            }),
+
+
+            builder.addCase(clickedJobsByUser.pending, (state) => {
+                state.loading = true;
+            }),
+            builder.addCase(clickedJobsByUser.fulfilled, (state, action) => {
+                state.currentUser = action.payload.data;
+                state.loading = false;
+                state.error = null;
+            }),
+            builder.addCase(clickedJobsByUser.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

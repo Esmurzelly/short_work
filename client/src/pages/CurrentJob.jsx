@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
-import { findUserByUserRefJob } from '../store/user/authSlice';
+import { clickedJobsByUser, findUserByUserRefJob } from '../store/user/authSlice';
 import Contact from '../components/Contact';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -42,6 +42,14 @@ export default function CurrentJob() {
             console.log(error)
         }
     }
+
+    const handleSendData = () => {
+        try {
+            dispatch(clickedJobsByUser({ id: job._id }));
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     return (
         <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>
@@ -87,6 +95,10 @@ export default function CurrentJob() {
                 </button>
                 {contact && <Contact />}
             </div>
+
+            {currentUser._id !== jobOwner._id && <button onClick={handleSendData} className='mt-4 bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                Click for sending your data to the employer
+            </button>}
 
             <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
 

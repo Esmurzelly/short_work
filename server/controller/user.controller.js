@@ -20,8 +20,8 @@ export const getAllUsers = async (req, res, next) => {
             name: { $regex: searchTerm, $options: 'i' },
             role: "employee"
         })
-        .limit(limit)
-        .skip(startIndex)
+            .limit(limit)
+            .skip(startIndex)
 
         if (!users) {
             const err = new Error("No users");
@@ -171,6 +171,32 @@ export const findUserByUserRef = async (req, res, next) => {
         }
 
         res.status(201).json({ message: "Owner is found", data: findedUser });
+    } catch (error) {
+        console.log(error)
+        return next(error);
+    }
+}
+
+export const clickedJobsByUser = async (req, res, next) => {
+    try {
+        const job = await Job.findById(req.params.id);
+
+        if (!job) {
+            return res.status(404).json({ success: false, message: "Job not found" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(req.user.id,
+            { $push: { clickedJobs: job._id } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            const err = new Error("Owner is not found");
+            err.statusCode = 500;
+            return next(err);
+        }
+
+        return res.status(201).json({ message: "Your response was succeded", data: updatedUser });
     } catch (error) {
         console.log(error)
         return next(error);
