@@ -21,11 +21,11 @@ export const jobCreate = createAsyncThunk(
             neededSkils.forEach(skill => {
                 formData.append('neededSkils', skill);
             });
-            
+
             formData.append('userRef', userRef);
 
-            if(imageUrls && imageUrls.length > 0) {
-                for(let i = 0; i < imageUrls.length; i++) {
+            if (imageUrls && imageUrls.length > 0) {
+                for (let i = 0; i < imageUrls.length; i++) {
                     formData.append('imageUrls', imageUrls[i]);
                 }
             }
@@ -83,6 +83,10 @@ export const getAllJobs = createAsyncThunk(
 export const getJobById = createAsyncThunk(
     'job/getJobById',
     async ({ id }) => {
+        if (!id) {
+            throw new Error('Job ID is missing');
+        }
+
         try {
             const response = await fetch(`/api/job/get/${id}`, {
                 method: "GET",

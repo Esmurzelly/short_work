@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOutUser, deleteUser, uploadAvatar, deleteAvatar } from '../store/user/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ChangeUserData from '../components/ChangeUserData';
 import { BsSun } from "react-icons/bs";
@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
 import { unfacedAvatar } from '../utils/expvars';
 import ChangeLanguage from '../components/ChangeLanguage';
+import { getJobById } from '../store/user/jobSlice';
 
 
 export default function Profile() {
@@ -22,6 +23,7 @@ export default function Profile() {
   const [modal, setModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [clickedJobs, setClickedJobs] = useState([]);
   const avatarRef = useRef(null);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -57,9 +59,25 @@ export default function Profile() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    const fetchJobData = async (jobIds) => {
+      try {
+        const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
+        const jobsData = await Promise.all(jobPromises);
+        setClickedJobs(jobsData);
+      } catch (error) {
+        console.error("Error loading jobs", error);
+      }
+    };
 
+    if (currentUser?.clickedJobs?.length > 0) {
+      fetchJobData(currentUser.clickedJobs);
+    };
+
+  }, [currentUser]);
 
   console.log('cur user', currentUser);
+  console.log('users clickedJobs', clickedJobs);
 
   const handleAvatarClick = () => {
     avatarRef.current.click();
@@ -177,7 +195,6 @@ export default function Profile() {
         <div className='flex flex-col mt-3 break-all'>
           <p>{t('about')}:</p>
           {currentUser?.about ? <p className='bg-beige-medium rounded-md py-1 px-2'>{currentUser?.about}</p> : <p className='ml-1'>Nothing</p>}
-
         </div>
 
         {/* {loading && currentUser && currentUser.jobs && currentUser.jobs.length > 0 && (
@@ -199,6 +216,20 @@ export default function Profile() {
             {t('Delete_account')}
           </button>
         </div>
+
+        {clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
+          <h3>Last clicked jobs</h3>
+          {clickedJobs.slice(-3).reverse().map((item, index) =>
+            <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
+              <div className=''>
+                <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
+              </div>
+              <div className=''>
+                <p>{item.data.title}</p>
+                <p>{item.data.salary}</p>
+              </div>
+            </Link>)}
+        </div>}
 
         {modal && (
           <div className='fixed inset-0 flex items-center justify-center z-50'>

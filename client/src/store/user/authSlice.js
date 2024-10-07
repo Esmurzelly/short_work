@@ -293,7 +293,7 @@ export const clickedJobsByUser = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({id})
+                body: JSON.stringify({ id })
             });
 
             console.log('id from authSlice/clickedJobsByUser', id);

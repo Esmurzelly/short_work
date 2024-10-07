@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import Job from '../model/job.model.js';
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
+import mongoose from 'mongoose';
 
 export const getAllUsers = async (req, res, next) => {
     try {
@@ -179,6 +180,12 @@ export const findUserByUserRef = async (req, res, next) => {
 
 export const clickedJobsByUser = async (req, res, next) => {
     try {
+        const jobId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(jobId)) {
+            return res.status(400).json({ success: false, message: "Invalid job ID" });
+        }
+
+
         const job = await Job.findById(req.params.id);
 
         if (!job) {
