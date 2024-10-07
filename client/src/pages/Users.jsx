@@ -35,7 +35,7 @@ export default function Users() {
 
   return (
     <div className='flex flex-col flex-1 text-center w-full text-black bg-white dark:text-white dark:bg-black p-4'>
-      <span>{t('total_users')}: {allUsers.length}</span>
+      <span>{t('total_users')}: {allUsers?.length}</span>
 
       <div className='flex flex-col items-end gap-2'>
         <button onClick={() => setShowFilter(prevState => !prevState)}>{t('filter')}</button>
@@ -43,7 +43,7 @@ export default function Users() {
       </div>
 
       <ul className='flex flex-row flex-wrap gap-10 items-end w-full mt-4'>
-        {allUsers.map((item) => (
+        {allUsers?.map((item) => (
           <li key={item._id} className='flex flex-col border w-full h-32 md:h-52 md:w-52'> 
             <Link to={`/user/${item._id}`} className='h-full'>
               <div className='gap-2 flex flex-row md:flex-col items-end md:items-start md:justify-between text-start h-full'>

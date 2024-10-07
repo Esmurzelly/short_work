@@ -27,6 +27,7 @@ export default function CurrentUser() {
       <p>{t('name')}: {neededUser.name}</p>
       <p>{t('role')}: {neededUser.role}</p>
       <p>email: {neededUser.email}</p>
+      <p>Number: <a href={`tel:${neededUser?.tel}`}>{neededUser?.tel}</a></p>
 
       <img className='w-40 cursor-pointer' src={
         neededUser?.avatar === null ? unfacedAvatar

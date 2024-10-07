@@ -257,14 +257,14 @@ export const findUserByUserRefJob = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
-    async ({ id, name, email, password, avatar, role, about }) => {
+    async ({ id, name, email, password, avatar, role, about, tel }) => {
         try {
             const response = await fetch(`/api/user/edit/${id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password, avatar, role, about })
+                body: JSON.stringify({ name, email, password, avatar, role, about, tel })
             });
             const data = await response.json();
 
@@ -275,6 +275,8 @@ export const updateUser = createAsyncThunk(
             if (!data) {
                 throw new Error('No data returned from server');
             }
+
+            console.log('tel from authSlice', tel);
 
             return data;
         } catch (error) {

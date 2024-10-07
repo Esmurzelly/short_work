@@ -163,6 +163,7 @@ export default function Profile() {
       <div className='mt-2 rounded-md dark:bg-slate-800 dark:border-none'>
         <p>{t('role')}: {currentUser.role}</p>
         <p>Email: {currentUser.email}</p>
+        <p>Number: <a href={`tel:${currentUser.tel}`}>{currentUser.tel}</a></p>
 
         <div className='flex flex-row items-center gap-32 mt-4'>
           <button className='flex flex-row items-center gap-2 bg-red-light p-2 rounded-xl' onClick={handleSwitchTeme}>

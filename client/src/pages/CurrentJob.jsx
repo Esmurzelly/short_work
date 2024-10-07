@@ -54,9 +54,11 @@ export default function CurrentJob() {
                     <p>{t('salary')}: {job.salary}</p>
                     {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `${import.meta.env.VITE_HOST}/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
                     <p>{t('owner')}: {jobOwner?.name}</p>
+                    <p>Number: <a href={`tel:${jobOwner?.tel}`}>{jobOwner?.tel}</a></p>
+
                     <div className='flex flex-row items-center gap-2'>
                         <p>{t('skills')}: </p>
-                        <ul>
+                        <ul className='flex flex-row items-center gap-1'>
                             {job.neededSkils && job.neededSkils.map((item, index) => <li key={index}>{item}, </li>)}
                         </ul>
                     </div>

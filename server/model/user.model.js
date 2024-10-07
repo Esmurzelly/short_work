@@ -18,6 +18,10 @@ const userSchema = Schema({
         type: String,
         required: true,
     },
+    tel: {
+        type: String,
+        required: false,
+    },
     age: {
         type: Number,
         required: false,

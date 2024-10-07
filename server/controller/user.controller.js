@@ -63,12 +63,11 @@ export const editUser = async (req, res, next) => {
     }
 
     try {
-        const { name, email, password, avatar, role, about } = req.body;
+        const { name, email, password, avatar, role, about, tel } = req.body;
 
         if (req.body.password) {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
         };
-
 
         const updatedUser = await User.findByIdAndUpdate(req.params.id, {
             $set: {
@@ -78,6 +77,7 @@ export const editUser = async (req, res, next) => {
                 password,
                 avatar,
                 role,
+                tel,
             }
         }, { new: true });
 

@@ -20,6 +20,8 @@ export default function ChangeUserData({ setModal }) {
         });
     };
 
+    console.log('formData', formData);
+
     const handleSelect = (selectedOption) => {
         setFormData({
             ...formData,
@@ -77,6 +79,11 @@ export default function ChangeUserData({ setModal }) {
                 <div className='flex flex-row items-center gap-2'>
                     <textarea className='px-1 w-full bg-white dark:bg-slate-700 resize-none dark:text-black' onChange={handleChange} placeholder='about yourself' name="about" id="about"></textarea>
                     <label className='text-black dark:text-white' htmlFor="about">{t('about')}</label>
+                </div>
+
+                <div className='flex flex-row items-center gap-2'>
+                    <input placeholder='Enter new number' className='px-1 w-full bg-white dark:bg-slate-700' onChange={handleChange} type="tel" name="tel" id="tel" />
+                    <label htmlFor="tel">Number</label>
                 </div>
 
                 <button type='submit'>{t('update')}</button>

@@ -9,7 +9,7 @@ export default function SideBar() {
     const { t } = useTranslation();
 
     return (
-        <div className='flex sticky bottom-0 text-white bg-beige py-3 px-4'>
+        <div className='flex sticky bottom-0 text-white bg-beige py-3 px-4 z-50'>
             <nav className='w-full flex flex-row items-center justify-between'>
                 <Link className='flex flex-col items-center gap-1' to={'/'}>
                     <IoHomeOutline className='w-7 h-7 rounded-full p-2 bg-red-light' />
