@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJobs, jobCreate } from '../store/user/jobSlice';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
+import { FcPicture } from "react-icons/fc";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +23,8 @@ export default function CreateJob() {
 
   const [selectedFile, setSelectedFile] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
+
+  const pictureUploadRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +57,10 @@ export default function CreateJob() {
     setSelectedSkills(newSelectedSkills);
   };
 
+  const handlePictureClick = () => {
+    pictureUploadRef.current.click();
+  }
+
   const handleSubmitForm = (data) => {
     console.log('formData from client', data);
 
@@ -75,36 +82,47 @@ export default function CreateJob() {
 
 
   return (
-    <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
+    <div className='flex flex-col flex-1 text-black bg-grey-light dark:text-white dark:bg-black px-3'>
       <h1>{t('create_job')}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="title" id="title" />
+          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 text-white' type="text" name="title" id="title" />
           <label htmlFor="title">{t('title')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700' type="text" name="description" id="description" />
+          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700 text-white' type="text" name="description" id="description" />
           <label htmlFor="description">{t('description')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700' type="text" name="address" id="address" />
+          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 text-white' type="text" name="address" id="address" />
           <label htmlFor="address">{t('address')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700' type="text" name="salary" id="salary" />
+          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 text-white' type="text" name="salary" id="salary" />
           <label htmlFor="salary">{t('salary')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input className='bg-slate-700' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
+          <FcPicture className='w-10 h-10' onClick={handlePictureClick} />
+
+          <input ref={pictureUploadRef} className='bg-slate-700 w-1/4 hidden' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
           <label htmlFor="imageUrls">{t('choose_image/images')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
           <Select
+            styles={{
+              option: (baseStyles) => ({
+                ...baseStyles,
+                color: `${document.documentElement.className === 'dark' ? "white" : "#334155"}`,
+                backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
+              }),
+              menu: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
+              control: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
+            }}
             {...register("neededSkils", { required: false })}
             onChange={handleSkillsChange}
             options={skillOptions}
@@ -116,7 +134,7 @@ export default function CreateJob() {
           <label htmlFor="neededSkils">{t('neededSkils_requirements')}</label>
         </div>
 
-        <button type='submit'>{t('Create')}</button>
+        <button className='bg-blue-600 text-white text-center w-24' type='submit'>{t('Create')}</button>
       </form>
     </div>
   )

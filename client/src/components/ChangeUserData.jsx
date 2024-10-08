@@ -70,8 +70,8 @@ export default function ChangeUserData({ setModal }) {
                             color: `${document.documentElement.className === 'dark' ? "white" : "#334155"}`,
                             backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
                         }),
-                        menu: styles => ({ ...styles, backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
-                        control: styles => ({ ...styles, backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
+                        menu: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
+                        control: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
                     }} className='w-full dark:bg-slate-700' onChange={(e) => handleSelect(e)} options={options} />
                     <label className='text-black dark:text-white' htmlFor="role">{t('role')}</label>
                 </div>

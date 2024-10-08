@@ -24,7 +24,7 @@ export default function Header() {
 
       {currentUser?.avatar ? (
         <Link to={'/profile'}>
-          <img className='w-6 h-6 block' src={
+          <img className='w-6 h-6 object-cover block' src={
             currentUser?.avatar === unfacedAvatar
               ? `${currentUser?.avatar}`
               : currentUser?.avatar === null || undefined ? unfacedAvatar

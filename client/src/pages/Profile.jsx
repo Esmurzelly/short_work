@@ -140,14 +140,13 @@ export default function Profile() {
       <div className='flex flex-col items-start p-2 gap-3'>
         <div className='flex flex-row items-end'>
           {imagePreview !== null ? (
-            <div className='flex flex-row items-center gap-6'>
+            <div className='flex flex-row items-center'>
               <img onClick={handleAvatarClick} className='w-20 rounded-full cursor-pointer' src={
-                currentUser?.avatar === 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                  ? `${currentUser?.avatar}`
-                  : currentUser?.avatar === null || undefined ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s'
-                    : `http://localhost:3000/static/userAvatar/${currentUser?.avatar}`
-              } alt="avatar" />
-              <FaArrowRightArrowLeft className='w-5 h-5' />
+                  currentUser?.avatar === null ? unfacedAvatar
+                    : (currentUser?.avatar.includes('https://lh3.googleusercontent.com') || currentUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${currentUser?.avatar}`
+                      : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
+                } alt="avatar" />
+              <FaArrowRightArrowLeft className='w-5 h-5 mx-2' />
               {imagePreview != null && <img className='w-20 rounded-full cursor-pointer' src={imagePreview} alt="imagePreview" />}
 
               <button className='ml-8' onClick={handleUploadAvatar}>
