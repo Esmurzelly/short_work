@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import Select from 'react-select';
@@ -7,7 +7,7 @@ import { updateUser } from '../store/user/authSlice';
 import { useTranslation } from 'react-i18next';
 import { options } from '../utils/expvars';
 
-export default function ChangeUserData({ setModal }) {
+const ChangeUserData = memo(({ setModal }) => {
     const { currentUser } = useSelector(state => state.user);
     const [formData, setFormData] = useState([]);
     const dispatch = useDispatch();
@@ -91,4 +91,6 @@ export default function ChangeUserData({ setModal }) {
             <IoMdClose onClick={() => setModal(false)} className='w-5 h-5 cursor-pointer' />
         </div>
     )
-}
+});
+
+export default ChangeUserData;

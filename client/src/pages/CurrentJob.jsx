@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -33,7 +33,7 @@ export default function CurrentJob() {
 
     if (!job || loading || !jobOwner) return <Loader />
 
-    const handleDelete = () => {
+    const handleDelete = useCallback(() => {
         try {
             dispatch(deletejob({ id: job._id }));
             dispatch(getAllJobs());
@@ -41,15 +41,15 @@ export default function CurrentJob() {
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [dispatch, navigate, job]);
 
-    const handleSendData = () => {
+    const handleSendData = useCallback(() => {
         try {
             dispatch(clickedJobsByUser({ id: job._id }));
         } catch (error) {
             console.log(error)
         }
-    };
+    }, [dispatch, job]);
 
     return (
         <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>

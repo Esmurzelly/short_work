@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import JobCard from '../components/JobCard';
 import { getAllJobs } from '../store/user/jobSlice';
-import { useState } from 'react';
 import ChangeFilterData from '../components/ChangeFilterData';
 import { useTranslation } from 'react-i18next';
 import PaginateComponent from '../components/PaginateComponent';
@@ -22,14 +21,13 @@ export default function Home() {
     const [showFilter, setShowFilter] = useState(false);
     const { t } = useTranslation();
 
-
     useEffect(() => {
         dispatch(getAllJobs({ page, limit, searchTerm: filterData.searchTerm, order: filterData.order }));
     }, [dispatch, page, limit]);
 
-    const handlePageClick = e => {
+    const handlePageClick = useCallback((e) => {
         setPage(e.selected);
-    };
+    }, []);
 
     if (loading) return <Skeleton />
 

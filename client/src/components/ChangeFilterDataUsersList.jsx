@@ -1,31 +1,31 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import { getAllUsers } from '../store/user/authSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-export default function ChangeFilterDataUsersList({ page, limit, setFilterData, filterData }) {
+const ChangeFilterDataUsersList = memo(({ page, limit, setFilterData, filterData }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const handleChange = e => {
+    const handleChange = useCallback((e) => {
         setFilterData({
             ...filterData,
             [e.target.id]: e.target.value
         })
-    };
+    }, [setFilterData, filterData]);
 
-    const handleSubmit = e => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
         dispatch(getAllUsers({ page, limit, searchTerm: filterData.searchTerm }))
-    };
+    }, [dispatch, page, limit, filterData]);
 
-    const handleClearButton = () => {
+    const handleClearButton = useCallback(() => {
         setFilterData({
             searchTerm: "",
         });
 
         dispatch(getAllUsers({ page, limit }))
-    }
+    }, [dispatch, page, limit]);
 
     return (
         <form onSubmit={handleSubmit} className='w-full flex flex-col items-start gap-2 mt-3'>
@@ -39,4 +39,6 @@ export default function ChangeFilterDataUsersList({ page, limit, setFilterData, 
             <button className='flex flex-row items-center justify-center gap-2 bg-blue-600 text-white text-center w-24' type='submit'>{t("find")}</button>
         </form>
     )
-}
+});
+
+export default ChangeFilterDataUsersList;

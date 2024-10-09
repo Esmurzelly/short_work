@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react';
@@ -28,9 +28,9 @@ export default function Users() {
     dispatch(getAllUsers({ page, limit, searchTerm: filterData.searchTerm }));
   }, [dispatch, page, limit]);
 
-  const handlePageClick = e => {
+  const handlePageClick = useCallback((e) => {
     setPage(e.selected);
-  };
+  }, []);
 
   if (loading) return <Skeleton />
 

@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoMdClose } from "react-icons/io";
 import { updatejob } from '../store/user/jobSlice';
 import { useTranslation } from 'react-i18next';
 
-export default function ChangeJobData({ setModal }) {
+const ChangeJobData = memo(({ setModal }) => {
     const [formData, setFormData] = useState([]);
-    const { job, loading } = useSelector(state => state.job);
+    const { job } = useSelector(state => state.job);
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const handleChange = e => {
+    const handleChange = useCallback((e) => {
         setFormData({
           ...formData,
           [e.target.id]: e.target.value
         });
-      };
+      }, []);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -60,4 +60,6 @@ export default function ChangeJobData({ setModal }) {
             <IoMdClose onClick={() => setModal(false)} className='w-3 h-3' />
         </div>
     )
-}
+});
+
+export default ChangeJobData;

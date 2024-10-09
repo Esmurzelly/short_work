@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJobs, jobCreate } from '../store/user/jobSlice';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,16 @@ export default function CreateJob() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const selectStyles = useMemo(() => ({
+    option: (baseStyles) => ({
+      ...baseStyles,
+      color: `${document.documentElement.className === 'dark' ? "white" : "#334155"}`,
+      backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
+    }),
+    menu: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
+    control: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
+  }), []);
+
   useEffect(() => {
     if (errors.title?.type === "required" || errors.description?.type === "required" || errors.address?.type === "required" || errors.salary?.type === "required") {
       toast.error("Title, description, address and salary fields are required");
@@ -48,20 +58,20 @@ export default function CreateJob() {
     }
   }, [errors]);
 
-  const handleFileChange = e => {
+  const handleFileChange = useCallback((e) => {
     setSelectedFile(e.target.files);
-  };
+  }, []);
 
-  const handleSkillsChange = arr => {
+  const handleSkillsChange = useCallback((arr) => {
     const newSelectedSkills = arr.map(item => item.label);
     setSelectedSkills(newSelectedSkills);
-  };
+  }, []);
 
-  const handlePictureClick = () => {
+  const handlePictureClick = useCallback(() => {
     pictureUploadRef.current.click();
-  }
+  }, [])
 
-  const handleSubmitForm = (data) => {
+  const handleSubmitForm = useCallback((data) => {
     console.log('formData from client', data);
 
     try {
@@ -76,10 +86,9 @@ export default function CreateJob() {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [dispatch, navigate, currentUser, selectedFile, selectedSkills]);
 
   if (loading) return <Loader />
-
 
   return (
     <div className='flex flex-col flex-1 text-black bg-grey-light dark:text-white dark:bg-black px-3'>
@@ -114,15 +123,7 @@ export default function CreateJob() {
 
         <div className='flex flex-row items-center gap-2'>
           <Select
-            styles={{
-              option: (baseStyles) => ({
-                ...baseStyles,
-                color: `${document.documentElement.className === 'dark' ? "white" : "#334155"}`,
-                backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
-              }),
-              menu: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
-              control: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
-            }}
+            styles={selectStyles}
             {...register("neededSkils", { required: false })}
             onChange={handleSkillsChange}
             options={skillOptions}

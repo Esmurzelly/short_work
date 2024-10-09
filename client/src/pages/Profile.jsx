@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { signOutUser, deleteUser, uploadAvatar, deleteAvatar } from '../store/user/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ import { getJobById } from '../store/user/jobSlice';
 
 
 export default function Profile() {
-  const { currentUser, loading } = useSelector(state => state.user);
+  const { currentUser, loading } = useSelector(state => state.user, shallowEqual);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "light"
   });
@@ -33,15 +33,16 @@ export default function Profile() {
 
   useEffect(() => {
     const handleEvent = (event) => {
-      if (modalRef.current && (event.type === 'mousedown' && !modalRef.current.contains(event.target)) || event.type === 'keydown' && event.keyCode === 27) setModal(false);
+      if (modalRef.current &&
+        (event.type === 'mousedown' && !modalRef.current.contains(event.target)) ||
+        (event.type === 'keydown' && event.keyCode === 27)) {
+        setModal(false);
+      }
     };
 
     if (modal) {
       document.addEventListener('mousedown', handleEvent);
       document.addEventListener('keydown', handleEvent);
-    } else {
-      document.removeEventListener('mousedown', handleEvent);
-      document.removeEventListener('keydown', handleEvent);
     }
 
     return () => {
@@ -80,37 +81,16 @@ export default function Profile() {
   console.log('cur user', currentUser);
   console.log('users clickedJobs', clickedJobs);
 
-  const handleAvatarClick = () => {
-    avatarRef.current.click();
-  }
-
-  if (!currentUser || loading) {
-    return <Loader />
-  }
-
-  const handleSignOut = async () => {
-    try {
-      dispatch(signOutUser());
-      navigate('/sign-in')
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
-  const changeOpenModal = () => {
-    setModal(prev => !prev);
-  };
-
-  const handleDelele = () => {
+  const handleDelele = useCallback(() => {
     try {
       dispatch(deleteUser({ id: currentUser._id }));
       navigate('/sign-in')
     } catch (error) {
       console.log(error)
     }
-  };
+  }, [dispatch, navigate, currentUser]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = useCallback((e) => {
     setSelectedFile(e.target.files[0]);
     const reader = new FileReader();
 
@@ -122,17 +102,37 @@ export default function Profile() {
         setImagePreview(readerEvent.target.result);
       }
     }
-  };
+  }, []);
 
-
-  const handleUploadAvatar = () => {
+  const handleUploadAvatar = useCallback(() => {
     dispatch(uploadAvatar(selectedFile));
     setImagePreview(null);
     setSelectedFile(null);
+  }, [dispatch, selectedFile, imagePreview]);
+
+  const handleSwitchTeme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme]);
+
+  const changeOpenModal = () => {
+    setModal(prev => !prev);
   };
 
-  const handleSwitchTeme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUser());
+      navigate('/sign-in')
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const handleAvatarClick = () => {
+    avatarRef.current.click();
+  }
+
+  if (!currentUser || loading) {
+    return <Loader />
   }
 
   return (

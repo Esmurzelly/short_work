@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import { getAllJobs } from '../store/user/jobSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -6,30 +6,30 @@ import { IoArrowUpOutline , IoArrowDownOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
 
-export default function ChangeFilterData({ page, limit, setFilterData, filterData }) {
+const ChangeFilterData = memo(({ page, limit, setFilterData, filterData }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const handleChange = e => {
+    const handleChange = useCallback((e) => {
         setFilterData({
             ...filterData,
             [e.target.id]: e.target.value
         })
-    }
+    }, [setFilterData])
 
-    const handleClickButton = e => {
+    const handleClickButton = useCallback((e) => {
         setFilterData({
             ...filterData,
             order: e.target.id,
         })
-    }
+    }, [setFilterData]);
 
-    const handleSubmit = e => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
         dispatch(getAllJobs({ page, limit, searchTerm: filterData.searchTerm, order: filterData.order, minSalary: filterData.minSalary, maxSalary: filterData.maxSalary }))
-    };
+    }, [dispatch, page, limit, filterData]);
 
-    const handleClearButton = () => {
+    const handleClearButton = useCallback(() => {
         setFilterData({
             searchTerm: "",
             minSalary: "",
@@ -38,8 +38,7 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
         });
 
         dispatch(getAllJobs({ page, limit }))
-    };
-
+    }, [dispatch, page, limit, setFilterData]);
 
     return (
         <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-start mt-3'>
@@ -77,4 +76,6 @@ export default function ChangeFilterData({ page, limit, setFilterData, filterDat
             </button>
         </form>
     )
-}
+});
+
+export default ChangeFilterData;
