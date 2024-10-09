@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import { unfacedAvatar } from '../utils/expvars';
 
 export default function CurrentUser() {
-  const { neededUser, loading } = useSelector(state => state.user);
+  const { neededUser, loading, error } = useSelector(state => state.user);
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ export default function CurrentUser() {
 
   }, [id]);
 
-  if (!neededUser || loading) return <Loader />
+  if ( loading) return <Loader />
+  if (!neededUser || error) return <p>asd</p>
 
   return (
     <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>

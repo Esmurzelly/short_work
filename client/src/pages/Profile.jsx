@@ -24,6 +24,7 @@ export default function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [clickedJobs, setClickedJobs] = useState([]);
+  const [showMoreClickedJobs, setShowMoreClickedJobs] = useState(-3);
   const avatarRef = useRef(null);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -136,16 +137,15 @@ export default function Profile() {
 
   return (
     <div className='px-3 flex flex-col flex-1 text-black bg-beige-light dark:text-white dark:bg-black'>
-      {/* <h1>{t('profile_data')}</h1> */}
       <div className='flex flex-col items-start p-2 gap-3'>
         <div className='flex flex-row items-end'>
           {imagePreview !== null ? (
             <div className='flex flex-row items-center'>
               <img onClick={handleAvatarClick} className='w-20 rounded-full cursor-pointer' src={
-                  currentUser?.avatar === null ? unfacedAvatar
-                    : (currentUser?.avatar.includes('https://lh3.googleusercontent.com') || currentUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${currentUser?.avatar}`
-                      : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
-                } alt="avatar" />
+                currentUser?.avatar === null ? unfacedAvatar
+                  : (currentUser?.avatar.includes('https://lh3.googleusercontent.com') || currentUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${currentUser?.avatar}`
+                    : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
+              } alt="avatar" />
               <FaArrowRightArrowLeft className='w-5 h-5 mx-2' />
               {imagePreview != null && <img className='w-20 rounded-full cursor-pointer' src={imagePreview} alt="imagePreview" />}
 
@@ -159,12 +159,12 @@ export default function Profile() {
             </div>
           ) : (
             <>
-              <img onClick={handleAvatarClick} className='w-40 h-40 rounded-full object-cover cursor-pointer' src={
-                currentUser?.avatar === unfacedAvatar ? `${currentUser?.avatar}`
-                  : currentUser?.avatar === null || undefined ? unfacedAvatar
-                    : !currentUser?.avatar ? unfacedAvatar
-                      : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
-              } alt="avatar" />
+              <img onClick={handleAvatarClick} className='w-40 h-40 rounded-full object-cover cursor-pointer'
+                src={(currentUser?.avatar === null || currentUser?.avatar === undefined || !currentUser?.avatar) ? unfacedAvatar
+                  : (currentUser?.avatar.includes('https://lh3.googleusercontent.com') || currentUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${currentUser?.avatar}`
+                    : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`}
+
+                alt="avatar" />
               <button className='-ml-4' onClick={() => dispatch(deleteAvatar())}>
                 <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
               </button>
@@ -217,10 +217,11 @@ export default function Profile() {
         </div>
 
         {clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
-          <h3>Last clicked jobs</h3>
-          {clickedJobs.slice(-3).reverse().map((item, index) =>
+          <h3>Last clicked jobs:</h3>
+          {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
             <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
-              <div className=''>
+              <div className='flex flex-row items-center gap-1'>
+                <p>{index + 1}.</p>
                 <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
               </div>
               <div className=''>
@@ -228,6 +229,11 @@ export default function Profile() {
                 <p>{item.data.salary}</p>
               </div>
             </Link>)}
+          {Math.abs(showMoreClickedJobs) >= clickedJobs.length ? (
+            <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
+          ) : (
+            <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
+          )}
         </div>}
 
         {modal && (
