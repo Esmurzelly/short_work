@@ -31,7 +31,6 @@ export default function CurrentJob() {
         dispatch(findUserByUserRefJob(params.id))
     }, [params.id]);
 
-    if (!job || loading || !jobOwner) return <Loader />
 
     const handleDelete = useCallback(() => {
         try {
@@ -50,6 +49,9 @@ export default function CurrentJob() {
             console.log(error)
         }
     }, [dispatch, job]);
+
+    if (!job || loading || !jobOwner) return <Loader />
+
 
     return (
         <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>

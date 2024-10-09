@@ -110,7 +110,7 @@ export default function CreateJob() {
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 text-white' type="text" name="salary" id="salary" />
+          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 text-white' type="number" name="salary" id="salary" />
           <label htmlFor="salary">{t('salary')}</label>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import Select from 'react-select';
@@ -13,23 +13,23 @@ const ChangeUserData = memo(({ setModal }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const handleChange = e => {
+    const handleChange = useCallback((e) => {
         setFormData({
             ...formData,
             [e.target.id]: e.target.value
         });
-    };
+    }, []);
 
     console.log('formData', formData);
 
-    const handleSelect = (selectedOption) => {
+    const handleSelect = useCallback((selectedOption) => {
         setFormData({
             ...formData,
             "role": selectedOption.value
         })
-    };
+    }, []);
 
-    const handleSubmit = e => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
 
         try {
@@ -43,7 +43,7 @@ const ChangeUserData = memo(({ setModal }) => {
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [dispatch, currentUser, formData]);
 
     return (
         <div className='max-w-5xl mx-auto flex flex-row justify-between p-3 rounded-md text-black bg-beige-medium dark:text-white dark:bg-black'>

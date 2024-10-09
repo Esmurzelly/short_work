@@ -6,15 +6,7 @@ import Loader from './Loader';
 
 
 export default function Header() {
-  const { currentUser, loading, error } = useSelector(state => state.user);
-
-  if (error) {
-    return <p>Error while loading!</p>;
-  }
-
-  if (loading) {
-    return <Loader />
-  }
+  const { currentUser } = useSelector(state => state.user);
 
   return (
     <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-beige'>

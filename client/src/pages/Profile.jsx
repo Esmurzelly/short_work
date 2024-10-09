@@ -129,11 +129,9 @@ export default function Profile() {
 
   const handleAvatarClick = () => {
     avatarRef.current.click();
-  }
+  };
 
-  if (!currentUser || loading) {
-    return <Loader />
-  }
+  if (!currentUser || loading) return <Loader />
 
   return (
     <div className='px-3 flex flex-col flex-1 text-black bg-beige-light dark:text-white dark:bg-black'>
