@@ -38,7 +38,10 @@ export const signin = async (req, res, next) => {
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
         res
-            .cookie("access_token", token, { httpOnly: true })
+            .cookie("access_token", token, { 
+                httpOnly: true,
+                maxAge: 25 * 60 * 60 * 1000
+            })
             .status(200)
             .json(validUser);
     } catch (error) {
@@ -54,7 +57,10 @@ export const google = async (req, res, next) => {
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
             res
-                .cookie('access_token', token, { httpOnly: true })
+                .cookie('access_token', token, { 
+                    httpOnly: true,
+                    maxAge: 25 * 60 * 60 * 1000
+                })
                 .status(200)
                 .json(user);
         } else {

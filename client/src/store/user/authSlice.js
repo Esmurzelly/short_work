@@ -168,10 +168,6 @@ export const signOutUser = createAsyncThunk(
 
             const data = await response.json();
 
-            // if (data.success === false) {
-            //     dispatch(signOutFailure(data.message));
-            //     return;
-            // }
             if (!data) {
                 throw new Error('No data returned from server');
             }
