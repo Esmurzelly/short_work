@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
-import { clickedJobsByUser, findUserByUserRefJob } from '../store/user/authSlice';
+import { clickedJobsByUser, findUserByUserRefJob, getAllUsers } from '../store/user/authSlice';
 import Contact from '../components/Contact';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,19 +16,23 @@ import Loader from '../components/Loader';
 
 export default function CurrentJob() {
     const { job, loading } = useSelector(state => state.job);
-    const { currentUser, jobOwner } = useSelector(state => state.user);
+    const { currentUser, jobOwner, allUsers } = useSelector(state => state.user);
     const [modal, setModal] = useState(false);
     const [contact, setContact] = useState(false);
+    const [clickedPeople, setClickedPeople] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
+    const filteredUsers = allUsers.filter(user => user.clickedJobs.includes(params.id));
     const { t } = useTranslation();
 
     console.log('cur job', job);
+    console.log('allUsers', allUsers);
 
     useEffect(() => {
         dispatch(getJobById(params));
         dispatch(findUserByUserRefJob(params.id))
+        dispatch(getAllUsers());
     }, [params.id]);
 
 
@@ -49,6 +53,7 @@ export default function CurrentJob() {
             console.log(error)
         }
     }, [dispatch, job]);
+
 
     if (!job || loading || !jobOwner) return <Loader />
 
@@ -91,12 +96,31 @@ export default function CurrentJob() {
                 </div>
             )}
 
-            <div className='flex flex-col items-start gap-2'>
+            {job.userRef !== currentUser._id && <div className='flex flex-col items-start gap-2'>
                 <button onClick={() => setContact(prevState => !prevState)} className='bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                     {t('contact_with_owner')}
                 </button>
                 {contact && <Contact />}
-            </div>
+            </div>}
+
+            {job.userRef == currentUser._id && <div className='flex flex-col gap-4'>
+                <button onClick={() => setClickedPeople(prevState => !prevState)} className='bg-purple-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                    Watch people who clicked
+                </button>
+                {clickedPeople && filteredUsers.map((user, index) => (
+                    <Link className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/user/${user._id}`} key={user._id}>
+                        <div className='flex flex-row items-center gap-1'>
+                            <p>{index + 1}.</p>
+                            <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/userAvatar/${user.avatar}`} alt="avatar" />
+                        </div>
+                        <div className=''>
+                            <p>{user.name}</p>
+                            <p>{user.email
+                            }</p>
+                        </div>
+                    </Link>
+                ))}
+            </div>}
 
             {currentUser._id !== jobOwner._id && <button onClick={handleSendData} className='mt-4 bg-slate-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                 Click for sending your data to the employer

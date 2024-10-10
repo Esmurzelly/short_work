@@ -16,12 +16,12 @@ export default function Header() {
 
       {currentUser?.avatar ? (
         <Link to={'/profile'}>
-          <img className='w-6 h-6 object-cover block' src={
-            currentUser?.avatar === unfacedAvatar
-              ? `${currentUser?.avatar}`
-              : currentUser?.avatar === null || undefined ? unfacedAvatar
-                : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`
-          } alt="avatar" />
+          <img className='w-6 h-6 object-cover block' 
+          src={(currentUser?.avatar === null || currentUser?.avatar === undefined || !currentUser?.avatar) ? unfacedAvatar
+            : (currentUser?.avatar.includes('https://lh3.googleusercontent.com') || currentUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${currentUser?.avatar}`
+              : `${import.meta.env.VITE_HOST}/static/userAvatar/${currentUser?.avatar}`}
+            
+          alt="avatar" />
         </Link>
       ) : (
         <Link to={'/profile'}>

@@ -14,12 +14,12 @@ export const getAllUsers = async (req, res, next) => {
 
         const totalUsers = await User.countDocuments({
             name: { $regex: searchTerm, $options: 'i' },
-            role: "employee"
+            // role: "employee"
         });
 
         const users = await User.find({
             name: { $regex: searchTerm, $options: 'i' },
-            role: "employee"
+            // role: "employee"
         })
             .limit(limit)
             .skip(startIndex)
