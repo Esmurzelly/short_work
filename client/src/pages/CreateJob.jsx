@@ -86,7 +86,7 @@ export default function CreateJob() {
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch, navigate, currentUser, selectedFile, selectedSkills]);
+  }, []);
 
   if (loading) return <Loader />
 

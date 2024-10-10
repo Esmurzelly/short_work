@@ -24,12 +24,37 @@ export default function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [clickedJobs, setClickedJobs] = useState([]);
+  const [yourOwnJobs, setYourOwnJobs] = useState([]);
   const [showMoreClickedJobs, setShowMoreClickedJobs] = useState(-3);
   const avatarRef = useRef(null);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const fetchJobClickedData = async (jobIds) => {
+    try {
+      const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
+      const jobsData = await Promise.all(jobPromises);
+      setClickedJobs(jobsData);
+    } catch (error) {
+      console.error("Error loading jobs", error);
+    }
+  };
+
+  const fetchJobCreatedData = async (jobIds) => {
+    try {
+      const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
+      console.log("jobPromises", jobPromises)
+      const jobsData = await Promise.all(jobPromises);
+      setYourOwnJobs(jobsData);
+    } catch (error) {
+      console.error("Error loading jobs", error);
+    }
+  };
+
+  console.log('yourOwnJobs', yourOwnJobs);
+
 
   useEffect(() => {
     const handleEvent = (event) => {
@@ -62,24 +87,11 @@ export default function Profile() {
   }, [theme]);
 
   useEffect(() => {
-    const fetchJobData = async (jobIds) => {
-      try {
-        const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
-        const jobsData = await Promise.all(jobPromises);
-        setClickedJobs(jobsData);
-      } catch (error) {
-        console.error("Error loading jobs", error);
-      }
-    };
-
-    if (currentUser?.clickedJobs?.length > 0) {
-      fetchJobData(currentUser.clickedJobs);
-    };
-
+    if (currentUser?.clickedJobs?.length > 0) fetchJobClickedData(currentUser.clickedJobs);
+    if (currentUser?.jobs?.length > 0) fetchJobCreatedData(currentUser.jobs);
   }, [currentUser]);
 
   console.log('cur user', currentUser);
-  console.log('users clickedJobs', clickedJobs);
 
   const handleDelele = useCallback(() => {
     try {
@@ -194,12 +206,6 @@ export default function Profile() {
           {currentUser?.about ? <p className='bg-beige-medium rounded-md py-1 px-2'>{currentUser?.about}</p> : <p className='ml-1'>Nothing</p>}
         </div>
 
-        {/* {loading && currentUser && currentUser.jobs && currentUser.jobs.length > 0 && (
-          jobs.map(item => <p>{item.name}</p>)
-        )} */}
-
-
-
         <div className='flex flex-row items-center gap-4 mt-5'>
           <button onClick={changeOpenModal} type='button' className='bg-red-light w-1/3 h-16 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
             {t('change_my_data')}
@@ -214,7 +220,7 @@ export default function Profile() {
           </button>
         </div>
 
-        {clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
+        {currentUser.role === 'employee' && clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
           <h3>Last clicked jobs:</h3>
           {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
             <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
@@ -233,6 +239,24 @@ export default function Profile() {
             <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
           )}
         </div>}
+
+
+        {currentUser.role === 'employer' && currentUser.jobs && currentUser.jobs.length > 0 && <div className='mt-7'>
+          Your created Jobs:
+          {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
+            <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item}`}>
+              <div className='flex flex-row items-center gap-1'>
+                <p>{index + 1}.</p>
+                <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
+              </div>
+              <div className=''>
+                <p>{item.data.title}</p>
+                <p>{item.data.salary}</p>
+              </div>
+            </Link>
+          )}
+        </div>}
+
 
         {modal && (
           <div className='fixed inset-0 flex items-center justify-center z-50'>

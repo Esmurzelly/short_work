@@ -147,7 +147,13 @@ export const deleteUser = async (req, res, next) => {
     }
 
     try {
+        const userToDelete = await User.findById(req.params.id);
+
+        if (!userToDelete) return res.status(404).json({ message: "User not found" });
+
+        await Job.deleteMany({ _id: {$in: userToDelete.jobs} });
         const deletedUser = await User.findByIdAndDelete(req.params.id);
+
         res.clearCookie();
         res.status(201).json({ message: `User ${deletedUser.name} was deleted successfully`, user: deletedUser });
     } catch (error) {
@@ -178,13 +184,27 @@ export const findUserByUserRef = async (req, res, next) => {
     }
 }
 
+// export const gotResponsesJobByUsers = async (req, res, next) => {
+//     console.log('req.user.id from gotResponsesJobByUsers', req.user.id);
+
+//     try {
+//         const currentUser = await User.findById(req.user.id).populate('jobs');
+
+//         if (!currentUser) return res.status(404).json({ success: false, message: "User is not found" });
+
+        
+//     } catch (error) {
+//         console.log(error)
+//         return next(error);
+//     }
+// }
+
 export const clickedJobsByUser = async (req, res, next) => {
     try {
         const jobId = req.params.id;
         if (!mongoose.Types.ObjectId.isValid(jobId)) {
             return res.status(400).json({ success: false, message: "Invalid job ID" });
         }
-
 
         const job = await Job.findById(req.params.id);
 

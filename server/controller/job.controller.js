@@ -145,6 +145,10 @@ export const getJobById = async (req, res, next) => {
     try {
         const currentJob = await Job.findById(req.params.id);
 
+        // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        //     return res.status(400).json({ success: false, message: "Invalid job ID" });
+        // }
+
         if (!currentJob) {
             const err = new Error("Wrong job's id");
             err.statusCode = 404;

@@ -26,10 +26,6 @@ const userSchema = Schema({
         type: Array,
         required: false,
     },
-    // gotClickedUsers: {
-    //     type: Array,
-    //     required: false,
-    // },
     age: {
         type: Number,
         required: false,
