@@ -12,6 +12,7 @@ import 'swiper/css/bundle'
 import 'swiper/css';
 import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
+import { defaultJobAvatar } from '../utils/expvars';
 
 
 export default function CurrentJob() {
@@ -27,7 +28,6 @@ export default function CurrentJob() {
     const { t } = useTranslation();
 
     console.log('cur job', job);
-    console.log('allUsers', allUsers);
 
     useEffect(() => {
         dispatch(getJobById(params));
@@ -49,6 +49,7 @@ export default function CurrentJob() {
     const handleSendData = useCallback(() => {
         try {
             dispatch(clickedJobsByUser({ id: job._id }));
+            navigate('/profile')
         } catch (error) {
             console.log(error)
         }
@@ -67,7 +68,7 @@ export default function CurrentJob() {
                     <p>{t('description')}: {job.description}</p>
                     <p>{t('address')}: {job.address}</p>
                     <p>{t('salary')}: {job.salary}</p>
-                    {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32' src={job.imageUrls.length > 0 ? `${import.meta.env.VITE_HOST}/static/jobAvatar/${job?.imageUrls[0]}` : `https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=2210&quality=70`} alt="imgUrl" /></p>}
+                    {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32 object-cover' src={job.imageUrls.length > 0 ? `${import.meta.env.VITE_HOST}/static/jobAvatar/${job?.imageUrls[0]}` : defaultJobAvatar} alt="imgUrl" /></p>}
                     <p>{t('owner')}: {jobOwner?.name}</p>
                     <p>Number: <a href={`tel:${jobOwner?.tel}`}>{jobOwner?.tel}</a></p>
 

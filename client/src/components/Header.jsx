@@ -9,7 +9,7 @@ export default function Header() {
   const { currentUser } = useSelector(state => state.user);
 
   return (
-    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-beige'>
+    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-beige z-50'>
       <Link to={'/'}>
         <img className='w-8' src={Logo} alt="hard-work" />
       </Link>

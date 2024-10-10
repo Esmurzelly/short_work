@@ -10,7 +10,7 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
-import { unfacedAvatar } from '../utils/expvars';
+import { defaultJobAvatar, unfacedAvatar } from '../utils/expvars';
 import ChangeLanguage from '../components/ChangeLanguage';
 import { getJobById } from '../store/user/jobSlice';
 
@@ -34,7 +34,8 @@ export default function Profile() {
 
   const fetchJobClickedData = async (jobIds) => {
     try {
-      const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
+      const uniqueJobIds = Array.from(new Set(jobIds))
+      const jobPromises = uniqueJobIds.map(id => dispatch(getJobById({ id })).unwrap());
       const jobsData = await Promise.all(jobPromises);
       setClickedJobs(jobsData);
     } catch (error) {
@@ -44,8 +45,9 @@ export default function Profile() {
 
   const fetchJobCreatedData = async (jobIds) => {
     try {
-      const jobPromises = jobIds.map(id => dispatch(getJobById({ id })).unwrap());
-      console.log("jobPromises", jobPromises)
+      const uniqueJobIds = Array.from(new Set(jobIds))
+
+      const jobPromises = uniqueJobIds.map(id => dispatch(getJobById({ id })).unwrap());
       const jobsData = await Promise.all(jobPromises);
       setYourOwnJobs(jobsData);
     } catch (error) {
@@ -54,6 +56,7 @@ export default function Profile() {
   };
 
   console.log('yourOwnJobs', yourOwnJobs);
+  console.log('clickedJobs', clickedJobs);
 
 
   useEffect(() => {
@@ -247,7 +250,10 @@ export default function Profile() {
             <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
               <div className='flex flex-row items-center gap-1'>
                 <p>{index + 1}.</p>
-                <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
+                <img className='w-14 h-8 object-cover'
+                  src={(item.data.imageUrls === null || item.data.imageUrls === undefined || !item.data.imageUrls || item.data.imageUrls.length === 0) ? defaultJobAvatar
+                      : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} 
+                  alt="imageUrl" />
               </div>
               <div className=''>
                 <p>{item.data.title}</p>
