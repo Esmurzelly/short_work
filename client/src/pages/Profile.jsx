@@ -121,7 +121,14 @@ export default function Profile() {
       if (currentUser?.clickedJobs?.length > 0) fetchJobClickedData(currentUser.clickedJobs);
       if (currentUser?.jobs?.length > 0) fetchJobCreatedData(currentUser.jobs);
       await dispatch(updateUser({
-        id: currentUser._id, name: currentUser.name, email: currentUser.email, password: currentUser.password, avatar: currentUser.avatar, role: currentUser.role, about: currentUser.about, tel: currentUser.tel
+        id: currentUser._id,
+        name: currentUser.name,
+        email: currentUser.email,
+        password: currentUser.password,
+        avatar: currentUser.avatar,
+        role: currentUser.role,
+        about: currentUser.about,
+        tel: currentUser.tel
       }))
     }
 
@@ -296,11 +303,11 @@ export default function Profile() {
             </Link>
           )}
 
-          {Math.abs(showMoreClickedJobs) >= yourOwnJobs.length ? (
-            <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
-          ) : (
-            <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
-          )}
+          {
+            Math.abs(showMoreClickedJobs) > yourOwnJobs.length ? <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button> :
+            Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
+          <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
+          }
         </div>}
 
 
