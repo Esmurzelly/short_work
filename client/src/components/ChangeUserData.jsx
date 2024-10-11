@@ -29,11 +29,11 @@ const ChangeUserData = memo(({ setModal }) => {
         })
     }, []);
 
-    const handleSubmit = useCallback((e) => {
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
 
         try {
-            dispatch(updateUser({
+            await dispatch(updateUser({
                 id: currentUser._id,
                 role: formData.role,
                 ...formData

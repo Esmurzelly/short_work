@@ -58,21 +58,27 @@ export default function CreateJob() {
     }
   }, [errors]);
 
-  const handleFileChange = useCallback((e) => {
+  const handleFileChange = e => {
     setSelectedFile(e.target.files);
-  }, []);
+  };
 
-  const handleSkillsChange = useCallback((arr) => {
+  const handleSkillsChange = arr => {
     const newSelectedSkills = arr.map(item => item.label);
     setSelectedSkills(newSelectedSkills);
-  }, []);
+  };
 
-  const handlePictureClick = useCallback(() => {
+  const handlePictureClick = () => {
     pictureUploadRef.current.click();
-  }, [])
+  };
 
-  const handleSubmitForm = useCallback((data) => {
+  const handleSubmitForm = data => {
     console.log('formData from client', data);
+
+    if (!data.title || !data.description || !data.address || !data.salary) {
+      console.log(data.title, data.description, data.address, data.salary)
+      toast.error("All required fields must be filled");
+      return;
+    }
 
     try {
       dispatch(jobCreate({
@@ -86,7 +92,7 @@ export default function CreateJob() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
 
   if (loading) return <Loader />
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { signOutUser, deleteUser, uploadAvatar, deleteAvatar } from '../store/user/authSlice';
+import { signOutUser, deleteUser, uploadAvatar, deleteAvatar, updateUser } from '../store/user/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ChangeUserData from '../components/ChangeUserData';
@@ -32,12 +32,33 @@ export default function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  // const fetchValidJobIds = async (jobIds) => {
+  //   const validJobIds = [];
+  //   for (const id of jobIds) {
+  //     try {
+  //       const jobData = await dispatch(getJobById({ id })).unwrap();
+  //       if (jobData) validJobIds.push(id);
+  //     } catch (error) {
+  //       console.log(`Job with ID ${id} not found.`);
+  //     }
+  //   }
+  //   return validJobIds;
+  // };
+
   const fetchJobClickedData = async (jobIds) => {
     try {
+      // const validJobIds = await fetchValidJobIds(jobIds);
       const uniqueJobIds = Array.from(new Set(jobIds))
-      const jobPromises = uniqueJobIds.map(id => dispatch(getJobById({ id })).unwrap());
+      const jobPromises = uniqueJobIds.map(async (id) => {
+        try {
+          return await dispatch(getJobById({ id })).unwrap()
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      });
       const jobsData = await Promise.all(jobPromises);
-      setClickedJobs(jobsData);
+      setClickedJobs(jobsData.filter(job => job !== null));
     } catch (error) {
       console.error("Error loading jobs", error);
     }
@@ -45,11 +66,17 @@ export default function Profile() {
 
   const fetchJobCreatedData = async (jobIds) => {
     try {
-      const uniqueJobIds = Array.from(new Set(jobIds))
-
-      const jobPromises = uniqueJobIds.map(id => dispatch(getJobById({ id })).unwrap());
+      // const validJobIds = await fetchValidJobIds(jobIds);
+      const jobPromises = jobIds.map(async (id) => {
+        try {
+          return await dispatch(getJobById({ id })).unwrap();
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      });
       const jobsData = await Promise.all(jobPromises);
-      setYourOwnJobs(jobsData);
+      setYourOwnJobs(jobsData.filter(job => job !== null));
     } catch (error) {
       console.error("Error loading jobs", error);
     }
@@ -90,9 +117,16 @@ export default function Profile() {
   }, [theme]);
 
   useEffect(() => {
-    if (currentUser?.clickedJobs?.length > 0) fetchJobClickedData(currentUser.clickedJobs);
-    if (currentUser?.jobs?.length > 0) fetchJobCreatedData(currentUser.jobs);
-  }, [currentUser]);
+    const handleJobDataFetch = async () => {
+      if (currentUser?.clickedJobs?.length > 0) fetchJobClickedData(currentUser.clickedJobs);
+      if (currentUser?.jobs?.length > 0) fetchJobCreatedData(currentUser.jobs);
+      await dispatch(updateUser({
+        id: currentUser._id, name: currentUser.name, email: currentUser.email, password: currentUser.password, avatar: currentUser.avatar, role: currentUser.role, about: currentUser.about, tel: currentUser.tel
+      }))
+    }
+
+    handleJobDataFetch();
+  }, []);
 
   console.log('cur user', currentUser);
 
@@ -182,7 +216,7 @@ export default function Profile() {
                 <FaRegTrashAlt className='w-6 h-6 cursor-pointer text-light-blue' />
               </button>
 
-              <h1 className='text-3xl ml-3 capitalize w-1/3 self-center'>{currentUser.name}</h1>
+              <h1 className='text-3xl ml-3 capitalize w-1/3 self-center break-words'>{currentUser.name}</h1>
             </>
           )}
         </div>
@@ -252,7 +286,7 @@ export default function Profile() {
                 <p>{index + 1}.</p>
                 <img className='w-14 h-8 object-cover'
                   src={(item.data.imageUrls === null || item.data.imageUrls === undefined || !item.data.imageUrls || item.data.imageUrls.length === 0) ? defaultJobAvatar
-                      : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} 
+                    : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`}
                   alt="imageUrl" />
               </div>
               <div className=''>
@@ -260,6 +294,12 @@ export default function Profile() {
                 <p>{item.data.salary}</p>
               </div>
             </Link>
+          )}
+
+          {Math.abs(showMoreClickedJobs) >= yourOwnJobs.length ? (
+            <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
+          ) : (
+            <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
           )}
         </div>}
 

@@ -91,7 +91,9 @@ export const deleteJob = async (req, res, next) => {
     }
 
     try {
-        const deletedJob = await Job.findByIdAndDelete(req.params.id)
+        const deletedJob = await Job.findByIdAndDelete(req.params.id);
+        await User.findByIdAndUpdate(req.user.id, { $pull: { jobs: req.params.id } });
+
         return res.status(201).json({ message: "Your job was deleted successfully", data: deletedJob });
 
     } catch (error) {
@@ -157,4 +159,3 @@ export const getJobById = async (req, res, next) => {
         return next(error);
     }
 }
-
