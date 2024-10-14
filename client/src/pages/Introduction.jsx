@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css/bundle'
+import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/bundle'
+import 'swiper/css/pagination';
 import IntroductionLogo from '../assets/Introduction/Intoduction_icon.svg'
 import IntroductionHome from '../assets/Introduction/home.svg'
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -14,7 +15,11 @@ export default function Introduction() {
             {/* <p>Introduction</p>
         <Link to={'/sign-in'}>Sign in</Link> */}
             <div className='w-full'>
-                <Swiper navigation={true} modules={[Navigation]}>
+                <Swiper 
+                    modules={[Navigation, Pagination]}
+                    navigation={true}
+                    pagination={{ clickable: true }}
+                >
                     <SwiperSlide>
                         <div className='min-h-screen p-4 w-full bg-white text-black flex flex-col justify-around items-center'>
                             <img src={IntroductionLogo} className='w-32' alt="IntroductionLogo" />

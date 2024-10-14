@@ -8,7 +8,7 @@ export default function JobCard({ jobItem }) {
     const { t } = useTranslation();
 
     return (
-        <div className='shadow-md text-sm hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-[45%] sm:w-[300px] 2xl:w-[350px] text-black bg-white dark:text-white dark:bg-slate-800'>
+        <div className='shadow-md text-sm hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-[45%] sm:w-[300px] 2xl:w-[350px] text-black bg-[#E7ECF0] dark:text-white dark:bg-slate-800'>
             <Link to={`/job/${jobItem._id}`}>
                 <img
                     src={

@@ -190,7 +190,7 @@ export default function Profile() {
   if (!currentUser || loading) return <Loader />
 
   return (
-    <div className='px-3 flex flex-col flex-1 text-black bg-beige-light dark:text-white dark:bg-black'>
+    <div className='px-3 flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
       <div className='flex flex-col items-start p-2 gap-3'>
         <div className='flex flex-row items-end'>
           {imagePreview !== null ? (
@@ -288,7 +288,7 @@ export default function Profile() {
         {currentUser.role === 'employer' && currentUser.jobs && currentUser.jobs.length > 0 && <div className='mt-7'>
           Your created Jobs:
           {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-            <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
+            <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
               <div className='flex flex-row items-center gap-1'>
                 <p>{index + 1}.</p>
                 <img className='w-14 h-8 object-cover'

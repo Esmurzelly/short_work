@@ -11,7 +11,7 @@ export default function Header({ isAuth }) {
   if (!isAuth) return <div className='hidden'></div>;
 
   return (
-    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-beige z-50'>
+    <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-[#2A4BA0] shadow-xl rounded-b-lg z-50'>
       <Link to={'/'}>
         <img className='w-8' src={Logo} alt="hard-work" />
       </Link>

@@ -32,7 +32,7 @@ export default function Home() {
     if (loading) return <Skeleton />
 
     return (
-        <div className='flex flex-col flex-1 text-center text-black bg-grey-light dark:text-white dark:bg-black px-3'>
+        <div className='flex flex-col flex-1 text-center text-black bg-white dark:text-white dark:bg-black px-3'>
             <div className='mt-5 flex flex-row items-start justify-between'>
                 {currentUser && (
                     <div className='flex flex-col items-start'>
