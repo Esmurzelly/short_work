@@ -5,8 +5,10 @@ import { CiCirclePlus, CiUser } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import { useTranslation } from 'react-i18next';
 
-export default function SideBar() {
+export default function SideBar({ isAuth }) {
     const { t } = useTranslation();
+
+    if (!isAuth) return <div className='hidden'></div>;
 
     return (
         <div className='flex sticky bottom-0 text-white bg-beige py-3 px-4 z-50'>

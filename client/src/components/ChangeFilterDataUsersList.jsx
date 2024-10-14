@@ -2,6 +2,8 @@ import React, { memo, useCallback } from 'react'
 import { getAllUsers } from '../store/user/authSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { MdDeleteForever } from 'react-icons/md';
+import { BiSearchAlt2 } from 'react-icons/bi';
 
 const ChangeFilterDataUsersList = memo(({ page, limit, setFilterData, filterData }) => {
     const dispatch = useDispatch();
@@ -34,9 +36,15 @@ const ChangeFilterDataUsersList = memo(({ page, limit, setFilterData, filterData
                 <input className='border text-black dark:text-white dark:bg-slate-800' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
             </div>
 
-            <button className='flex flex-row items-center justify-center gap-2 bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>{t("clear")}</button>
+            <button className='flex flex-row items-center justify-around bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>
+                {t("clear")}
+                <MdDeleteForever className='w-4' />
+            </button>
 
-            <button className='flex flex-row items-center justify-center gap-2 bg-blue-600 text-white text-center w-24' type='submit'>{t("find")}</button>
+            <button className='flex flex-row items-center justify-around bg-blue-600 text-white text-center w-24' type='submit'>
+                {t("find")}
+                <BiSearchAlt2 className='w-4' />
+            </button>
         </form>
     )
 });

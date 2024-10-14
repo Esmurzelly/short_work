@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react'
 import { getAllJobs } from '../store/user/jobSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { IoArrowUpOutline , IoArrowDownOutline } from "react-icons/io5";
+import { IoArrowUpOutline, IoArrowDownOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
 
@@ -64,16 +64,17 @@ const ChangeFilterData = memo(({ page, limit, setFilterData, filterData }) => {
                     <button className='flex items-center gap-1' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
                 </div>
             </div>
+            
+            <button className='flex flex-row items-center justify-around bg-blue-600 text-white text-center w-24' type='submit'>
+                {t('find')}
+                <BiSearchAlt2 className='w-4' />
+            </button>
 
-            <button className='flex flex-row items-center justify-center gap-2 bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>
+            <button className='flex flex-row items-center justify-around bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>
                 {t('clear')}
                 <MdDeleteForever className='w-4' />
             </button>
 
-            <button className='flex flex-row items-center justify-center gap-2 bg-blue-600 text-white text-center w-24' type='submit'>
-                {t('find')}
-                <BiSearchAlt2 className='w-4' />
-            </button>
         </form>
     )
 });

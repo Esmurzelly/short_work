@@ -3,10 +3,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import PrivateProfile from './components/PrivateProfile';
 import SideBar from './components/SideBar';
+import { useSelector } from 'react-redux';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from './components/Loader';
+import Introduction from './pages/Introduction';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
 const About = lazy(() => import(/* webpackChunkName: "About" */ './pages/About'));
@@ -20,13 +22,15 @@ const Users = lazy(() => import(/* webpackChunkName: "Users" */ './pages/Users')
 const CurrentUser = lazy(() => import(/* webpackChunkName: "CurrentUser" */ './pages/CurrentUser'));
 
 function App() {
+  const isAuth = useSelector(state => Boolean(state.user.currentUser));
+
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
-        <div className='flex flex-col h-screen'>
-          <Header />
+        <div className={`flex flex-col h-screen`}>
+          <Header isAuth={isAuth} />
           <Routes>
-            <Route path='/' element={<Home />} />
+            {isAuth ? <Route path='/' element={<Home />} /> : <Route path='/' element={<Introduction />} />}
             <Route path='/about' element={<About />} />
 
             <Route element={<PrivateProfile />}>
@@ -43,7 +47,7 @@ function App() {
             <Route path='*' element={<NotFound />} />
           </Routes>
 
-          <SideBar />
+          <SideBar isAuth={isAuth} />
           <ToastContainer />
         </div>
       </Suspense>
