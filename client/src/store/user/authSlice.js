@@ -104,7 +104,7 @@ export const googleLoginUser = createAsyncThunk(
 
 export const getAllUsers = createAsyncThunk(
     'auth/getAllUsers',
-    async ({ page = 0, limit = 10, searchTerm = "" }) => {
+    async ({ page = 0, limit = 99, searchTerm = "" }) => {
         const startIndex = page * limit;
         try {
             const response = await fetch(`api/user/getAllUsers?limit=${limit}&searchTerm=${searchTerm}&startIndex=${startIndex}`, {

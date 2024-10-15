@@ -97,7 +97,7 @@ export default function CreateJob() {
   if (loading) return <Loader />
 
   return (
-    <div className='flex flex-col flex-1 text-black bg-grey-light dark:text-white dark:bg-black px-3'>
+    <div className='flex flex-col flex-1 mt-14 text-black bg-grey-light dark:text-white dark:bg-black px-3'>
       <h1>{t('create_job')}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>

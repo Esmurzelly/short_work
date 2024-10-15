@@ -27,25 +27,25 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
-        <div className={`flex flex-col h-screen`}>
+        <div className={`flex flex-col min-h-screen`}>
           <Header isAuth={isAuth} />
-          <Routes>
-            {isAuth ? <Route path='/' element={<Home />} /> : <Route path='/' element={<Introduction />} />}
-            <Route path='/about' element={<About />} />
+            <Routes>
+              {isAuth ? <Route path='/' element={<Home />} /> : <Route path='/' element={<Introduction />} />}
+              <Route path='/about' element={<About />} />
 
-            <Route element={<PrivateProfile />}>
-              <Route path='/create-job' element={<CreateJob />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='job/:id' element={<CurrentJob />} />
-              <Route path='/users' element={<Users />} />
-              <Route path='/user/:id' element={<CurrentUser />} />
-            </Route>
+              <Route element={<PrivateProfile />}>
+                <Route path='/create-job' element={<CreateJob />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='job/:id' element={<CurrentJob />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/user/:id' element={<CurrentUser />} />
+              </Route>
 
-            <Route path='/sign-up' element={<Signup />} />
-            <Route path='/sign-in' element={<Signin />} />
+              <Route path='/sign-up' element={<Signup />} />
+              <Route path='/sign-in' element={<Signin />} />
 
-            <Route path='*' element={<NotFound />} />
-          </Routes>
+              <Route path='*' element={<NotFound />} />
+            </Routes>
 
           <SideBar isAuth={isAuth} />
           <ToastContainer />

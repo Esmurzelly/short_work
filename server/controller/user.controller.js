@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 export const getAllUsers = async (req, res, next) => {
     try {
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 99;
         const startIndex = parseInt(req.query.startIndex) || 0;
 
         const searchTerm = req.query.searchTerm || "";

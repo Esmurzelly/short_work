@@ -63,16 +63,16 @@ export default function Signin() {
   console.log('formData', formData);
 
   return (
-    <div className='w-full h-screen text-black bg-white dark:text-white dark:bg-black'>
-      <h1>{t("sign_in")}</h1>
-      <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col gap-3'>
-        <div className='flex flex-row items-center gap-4 text-black'>
-          <input className='dark:bg-slate-800 dark:text-white' {...register("email", { required: true })} placeholder='email' id='email' type="email" />
-          <label className='text-black dark:text-white' htmlFor="email">email</label>
+    <div className='flex flex-col lg:justify-center text-center w-full min-h-screen bg-white px-2 mt-3 lg:mt-0 text-black dark:text-white dark:bg-black'>
+      <h1 className='text-4xl'>{t("sign_in")}</h1>
+      <form onSubmit={handleSubmit(handleSubmitForm)} className='lg:w-1/2 lg:mx-auto flex flex-col gap-3 mt-4'>
+        <div className='flex flex-row lg:w-full items-center gap-4'>
+          <input className='lg:w-full flex dark:bg-slate-800 dark:text-white focus:outline-none border p-1' {...register("email", { required: true })} placeholder='email' id='email' type="email" />
+          <label className='dark:text-white' htmlFor="email">Email</label>
         </div>
-        <div className='flex flex-row items-center gap-4'>
-          <input className='dark:bg-slate-800 dark:text-white' {...register("password", { required: true })} placeholder='password' id='password' type="password" />
-          <label className='text-black dark:text-white' htmlFor="password">{t("password")}</label>
+        <div className='flex flex-row lg:w-full items-center gap-4'>
+          <input className='lg:w-full flex dark:bg-slate-800 dark:text-white focus:outline-none border p-1' {...register("password", { required: true })} placeholder='password' id='password' type="password" />
+          <label className='dark:text-white' htmlFor="password">{t("password")}</label>
         </div>
 
         <OAuth />
@@ -81,9 +81,9 @@ export default function Signin() {
           {loading ? `${t("loading")} ` : `${t("sign_in")}`}
         </button>
       </form>
-      <div className='flex flex-row items-center gap-4'>
+      <div className='flex flex-row items-center gap-4 mt-3 lg:w-1/2 lg:mx-auto'>
         <span>{t("Dont_have_an_account")}</span>
-        <Link to={'/sign-up'}>{t("Register")}</Link>
+        <Link className='hover:text-red-600 duration-300' to={'/sign-up'}>{t("Register")}</Link>
       </div>
     </div>
   )

@@ -35,7 +35,7 @@ export default function Users() {
   if (loading) return <Skeleton />
 
   return (
-    <div className='flex flex-col flex-1 text-center w-full text-black bg-grey-light dark:bg-black px-3'>
+    <div className='flex flex-col flex-1 mt-14 text-center w-full text-black bg-grey-light dark:bg-black px-3'>
       <span>{t('total_users')}: {allUsers?.length}</span>
 
       <div>

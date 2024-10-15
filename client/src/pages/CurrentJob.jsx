@@ -32,6 +32,7 @@ export default function CurrentJob() {
     const { t } = useTranslation();
 
     console.log('cur job', job);
+    console.log('allUsers', allUsers);
 
     const handleShowDdetails = () => {
         setShowDetails(prev => !prev)
@@ -59,7 +60,7 @@ export default function CurrentJob() {
 
     useEffect(() => {
         dispatch(getJobById(params));
-        dispatch(findUserByUserRefJob(params.id))
+        dispatch(findUserByUserRefJob(params.id));
         dispatch(getAllUsers());
     }, [params.id]);
 
@@ -83,13 +84,10 @@ export default function CurrentJob() {
         }
     }, [dispatch, job]);
 
-
-
     if (!job || loading || !jobOwner) return <Loader />
 
-
     return (
-        <div className='flex flex-1 flex-col text-black bg-white dark:text-white dark:bg-black'>
+        <div className='flex flex-1 flex-col mt-14 text-black bg-white dark:text-white dark:bg-black'>
             {job && job?.imageUrls && (
                 <div>
                     <Swiper modules={[Navigation, Pagination]} pagination={{ clickable: true }}>
@@ -126,7 +124,6 @@ export default function CurrentJob() {
                         <p className='break-words w-full'>{job.description}</p>
                     </div>
 
-                    {/* {job.imageUrls && <p>{t('avatar')}: <img className='w-32 h-32 object-cover' src={job.imageUrls.length > 0 ? `${import.meta.env.VITE_HOST}/static/jobAvatar/${job?.imageUrls[0]}` : defaultJobAvatar} alt="imgUrl" /></p>} */}
                     <button onClick={handleShowDdetails} className='mt-3 flex items-center gap-1'>
                         Details:
                         {showDetails ? <IoArrowUpOutline /> : <IoArrowDownOutline />}
@@ -187,16 +184,15 @@ export default function CurrentJob() {
                         </div>
                         <div className=''>
                             <p>{user.name}</p>
-                            <p>{user.email
-                            }</p>
+                            <p>{user.email}</p>
                         </div>
                     </Link>
                 ))}
             </div>}
 
-
-
-            <button onClick={() => navigate(-1)} className='mt-3 bg-[#2A4BA0] text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
+            <div className='p-1'>
+                <button onClick={() => navigate(-1)} className='my-3 w-full bg-[#2A4BA0] text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
+            </div>
         </div>
     )
 }

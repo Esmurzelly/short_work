@@ -13,10 +13,10 @@ export default function SideBar({ isAuth }) {
         setActiveIndex(index);
     }
 
-    if (!isAuth) return <div className='hidden'></div>;
+    if (!isAuth) return;
 
     return (
-        <div className='flex sticky bottom-0 bg-white text-gray-700 py-3 px-4 z-50 rounded-t-3xl border shadow-md'>
+        <div className='flex sticky bottom-0 bg-[#2A4BA0] text-white py-3 px-4 z-50 rounded-t-3xl shadow-md'>
             <nav className='w-full flex flex-row items-center justify-between'>
                 <Link onClick={() => handleClickNav(0)} className='flex flex-col items-center gap-1' to={'/'}>
                     <IoHomeOutline className='w-7 h-7 rounded-full text-white p-2 bg-red-light' />

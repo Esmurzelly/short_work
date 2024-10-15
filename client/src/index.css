@@ -4,9 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    min-height: 100vh;
+}
 
 body {
-    margin-top: 56px;
+    /* margin-top: 56px; */
     font-family: "Abel", sans-serif;
     font-style: normal;
+    min-height: 100vh;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }

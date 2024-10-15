@@ -190,7 +190,7 @@ export default function Profile() {
   if (!currentUser || loading) return <Loader />
 
   return (
-    <div className='px-3 flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
+    <div className='px-3 flex flex-col flex-1 mt-14 text-black bg-white dark:text-white dark:bg-black'>
       <div className='flex flex-col items-start p-2 gap-3'>
         <div className='flex flex-row items-end'>
           {imagePreview !== null ? (

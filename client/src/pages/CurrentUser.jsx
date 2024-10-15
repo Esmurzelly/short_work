@@ -24,7 +24,7 @@ export default function CurrentUser() {
   if (!neededUser || error) return <p>asd</p>
 
   return (
-    <div className='flex flex-col flex-1 text-black bg-white dark:text-white dark:bg-black'>
+    <div className='flex flex-col flex-1 mt-14 text-black bg-white dark:text-white dark:bg-black'>
       <p>{t('name')}: {neededUser.name}</p>
       <p>{t('role')}: {neededUser.role}</p>
       <p>email: {neededUser.email}</p>

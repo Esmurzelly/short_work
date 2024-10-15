@@ -8,7 +8,7 @@ import Loader from './Loader';
 export default function Header({ isAuth }) {
   const { currentUser } = useSelector(state => state.user);
 
-  if (!isAuth) return <div className='hidden'></div>;
+  if (!isAuth) return;
 
   return (
     <div className='w-full flex flex-row justify-between items-center fixed top-0 left-0 py-3 px-4 bg-[#2A4BA0] shadow-xl rounded-b-lg z-50'>
