@@ -21,6 +21,7 @@ export const getAllUsers = async (req, res, next) => {
             name: { $regex: searchTerm, $options: 'i' },
             // role: "employee"
         })
+            .sort({ createdAt: -1 })
             .limit(limit)
             .skip(startIndex)
 

@@ -20,23 +20,27 @@ export default function CurrentUser() {
 
   }, [id]);
 
-  if ( loading) return <Loader />
+  if (loading) return <Loader />
   if (!neededUser || error) return <p>asd</p>
 
   return (
-    <div className='flex flex-col flex-1 mt-14 text-black bg-white dark:text-white dark:bg-black'>
-      <p>{t('name')}: {neededUser.name}</p>
-      <p>{t('role')}: {neededUser.role}</p>
-      <p>email: {neededUser.email}</p>
-      <p>Number: <a href={`tel:${neededUser?.tel}`}>{neededUser?.tel}</a></p>
-
-      <img className='w-40 cursor-pointer' src={
+    <div className='flex text-2xl flex-col flex-1 mt-14 text-black bg-white dark:text-white dark:bg-black'>
+      <img className='w-full object-cover ' src={
         neededUser?.avatar === null ? unfacedAvatar
           : (neededUser?.avatar.includes('https://lh3.googleusercontent.com') || neededUser?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${neededUser?.avatar}`
             : `${import.meta.env.VITE_HOST}/static/userAvatar/${neededUser?.avatar}`
       } alt="avatar" />
 
-      <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
+      <p className='capitalize'>{neededUser.name}</p>
+      <p>{t('role')}: {neededUser.role}</p>
+      <p>Email: {neededUser.email}</p>
+      <p>About: {neededUser?.about ? neededUser.about : "No info"}</p>
+      <p>Number: <a href={`tel:${neededUser?.tel}`}>{neededUser?.tel ? neededUser?.tel : "No info"}</a></p>
+
+      <div className='flex flex-col gap-2 my-3'>
+        {neededUser?.tel && <a className='bg-green-700 text-center text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80' href={`tel:${neededUser?.tel}`}>Call</a>}
+        <button onClick={() => navigate(-1)} className='bg-blue-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{t('Back')}</button>
+      </div>
     </div>
   )
 }
