@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
-import { defaultJobAvatar } from '../utils/expvars';
+import { defaultJobAvatar, unfacedAvatar } from '../utils/expvars';
 import { IoArrowUpOutline, IoArrowDownOutline } from "react-icons/io5";
 
 
@@ -32,7 +32,6 @@ export default function CurrentJob() {
     const { t } = useTranslation();
 
     console.log('cur job', job);
-    console.log('allUsers', allUsers);
 
     const handleShowDdetails = () => {
         setShowDetails(prev => !prev)
@@ -61,7 +60,7 @@ export default function CurrentJob() {
     useEffect(() => {
         dispatch(getJobById(params));
         dispatch(findUserByUserRefJob(params.id));
-        dispatch(getAllUsers());
+        dispatch(getAllUsers({ page: 0 }));
     }, [params.id]);
 
 
@@ -177,10 +176,14 @@ export default function CurrentJob() {
                     Watch people who clicked
                 </button>
                 {clickedPeople && filteredUsers.map((user, index) => (
-                    <Link className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/user/${user._id}`} key={user._id}>
+                    <Link className='w-full border p-1 flex flex-row items-center gap-2' to={`/user/${user._id}`} key={user._id}>
                         <div className='flex flex-row items-center gap-1'>
-                            <p>{index + 1}.</p>
-                            <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/userAvatar/${user.avatar}`} alt="avatar" />
+                            <p className='mr-2'>{index + 1}.</p>
+                            <img className='w-14 object-cover' src={
+                                    user?.avatar === null ? unfacedAvatar
+                                      : (user?.avatar.includes('https://lh3.googleusercontent.com') || user?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${user?.avatar}`
+                                        : `${import.meta.env.VITE_HOST}/static/userAvatar/${user?.avatar}`}
+                                alt="avatar" />
                         </div>
                         <div className=''>
                             <p>{user.name}</p>

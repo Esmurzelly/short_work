@@ -36,7 +36,7 @@ export default function Users() {
 
   return (
     <div className='flex flex-col flex-1 mt-14 text-center w-full text-black bg-grey-light dark:bg-black px-3'>
-      <span>{t('total_users')}: {allUsers?.length}</span>
+      <span>{t('total_users')}: {totalUsers}</span>
 
       <div>
         <button className='flex flex-row items-center gap-2' onClick={() => setShowFilter(prevState => !prevState)}>
