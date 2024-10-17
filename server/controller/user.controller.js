@@ -153,6 +153,15 @@ export const deleteUser = async (req, res, next) => {
         if (!userToDelete) return res.status(404).json({ message: "User not found" });
 
         await Job.deleteMany({ _id: {$in: userToDelete.jobs} });
+
+        const deletedJobIds = userToDelete.jobs;
+        console.log('deletedJobIds', deletedJobIds);
+
+        await User.updateMany(
+            { clickedJobs: { $in: deletedJobIds } },
+            { $pull: { clickedJobs: { $in: deletedJobIds } } }
+        );
+
         const deletedUser = await User.findByIdAndDelete(req.params.id);
 
         res.clearCookie();

@@ -48,7 +48,7 @@ export default function Users() {
       {showFilter && <ChangeFilterDataUsersList filterData={filterData} setFilterData={setFilterData} page={page} limit={limit} />}
 
       <ul className='flex flex-row flex-wrap gap-10 items-end w-full mt-4'>
-        {allUsers.map((item) => (
+        {allUsers?.map((item) => (
           <li key={item._id} className='flex flex-col bg-white rounded-md w-full h-32 md:h-52 md:w-52'>
             <Link to={`/user/${item._id}`} className='h-full'>
               <div className='flex flex-row md:flex-col items-end md:items-start md:justify-between text-start gap-2 h-full'>
