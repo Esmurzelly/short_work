@@ -94,6 +94,11 @@ export const deleteJob = async (req, res, next) => {
         const deletedJob = await Job.findByIdAndDelete(req.params.id);
         await User.findByIdAndUpdate(req.user.id, { $pull: { jobs: req.params.id } });
 
+        await User.updateMany(
+            { clickedJobs: req.params.id },
+            { $pull: { clickedJobs: req.params.id } }
+        );
+
         return res.status(201).json({ message: "Your job was deleted successfully", data: deletedJob });
 
     } catch (error) {

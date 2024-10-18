@@ -65,7 +65,7 @@ export const editUser = async (req, res, next) => {
     }
 
     try {
-        const { name, email, password, avatar, role, about, tel } = req.body;
+        const { name, email, password, avatar, role, about, tel, jobs, clickedJobs } = req.body;
 
         if (req.body.password) {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
@@ -80,6 +80,8 @@ export const editUser = async (req, res, next) => {
                 avatar,
                 role,
                 tel,
+                jobs, 
+                clickedJobs
             }
         }, { new: true });
 
@@ -149,12 +151,10 @@ export const deleteUser = async (req, res, next) => {
 
     try {
         const userToDelete = await User.findById(req.params.id);
-
         if (!userToDelete) return res.status(404).json({ message: "User not found" });
 
-        await Job.deleteMany({ _id: {$in: userToDelete.jobs} });
-
         const deletedJobIds = userToDelete.jobs;
+        await Job.deleteMany({ _id: {$in: deletedJobIds} });
         console.log('deletedJobIds', deletedJobIds);
 
         await User.updateMany(

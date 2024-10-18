@@ -166,7 +166,7 @@ export default function CurrentJob() {
                     {contact && <Contact />}
                 </div>}
 
-                {currentUser._id !== jobOwner._id && <button onClick={handleSendData} className='w-1/2 bg-slate-600 text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                {currentUser._id !== jobOwner?._id && <button onClick={handleSendData} className='w-1/2 bg-slate-600 text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                     Respond
                 </button>}
             </div>

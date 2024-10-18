@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 const initialState = {
     allUsers: null,
-    clickedJobs: null,
     totalUsers: null,
     currentUser: null,
     neededUser: null,
@@ -258,14 +257,14 @@ export const findUserByUserRefJob = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
-    async ({ id, name, email, password, avatar, role, about, tel }) => {
+    async ({ id, name, email, password, avatar, role, about, tel, jobs, clickedJobs }) => {
         try {
             const response = await fetch(`/api/user/edit/${id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password, avatar, role, about, tel })
+                body: JSON.stringify({ name, email, password, avatar, role, about, tel, jobs, clickedJobs })
             });
             const data = await response.json();
 

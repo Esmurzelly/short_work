@@ -71,7 +71,7 @@ export default function CreateJob() {
     pictureUploadRef.current.click();
   };
 
-  const handleSubmitForm = data => {
+  const handleSubmitForm = async (data) => {
     console.log('formData from client', data);
 
     if (!data.title || !data.description || !data.address || !data.salary) {
@@ -81,14 +81,21 @@ export default function CreateJob() {
     }
 
     try {
-      dispatch(jobCreate({
+      const resultAction = await dispatch(jobCreate({
         ...data,
         userRef: currentUser._id,
         imageUrls: selectedFile,
         neededSkils: selectedSkills
       }));
-      dispatch(getAllJobs());
-      navigate('/');
+
+      if (jobCreate.fulfilled.match(resultAction)) {
+        toast.success("Job created successfully!");
+        dispatch(getAllJobs());
+        navigate('/');
+      } else {
+        // В случае ошибки от сервера, вывести сообщение
+        toast.error(resultAction.error.message || "Failed to create job.");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -44,46 +44,10 @@ export default function Profile() {
   //   }
   //   return validJobIds;
   // };
-
-  const fetchJobClickedData = async (jobIds) => {
-    try {
-      // const validJobIds = await fetchValidJobIds(jobIds);
-      const uniqueJobIds = Array.from(new Set(jobIds))
-      const jobPromises = uniqueJobIds.map(async (id) => {
-        try {
-          return await dispatch(getJobById({ id })).unwrap()
-        } catch (error) {
-          console.log(error);
-          return null;
-        }
-      });
-      const jobsData = await Promise.all(jobPromises);
-      setClickedJobs(jobsData.filter(job => job !== null));
-    } catch (error) {
-      console.error("Error loading jobs", error);
-    }
-  };
-
-  const fetchJobCreatedData = async (jobIds) => {
-    try {
-      // const validJobIds = await fetchValidJobIds(jobIds);
-      const jobPromises = jobIds.map(async (id) => {
-        try {
-          return await dispatch(getJobById({ id })).unwrap();
-        } catch (error) {
-          console.log(error);
-          return null;
-        }
-      });
-      const jobsData = await Promise.all(jobPromises);
-      setYourOwnJobs(jobsData.filter(job => job !== null));
-    } catch (error) {
-      console.error("Error loading jobs", error);
-    }
-  };
-
-  console.log('yourOwnJobs', yourOwnJobs);
+  console.log('cur user', currentUser);
+  // console.log('yourOwnJobs', yourOwnJobs);
   console.log('clickedJobs', clickedJobs);
+  console.log('currentUser.clickedJobs', currentUser.clickedJobs);
 
 
   useEffect(() => {
@@ -117,6 +81,43 @@ export default function Profile() {
   }, [theme]);
 
   useEffect(() => {
+    const fetchJobClickedData = async (jobIds) => {
+      try {
+        // const validJobIds = await fetchValidJobIds(jobIds);
+        const uniqueJobIds = Array.from(new Set(jobIds))
+        const jobPromises = uniqueJobIds.map(async (id) => {
+          try {
+            return await dispatch(getJobById({ id })).unwrap()
+          } catch (error) {
+            console.log(error);
+            return null;
+          }
+        });
+        const jobsData = await Promise.all(jobPromises);
+        setClickedJobs(jobsData.filter(job => job !== null));
+      } catch (error) {
+        console.error("Error loading jobs", error);
+      }
+    };
+  
+    const fetchJobCreatedData = async (jobIds) => {
+      try {
+        // const validJobIds = await fetchValidJobIds(jobIds);
+        const jobPromises = jobIds.map(async (id) => {
+          try {
+            return await dispatch(getJobById({ id })).unwrap();
+          } catch (error) {
+            console.log(error);
+            return null;
+          }
+        });
+        const jobsData = await Promise.all(jobPromises);
+        setYourOwnJobs(jobsData.filter(job => job !== null));
+      } catch (error) {
+        console.error("Error loading jobs", error);
+      }
+    };
+
     const handleJobDataFetch = async () => {
       if (currentUser?.clickedJobs?.length > 0) fetchJobClickedData(currentUser.clickedJobs);
       if (currentUser?.jobs?.length > 0) fetchJobCreatedData(currentUser.jobs);
@@ -128,14 +129,16 @@ export default function Profile() {
         avatar: currentUser.avatar,
         role: currentUser.role,
         about: currentUser.about,
-        tel: currentUser.tel
+        tel: currentUser.tel,
+        // jobs: yourOwnJobs, 
+        // clickedJobs: clickedJobs
       }))
     }
 
     handleJobDataFetch();
   }, []);
 
-  console.log('cur user', currentUser);
+
 
   const handleDelele = useCallback(() => {
     try {
@@ -305,8 +308,8 @@ export default function Profile() {
 
           {
             Math.abs(showMoreClickedJobs) > yourOwnJobs.length ? <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button> :
-            Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
-          <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
+              Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
+                <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
           }
         </div>}
 

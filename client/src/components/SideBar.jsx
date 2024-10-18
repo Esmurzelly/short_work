@@ -20,21 +20,21 @@ export default function SideBar({ isAuth }) {
             <nav className='w-full flex flex-row items-center justify-between'>
                 <Link onClick={() => handleClickNav(0)} className='flex flex-col items-center gap-1' to={'/'}>
                     <IoHomeOutline className='w-7 h-7 rounded-full text-white p-2 bg-red-light' />
-                    <span className={`text-xs ${activeIndex === 0 ? 'text-red-light font-bold' : ''}`}>{t('main')}</span>
+                    <span className='text-xs'>{t('main')}</span>
                 </Link>
 
                 <Link onClick={() => handleClickNav(1)} className='flex flex-col items-center gap-1' to={'/users'}>
                     <CiUser className='w-7 h-7 rounded-full text-white p-2 bg-blue-900' />
-                    <span className={`text-xs ${activeIndex === 1 ? 'text-blue-900 font-bold' : ''}`}>{t('userList')}</span>
+                    <span className='text-xs'>{t('userList')}</span>
                 </Link>
 
                 <Link onClick={() => handleClickNav(2)} className='flex flex-col items-center gap-1' to={'/create-job'}>
                     <CiCirclePlus className='w-7 h-7 rounded-full text-white p-2 bg-grey-medium' />
-                    <span className={`text-xs ${activeIndex === 2 ? 'text-grey-medium font-bold' : ''}`}>{t('createJob')}</span>
+                    <span className='text-xs'>{t('createJob')}</span>
                 </Link>
                 <Link onClick={() => handleClickNav(3)} className='flex flex-col items-center gap-1' to={'/profile'}>
                     <CgProfile className='w-7 h-7 rounded-full text-white p-2 bg-yellow-950' />
-                    <span className={`text-xs ${activeIndex === 3 ? 'text-yellow-950 font-bold' : ''}`}>{t('profile')}</span>
+                    <span className='text-xs'>{t('profile')}</span>
                 </Link>
             </nav>
         </div>
