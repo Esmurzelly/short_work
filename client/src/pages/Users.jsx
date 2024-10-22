@@ -35,7 +35,7 @@ export default function Users() {
   if (loading) return <Skeleton />
 
   return (
-    <div className='flex flex-col flex-1 mt-14 text-center w-full text-black bg-grey-light dark:bg-black px-3'>
+    <div className='flex flex-col flex-1 mt-14 text-center w-full text-black dark:bg-black px-3'>
       <span>{t('total_users')}: {totalUsers}</span>
 
       <div>
@@ -49,7 +49,7 @@ export default function Users() {
 
       <ul className='flex flex-row flex-wrap gap-10 items-end w-full mt-4'>
         {allUsers?.map((item) => (
-          <li key={item._id} className='flex flex-col bg-white rounded-md w-full h-32 md:h-52 md:w-52'>
+          <li key={item._id} className='flex flex-col bg-white shadow-lg rounded-md w-full h-32 md:h-52 md:w-52'>
             <Link to={`/user/${item._id}`} className='h-full'>
               <div className='flex flex-row md:flex-col items-end md:items-start md:justify-between text-start gap-2 h-full'>
                 <img className='w-1/3 h-full object-cover rounded-l-md' src={

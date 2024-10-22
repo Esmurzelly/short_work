@@ -83,6 +83,8 @@ export default function CurrentJob() {
         }
     }, [dispatch, job]);
 
+    console.log('filteredUsers', filteredUsers);
+
     if (!job || loading || !jobOwner) return <Loader />
 
     return (
@@ -171,7 +173,7 @@ export default function CurrentJob() {
                 </button>}
             </div>
 
-            {job.userRef == currentUser._id && <div className='flex flex-col gap-4 mt-3 p-1'>
+            {job.userRef == currentUser._id && filteredUsers.length > 0 && <div className='flex flex-col gap-4 mt-3 p-1'>
                 <button onClick={() => setClickedPeople(prevState => !prevState)} className='bg-purple-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                     Watch people who clicked
                 </button>

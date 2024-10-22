@@ -270,7 +270,7 @@ export default function Profile() {
         {currentUser.role === 'employee' && clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
           <h3>Last clicked jobs:</h3>
           {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-            <Link key={`${item.data._id}-${index}`} className='w-full bg-beige-light flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
+            <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
               <div className='flex flex-row items-center gap-1'>
                 <p>{index + 1}.</p>
                 <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
@@ -288,7 +288,7 @@ export default function Profile() {
         </div>}
 
 
-        {currentUser.role === 'employer' && currentUser.jobs && currentUser.jobs.length > 0 && <div className='mt-7'>
+        {currentUser.role === 'employer' && currentUser.jobs.length > 0 && <div className='mt-7'>
           Your created Jobs:
           {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
             <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>

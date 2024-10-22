@@ -23,6 +23,7 @@ export default function CreateJob() {
 
   const [selectedFile, setSelectedFile] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [PicsQuantity, setPicsQuantity] = useState(null);
 
   const pictureUploadRef = useRef(null);
 
@@ -36,8 +37,16 @@ export default function CreateJob() {
       color: `${document.documentElement.className === 'dark' ? "white" : "#334155"}`,
       backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
     }),
-    menu: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}` }),
-    control: styles => ({ ...styles, border: "none", backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%" })
+    menu: styles => ({
+      ...styles,
+      border: `${document.documentElement.className === 'dark' ? "none" : ""}`,
+      backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`
+    }),
+    control: styles => ({
+      ...styles,
+      border: `${document.documentElement.className === 'dark' ? "none" : ""}`,
+      backgroundColor: `${document.documentElement.className === 'dark' ? "#334155" : "white"}`, width: "100%"
+    })
   }), []);
 
   useEffect(() => {
@@ -60,6 +69,7 @@ export default function CreateJob() {
 
   const handleFileChange = e => {
     setSelectedFile(e.target.files);
+    setPicsQuantity(e.target.files.length)
   };
 
   const handleSkillsChange = arr => {
@@ -104,26 +114,26 @@ export default function CreateJob() {
   if (loading) return <Loader />
 
   return (
-    <div className='flex flex-col flex-1 mt-14 text-black bg-grey-light dark:text-white dark:bg-black px-3'>
+    <div className='flex flex-col flex-1 mt-14 text-black dark:text-white dark:bg-black px-3'>
       <h1>{t('create_job')}</h1>
       <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 text-white' type="text" name="title" id="title" />
+          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="title" id="title" />
           <label htmlFor="title">{t('title')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700 text-white' type="text" name="description" id="description" />
+          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="description" id="description" />
           <label htmlFor="description">{t('description')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 text-white' type="text" name="address" id="address" />
+          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="address" id="address" />
           <label htmlFor="address">{t('address')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 text-white' type="number" name="salary" id="salary" />
+          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="number" name="salary" id="salary" />
           <label htmlFor="salary">{t('salary')}</label>
         </div>
 
@@ -132,6 +142,8 @@ export default function CreateJob() {
 
           <input ref={pictureUploadRef} className='bg-slate-700 w-1/4 hidden' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
           <label htmlFor="imageUrls">{t('choose_image/images')}</label>
+
+          <span>Quantity: {PicsQuantity || 0}</span>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
