@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import PrivateProfile from './components/PrivateProfile';
@@ -23,29 +23,42 @@ const CurrentUser = lazy(() => import(/* webpackChunkName: "CurrentUser" */ './p
 
 function App() {
   const isAuth = useSelector(state => Boolean(state.user.currentUser));
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light"
+  });
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", 'dark')
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", 'light');
+    }
+  }, [theme]);
 
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
         <div className={`flex flex-col min-h-screen`}>
           <Header isAuth={isAuth} />
-            <Routes>
-              {isAuth ? <Route path='/' element={<Home />} /> : <Route path='/' element={<Introduction />} />}
-              <Route path='/about' element={<About />} />
+          <Routes>
+            {isAuth ? <Route path='/' element={<Home />} /> : <Route path='/' element={<Introduction />} />}
+            <Route path='/about' element={<About />} />
 
-              <Route element={<PrivateProfile />}>
-                <Route path='/create-job' element={<CreateJob />} />
-                <Route path='/profile' element={<Profile />} />
-                <Route path='job/:id' element={<CurrentJob />} />
-                <Route path='/users' element={<Users />} />
-                <Route path='/user/:id' element={<CurrentUser />} />
-              </Route>
+            <Route element={<PrivateProfile />}>
+              <Route path='/create-job' element={<CreateJob />} />
+              <Route path='/profile' element={<Profile theme={theme} setTheme={setTheme} />} />
+              <Route path='job/:id' element={<CurrentJob />} />
+              <Route path='/users' element={<Users />} />
+              <Route path='/user/:id' element={<CurrentUser />} />
+            </Route>
 
-              <Route path='/sign-up' element={<Signup />} />
-              <Route path='/sign-in' element={<Signin />} />
+            <Route path='/sign-up' element={<Signup />} />
+            <Route path='/sign-in' element={<Signin />} />
 
-              <Route path='*' element={<NotFound />} />
-            </Routes>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
 
           <SideBar isAuth={isAuth} />
           <ToastContainer />

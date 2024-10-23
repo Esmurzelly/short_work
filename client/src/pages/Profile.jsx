@@ -15,11 +15,11 @@ import ChangeLanguage from '../components/ChangeLanguage';
 import { getJobById } from '../store/user/jobSlice';
 
 
-export default function Profile() {
+export default function Profile({theme, setTheme}) {
   const { currentUser, loading } = useSelector(state => state.user, shallowEqual);
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light"
-  });
+  // const [theme, setTheme] = useState(() => {
+  //   return localStorage.getItem("theme") || "light"
+  // });
   const [modal, setModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -70,15 +70,15 @@ export default function Profile() {
     };
   }, [modal]);
 
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", 'dark')
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", 'light');
-    }
-  }, [theme]);
+  // useEffect(() => {
+  //   if (theme === 'dark') {
+  //     document.documentElement.classList.add("dark");
+  //     localStorage.setItem("theme", 'dark')
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //     localStorage.setItem("theme", 'light');
+  //   }
+  // }, [theme]);
 
   useEffect(() => {
     const fetchJobClickedData = async (jobIds) => {
