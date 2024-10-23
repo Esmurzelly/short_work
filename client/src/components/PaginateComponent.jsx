@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate'
 
 export default function PaginateComponent({ page, total, limit,  handlePageClick }) {
     return (
-        <div className="flex flex-row justify-center items-center gap-5 list-none px-20 mb-8">
+        <div className="flex flex-row justify-center items-center gap-5 list-none px-20 my-12">
             <ReactPaginate
                 className='flex flex-row items-center gap-3'
                 pageClassName="mx-1"

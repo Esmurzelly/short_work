@@ -95,7 +95,7 @@ export default function CurrentJob() {
                         {job.imageUrls.map((item) => (
                             <SwiperSlide key={item}>
                                 <div
-                                    className='h-[200px] w-full'
+                                    className='h-[200px] md:h-[400px] w-full'
                                     style={{
                                         background: `url(${import.meta.env.VITE_HOST}/static/jobAvatar/${item}) center no-repeat`,
                                         backgroundSize: 'cover',

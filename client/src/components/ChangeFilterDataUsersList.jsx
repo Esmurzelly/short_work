@@ -30,10 +30,10 @@ const ChangeFilterDataUsersList = memo(({ page, limit, setFilterData, filterData
     }, [dispatch, page, limit]);
 
     return (
-        <form onSubmit={handleSubmit} className='w-full flex flex-col items-start gap-2 mt-3'>
-            <div className='flex flex-row items-center justify-between w-4/5'>
-                <span>{t("Search")}: </span>
-                <input className='border text-black dark:text-white dark:bg-slate-800' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
+        <form onSubmit={handleSubmit} className='flex flex-col gap-2 items-start mt-3 w-4/5 md:w-1/2 xl:w-1/3'>
+            <div className='flex flex-row items-center gap-2 w-full justify-between'>
+                <label htmlFor="searchTerm">{t("Search")}:</label>
+                <input className='border p-1 text-black md:w-2/3 focus:outline-none dark:text-white dark:bg-slate-800' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
             </div>
 
             <button className='flex flex-row items-center justify-around bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>

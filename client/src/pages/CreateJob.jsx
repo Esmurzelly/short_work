@@ -114,26 +114,26 @@ export default function CreateJob() {
   if (loading) return <Loader />
 
   return (
-    <div className='flex flex-col flex-1 mt-14 text-black dark:text-white dark:bg-black px-3'>
+    <div className='flex flex-col flex-1 mt-14 text-black dark:text-white dark:bg-black px-3 md:text-xl'>
       <h1>{t('create_job')}</h1>
-      <form onSubmit={handleSubmit(handleSubmitForm)} className='flex flex-col items-start gap-4'>
+      <form onSubmit={handleSubmit(handleSubmitForm)} className='mt-4 flex flex-col items-start gap-4 md:gap-8'>
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="title" id="title" />
+          <input {...register("title", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 md:py-1 text-white md:text-3xl' type="text" name="title" id="title" />
           <label htmlFor="title">{t('title')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="description" id="description" />
+          <input {...register("description", { required: true, minLength: 5, maxLength: 250 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 md:py-1 text-white md:text-3xl' type="text" name="description" id="description" />
           <label htmlFor="description">{t('description')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="text" name="address" id="address" />
+          <input {...register("address", { required: true, minLength: 5, maxLength: 99 })} className='bg-slate-700 outline-none placeholder:py-1 px-2 md:py-1 text-white md:text-3xl' type="text" name="address" id="address" />
           <label htmlFor="address">{t('address')}</label>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
-          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 outline-none placeholder:py-1 px-2 text-white' type="number" name="salary" id="salary" />
+          <input {...register("salary", { required: true, pattern: /^[0-9]+$/ })} className='bg-slate-700 outline-none placeholder:py-1 px-2 md:py-1 text-white md:text-3xl' type="number" name="salary" id="salary" />
           <label htmlFor="salary">{t('salary')}</label>
         </div>
 

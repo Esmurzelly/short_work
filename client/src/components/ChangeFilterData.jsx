@@ -11,10 +11,12 @@ const ChangeFilterData = memo(({ page, limit, setFilterData, filterData }) => {
     const { t } = useTranslation();
 
     const handleChange = useCallback((e) => {
-        setFilterData({
-            ...filterData,
-            [e.target.id]: e.target.value
-        })
+        const { id, value } = e.target;
+
+        setFilterData(prevData => ({
+            ...prevData,
+            [id]: value
+        }));
     }, [setFilterData])
 
     const handleClickButton = useCallback((e) => {
@@ -41,36 +43,36 @@ const ChangeFilterData = memo(({ page, limit, setFilterData, filterData }) => {
     }, [dispatch, page, limit, setFilterData]);
 
     return (
-        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-start mt-3'>
-            <div className='flex flex-row items-center justify-between w-4/5'>
-                <span>{t('Search')}: </span>
-                <input className='border' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
+        <form onSubmit={handleSubmit} className='flex flex-col gap-2 items-start mt-3 w-4/5 md:w-1/2 xl:w-1/3'>
+            <div className='flex flex-row items-center gap-2 w-full justify-between'>
+                <label htmlFor='searchTerm'>{t('Search')}: </label>
+                <input className='border p-1 text-black md:w-2/3 focus:outline-none' onChange={handleChange} value={filterData.searchTerm || ""} type="text" name="searchTerm" id="searchTerm" />
             </div>
 
-            <div className='flex flex-row items-center justify-between w-4/5'>
-                <span>{t('Min_Salary')}:</span>
-                <input className='border' onChange={handleChange} value={filterData.minSalary || ""} type="number" name="minSalary" id="minSalary" />
+            <div className='flex flex-row items-center gap-2 w-full justify-between'>
+                <label htmlFor='minSalary'>{t('Min_Salary')}:</label>
+                <input className='border p-1 text-black md:w-2/3 focus:outline-none' onChange={handleChange} value={filterData.minSalary || ""} type="number" name="minSalary" id="minSalary" />
             </div>
 
-            <div className='flex flex-row items-center justify-between w-4/5'>
-                <span>{t('Max_Salary')}:</span>
-                <input className='border' onChange={handleChange} value={filterData.maxSalary || ""} type="number" name="maxSalary" id="maxSalary" />
+            <div className='flex flex-row items-center gap-2 w-full justify-between'>
+                <label htmlFor='maxSalary'>{t('Max_Salary')}:</label>
+                <input className='border p-1 text-black md:w-2/3 focus:outline-none' onChange={handleChange} value={filterData.maxSalary || ""} type="number" name="maxSalary" id="maxSalary" />
             </div>
 
-            <div className='flex flex-row items-center justify-between w-4/5'>
+            <div className='flex flex-row items-center gap-2 w-full justify-between'>
                 <span>{t('order')}</span>
                 <div className='flex flex-row items-center gap-4'>
-                    <button className='flex items-center gap-1' id='asc' onClick={handleClickButton}><IoArrowUpOutline className='w-4' /> {t('asc')}</button>
-                    <button className='flex items-center gap-1' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
+                    <button type='button' className='flex items-center gap-1' id='asc' onClick={handleClickButton}><IoArrowUpOutline className='w-4' /> {t('asc')}</button>
+                    <button type='button' className='flex items-center gap-1' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
                 </div>
             </div>
             
-            <button className='flex flex-row items-center justify-around bg-blue-600 text-white text-center w-24' type='submit'>
+            <button type="submit" className='flex flex-row items-center justify-around bg-blue-600 text-white text-center w-24'>
                 {t('find')}
                 <BiSearchAlt2 className='w-4' />
             </button>
 
-            <button className='flex flex-row items-center justify-around bg-red-light text-white text-center w-24' onClick={handleClearButton} type='button'>
+            <button type='button' className='flex flex-row items-center justify-around bg-red-light text-white text-center w-24' onClick={handleClearButton}>
                 {t('clear')}
                 <MdDeleteForever className='w-4' />
             </button>

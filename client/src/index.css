@@ -15,6 +15,10 @@ body {
     min-height: 100vh;
 }
 
+html.dark {
+    background-color: black;
+}
+
 #root {
     min-height: 100vh;
     display: flex;
