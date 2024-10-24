@@ -50,5 +50,16 @@
   "Page_is_not_found": "Page is not found",
   "Contact_with": "Contact with",
   "for": "for",
-  "Send_message": "Send message"
+  "Send_message": "Send message",
+  "number": "Number",
+  "doenst_exist": "Doesn't exist",
+  "details": "Details",
+  "watch_people_who_clicked": "Watch people who clicked:",
+  "quantity": "Quantity:",
+  "nothing": "Nothing",
+  "last_clicked_jobs": "Last clicked jobs:",
+  "your_created_jobs": "Your created jobs:",
+  "hide": "Hide",
+  "show_more": "Show more",
+  "respond": "Respond"
 }

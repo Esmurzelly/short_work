@@ -13,9 +13,10 @@ import Loader from '../components/Loader';
 import { defaultJobAvatar, unfacedAvatar } from '../utils/expvars';
 import ChangeLanguage from '../components/ChangeLanguage';
 import { getJobById } from '../store/user/jobSlice';
+import LastRespondedData from '../components/LastRespondedData';
 
 
-export default function Profile({theme, setTheme}) {
+export default function Profile({ theme, setTheme }) {
   const { currentUser, loading } = useSelector(state => state.user, shallowEqual);
   // const [theme, setTheme] = useState(() => {
   //   return localStorage.getItem("theme") || "light"
@@ -45,7 +46,6 @@ export default function Profile({theme, setTheme}) {
   //   return validJobIds;
   // };
   console.log('cur user', currentUser);
-  // console.log('yourOwnJobs', yourOwnJobs);
   console.log('clickedJobs', clickedJobs);
   console.log('currentUser.clickedJobs', currentUser.clickedJobs);
 
@@ -99,7 +99,7 @@ export default function Profile({theme, setTheme}) {
         console.error("Error loading jobs", error);
       }
     };
-  
+
     const fetchJobCreatedData = async (jobIds) => {
       try {
         // const validJobIds = await fetchValidJobIds(jobIds);
@@ -237,7 +237,7 @@ export default function Profile({theme, setTheme}) {
       <div className='mt-2 rounded-md dark:bg-slate-800 dark:border-none'>
         <p>{t('role')}: {currentUser.role}</p>
         <p>Email: {currentUser.email}</p>
-        <p>Number: <a href={`tel:${currentUser.tel}`}>{currentUser.tel}</a></p>
+        <p>{t('number')}: <a href={`tel:${currentUser.tel}`}>{currentUser.tel || `${t('doenst_exist')}`}</a></p>
 
         <div className='flex flex-row items-center gap-32 mt-4'>
           <button className='flex flex-row items-center gap-2 bg-red-light p-2 rounded-xl' onClick={handleSwitchTeme}>
@@ -250,7 +250,7 @@ export default function Profile({theme, setTheme}) {
 
         <div className='flex flex-col mt-3 break-all'>
           <p>{t('about')}:</p>
-          {currentUser?.about ? <p className='bg-beige-medium rounded-md py-1 px-2'>{currentUser?.about}</p> : <p className='ml-1'>Nothing</p>}
+          {currentUser?.about ? <p className='bg-beige-medium rounded-md py-1 px-2'>{currentUser?.about}</p> : <p className='ml-1'>{t('nothing')}</p>}
         </div>
 
         <div className='flex flex-row items-center gap-4 mt-5'>
@@ -267,51 +267,64 @@ export default function Profile({theme, setTheme}) {
           </button>
         </div>
 
-        {currentUser.role === 'employee' && clickedJobs && clickedJobs.length > 0 && <div className='mt-7'>
-          <h3>Last clicked jobs:</h3>
-          {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-            <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
-              <div className='flex flex-row items-center gap-1'>
-                <p>{index + 1}.</p>
-                <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
-              </div>
-              <div className=''>
-                <p>{item.data.title}</p>
-                <p>{item.data.salary}</p>
-              </div>
-            </Link>)}
-          {Math.abs(showMoreClickedJobs) >= clickedJobs.length ? (
-            <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
-          ) : (
-            <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
-          )}
-        </div>}
+        {currentUser.role === 'employee' && clickedJobs && clickedJobs.length > 0 &&
+          <div className='mt-7'>
+            <h3>{t('last_clicked_jobs')}</h3>
+            <LastRespondedData array={clickedJobs} showMoreClickedJobs={showMoreClickedJobs} setShowMoreClickedJobs={setShowMoreClickedJobs} />
+          </div>
+          // <div className='mt-7'>
+          //   <h3>Last clicked jobs:</h3>
+          //   {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
+          //     <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
+          //       <div className='flex flex-row items-center gap-1'>
+          //         <p>{index + 1}.</p>
+          //         <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
+          //       </div>
+          //       <div className=''>
+          //         <p>{item.data.title}</p>
+          //         <p>{item.data.salary}</p>
+          //       </div>
+          //     </Link>)}
+          //   {Math.abs(showMoreClickedJobs) >= clickedJobs.length ? (
+          //     <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
+          //   ) : (
+          //     <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
+          //   )}
+          // </div>
+        }
 
 
-        {currentUser.role === 'employer' && currentUser.jobs.length > 0 && <div className='mt-7'>
-          Your created Jobs:
-          {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-            <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
-              <div className='flex flex-row items-center gap-1'>
-                <p>{index + 1}.</p>
-                <img className='w-14 h-8 object-cover'
-                  src={(item.data.imageUrls === null || item.data.imageUrls === undefined || !item.data.imageUrls || item.data.imageUrls.length === 0) ? defaultJobAvatar
-                    : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`}
-                  alt="imageUrl" />
-              </div>
-              <div className=''>
-                <p>{item.data.title}</p>
-                <p>{item.data.salary}</p>
-              </div>
-            </Link>
-          )}
+        {currentUser.role === 'employer' && currentUser.jobs.length > 0 &&
+          <div className='mt-7'>
+            <h3>{t('your_created_jobs')}</h3>
+            <h3>Your created Jobs:</h3>
+            <LastRespondedData array={clickedJobs} showMoreClickedJobs={showMoreClickedJobs} setShowMoreClickedJobs={setShowMoreClickedJobs} />
+          </div>
+          // <div className='mt-7'>
+          //   Your created Jobs:
+          //   {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
+          //     <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
+          //       <div className='flex flex-row items-center gap-1'>
+          //         <p>{index + 1}.</p>
+          //         <img className='w-14 h-8 object-cover'
+          //           src={(item.data.imageUrls === null || item.data.imageUrls === undefined || !item.data.imageUrls || item.data.imageUrls.length === 0) ? defaultJobAvatar
+          //             : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`}
+          //           alt="imageUrl" />
+          //       </div>
+          //       <div className=''>
+          //         <p>{item.data.title}</p>
+          //         <p>{item.data.salary}</p>
+          //       </div>
+          //     </Link>
+          //   )}
 
-          {
-            Math.abs(showMoreClickedJobs) > yourOwnJobs.length ? <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button> :
-              Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
-                <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
-          }
-        </div>}
+          //   {
+          //     Math.abs(showMoreClickedJobs) > yourOwnJobs.length ? <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button> :
+          //       Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
+          //         <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
+          //   }
+          // </div>
+        }
 
 
         {modal && (

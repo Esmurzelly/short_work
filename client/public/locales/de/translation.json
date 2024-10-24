@@ -16,7 +16,6 @@
   "createJob": "Stelle erstellen",
   "profile": "Profil",
   "jobNotFound": "Keine offenen Stellen gefunden",
-
   "current_item": "Aktueller Artikel",
   "title": "Titel",
   "description": "Beschreibung",
@@ -51,5 +50,16 @@
   "Page_is_not_found": "Seite nicht gefunden",
   "Contact_with": "Kontakt mit",
   "for": "für",
-  "Send_message": "Nachricht senden"
+  "Send_message": "Nachricht senden",
+  "number": "Nachricht senden",
+  "doenst_exist": "Existiert nicht",
+  "details": "Einzelheiten",
+  "watch_people_who_clicked": "Beobachte Leute, die geklickt haben:",
+  "quantity": "Menge:",
+  "nothing": "Nichts",
+  "last_clicked_jobs": "Zuletzt angeklickte Jobs:",
+  "your_created_jobs": "Ihre erstellten Jobs:",
+  "hide": "Verstecken",
+  "show_more": "Mehr anzeigen",
+  "respond": "Antworten"
 }

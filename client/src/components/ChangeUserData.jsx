@@ -83,7 +83,7 @@ const ChangeUserData = memo(({ setModal }) => {
 
                 <div className='flex flex-row items-center gap-2'>
                     <input placeholder='Enter new number' className='px-1 focus:outline-none w-full bg-white dark:bg-slate-700' onChange={handleChange} type="tel" name="tel" id="tel" />
-                    <label className="text-white" htmlFor="tel">Number</label>
+                    <label className="text-white" htmlFor="tel">{t('number')}</label>
                 </div>
 
                 <button className='text-white' type='submit'>{t('update')}</button>

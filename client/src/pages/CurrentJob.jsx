@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import ChangeJobData from '../components/ChangeJobData';
 import { clickedJobsByUser, findUserByUserRefJob, getAllUsers } from '../store/user/authSlice';
 import Contact from '../components/Contact';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css/bundle'
@@ -115,9 +114,8 @@ export default function CurrentJob() {
                         <p className='text-base text-right break-words w-1/3'>{t('address')}: {job.address}</p>
                     </div>
 
-                    <p>Number: <a href={`tel:${jobOwner?.tel}`}>
-
-                        {jobOwner?.tel ? jobOwner?.tel : "doesn't exist"}
+                    <p>{t('number')}: <a href={`tel:${jobOwner?.tel}`}>
+                        {jobOwner?.tel ? jobOwner?.tel : `${t('doenst_exist')}`}
                     </a></p>
 
                     <div className='flex flex-col items-start gap-1 mt-3 break-words w-full'>
@@ -126,7 +124,7 @@ export default function CurrentJob() {
                     </div>
 
                     <button onClick={handleShowDdetails} className='mt-3 flex items-center gap-1'>
-                        Details:
+                        {t('details')}:
                         {showDetails ? <IoArrowUpOutline /> : <IoArrowDownOutline />}
                     </button>
                     {showDetails && <div className='flex flex-col items-start gap-1'>
@@ -162,28 +160,28 @@ export default function CurrentJob() {
 
             <div className='w-full flex flex-row items-start justify-between mt-3 gap-3 p-1'>
                 {job.userRef !== currentUser._id && <div className='flex flex-col items-start gap-2 w-1/2'>
-                    <button onClick={() => setContact(prevState => !prevState)} className='bg-slate-600 w-full text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                    <button onClick={() => setContact(prevState => !prevState)} className='bg-green-800 w-full h-16 text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                         {t('contact_with_owner')}
                     </button>
                     {contact && <Contact />}
                 </div>}
 
-                {currentUser._id !== jobOwner?._id && <button onClick={handleSendData} className='w-1/2 bg-slate-600 text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-                    Respond
+                {currentUser._id !== jobOwner?._id && <button onClick={handleSendData} className='w-1/2 h-16 bg-red-700 text-white p-1 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+                    {t('respond')}
                 </button>}
             </div>
 
             {job.userRef == currentUser._id && filteredUsers.length > 0 && <div className='flex flex-col gap-4 mt-3 p-1'>
                 <button onClick={() => setClickedPeople(prevState => !prevState)} className='bg-purple-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-                    Watch people who clicked
+                {t('watch_people_who_clicked')}
                 </button>
                 {clickedPeople && filteredUsers.map((user, index) => (
                     <Link className='w-full border p-1 flex flex-row items-center gap-2' to={`/user/${user._id}`} key={user._id}>
                         <div className='flex flex-row items-center gap-1'>
                             <p className='mr-2'>{index + 1}.</p>
                             <img className='w-14 object-cover' src={
-                                    user?.avatar === null ? unfacedAvatar
-                                      : (user?.avatar.includes('https://lh3.googleusercontent.com') || user?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${user?.avatar}`
+                                user?.avatar === null ? unfacedAvatar
+                                    : (user?.avatar.includes('https://lh3.googleusercontent.com') || user?.avatar.includes('https://encrypted-tbn0.gstatic.com')) ? `${user?.avatar}`
                                         : `${import.meta.env.VITE_HOST}/static/userAvatar/${user?.avatar}`}
                                 alt="avatar" />
                         </div>

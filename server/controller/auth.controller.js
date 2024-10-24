@@ -71,7 +71,7 @@ export const google = async (req, res, next) => {
                 name: req.body.name.split(" ").join(" ").toLowerCase() + Math.random().toString(36).slice(-4),
                 email: req.body.email,
                 password: hashedPassword,
-                role: "user",
+                role: "employee",
                 avatar: req.body.avatar
             });
             await newUser.save();

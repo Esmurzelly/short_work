@@ -62,8 +62,8 @@ const ChangeFilterData = memo(({ page, limit, setFilterData, filterData }) => {
             <div className='flex flex-row items-center gap-2 w-full justify-between'>
                 <span>{t('order')}</span>
                 <div className='flex flex-row items-center gap-4'>
-                    <button type='button' className='flex items-center gap-1' id='asc' onClick={handleClickButton}><IoArrowUpOutline className='w-4' /> {t('asc')}</button>
-                    <button type='button' className='flex items-center gap-1' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
+                    <button type='button' className='flex items-center gap-1 text-xs' id='asc' onClick={handleClickButton}><IoArrowUpOutline className='w-4' /> {t('asc')}</button>
+                    <button type='button' className='flex items-center gap-1 text-xs' id='desc' onClick={handleClickButton}><IoArrowDownOutline className='w-4' /> {t('desc')}</button>
                 </div>
             </div>
             

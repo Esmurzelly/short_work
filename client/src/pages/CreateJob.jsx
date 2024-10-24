@@ -143,7 +143,7 @@ export default function CreateJob() {
           <input ref={pictureUploadRef} className='bg-slate-700 w-1/4 hidden' onChange={handleFileChange} multiple type="file" accept='image/*' name="imageUrls" id="imageUrls" />
           <label htmlFor="imageUrls">{t('choose_image/images')}</label>
 
-          <span>Quantity: {PicsQuantity || 0}</span>
+          <span>{t('quantity')}: {PicsQuantity || 0}</span>
         </div>
 
         <div className='flex flex-row items-center gap-2'>
