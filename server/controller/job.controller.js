@@ -26,8 +26,6 @@ export const createJob = async (req, res, next) => {
             await job.save();
         }
 
-
-
         const updatedUser = await User.findByIdAndUpdate(req.user.id,
             { $push: { jobs: job._id } },
             { new: true }

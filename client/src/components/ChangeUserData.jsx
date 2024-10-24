@@ -1,10 +1,14 @@
-import React, { memo, useCallback } from 'react'
-import { useState } from 'react';
-import { IoMdClose } from "react-icons/io";
-import Select from 'react-select';
+import React, { memo, useCallback, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../store/user/authSlice';
+
+import Select from 'react-select';
+
+import { IoMdClose } from "react-icons/io";
+
 import { useTranslation } from 'react-i18next';
+
 import { options } from '../utils/expvars';
 
 const ChangeUserData = memo(({ setModal }) => {
@@ -19,8 +23,6 @@ const ChangeUserData = memo(({ setModal }) => {
             [e.target.id]: e.target.value
         });
     }, []);
-
-    console.log('formData', formData);
 
     const handleSelect = useCallback((selectedOption) => {
         setFormData({

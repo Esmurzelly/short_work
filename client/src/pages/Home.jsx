@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import JobCard from '../components/JobCard';
 import { getAllJobs } from '../store/user/jobSlice';
-import ChangeFilterData from '../components/ChangeFilterData';
+
 import { useTranslation } from 'react-i18next';
-import PaginateComponent from '../components/PaginateComponent';
-import Skeleton from '../components/Skeleton';
+
 import { IoArrowUpOutline , IoArrowDownOutline } from "react-icons/io5";
+
+import JobCard from '../components/JobCard';
+import Skeleton from '../components/Skeleton';
+import ChangeFilterData from '../components/ChangeFilterData';
+import PaginateComponent from '../components/PaginateComponent';
 
 export default function Home() {
     const [filterData, setFilterData] = useState({ searchTerm: '', order: 'desc' });

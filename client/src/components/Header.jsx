@@ -1,9 +1,8 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/hard-work.png';
-import { unfacedAvatar } from '../utils/expvars';
-import Loader from './Loader';
 
+import { unfacedAvatar } from '../utils/expvars';
+import Logo from '../assets/hard-work.png';
 
 export default function Header({ isAuth }) {
   const { currentUser } = useSelector(state => state.user);

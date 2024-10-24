@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUserById } from '../store/user/authSlice';
 import { useSelector, useDispatch } from 'react-redux'
+import { getUserById } from '../store/user/authSlice';
+
 import { useTranslation } from 'react-i18next';
+
+import { unfacedAvatar } from '../utils/expvars';
+
 import Loader from '../components/Loader';
 import Error from '../components/Error';
-import { unfacedAvatar } from '../utils/expvars';
 
 export default function CurrentUser() {
   const { neededUser, loading, error } = useSelector(state => state.user);

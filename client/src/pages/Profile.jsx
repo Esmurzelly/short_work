@@ -1,26 +1,26 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { signOutUser, deleteUser, uploadAvatar, deleteAvatar, updateUser } from '../store/user/authSlice';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import ChangeUserData from '../components/ChangeUserData';
-import { BsSun } from "react-icons/bs";
-import { FaRegMoon } from "react-icons/fa";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
-import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
-import { useTranslation } from 'react-i18next';
-import Loader from '../components/Loader';
-import { defaultJobAvatar, unfacedAvatar } from '../utils/expvars';
-import ChangeLanguage from '../components/ChangeLanguage';
 import { getJobById } from '../store/user/jobSlice';
+
+import { BsSun } from "react-icons/bs";
+import { FaRegMoon, FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+
+import { useTranslation } from 'react-i18next';
+
+import { unfacedAvatar } from '../utils/expvars';
+
+import ChangeLanguage from '../components/ChangeLanguage';
 import LastRespondedData from '../components/LastRespondedData';
+import ChangeUserData from '../components/ChangeUserData';
+import Loader from '../components/Loader';
 
 
 export default function Profile({ theme, setTheme }) {
   const { currentUser, loading } = useSelector(state => state.user, shallowEqual);
-  // const [theme, setTheme] = useState(() => {
-  //   return localStorage.getItem("theme") || "light"
-  // });
   const [modal, setModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -32,23 +32,6 @@ export default function Profile({ theme, setTheme }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  // const fetchValidJobIds = async (jobIds) => {
-  //   const validJobIds = [];
-  //   for (const id of jobIds) {
-  //     try {
-  //       const jobData = await dispatch(getJobById({ id })).unwrap();
-  //       if (jobData) validJobIds.push(id);
-  //     } catch (error) {
-  //       console.log(`Job with ID ${id} not found.`);
-  //     }
-  //   }
-  //   return validJobIds;
-  // };
-  console.log('cur user', currentUser);
-  console.log('clickedJobs', clickedJobs);
-  console.log('currentUser.clickedJobs', currentUser.clickedJobs);
-
 
   useEffect(() => {
     const handleEvent = (event) => {
@@ -70,20 +53,9 @@ export default function Profile({ theme, setTheme }) {
     };
   }, [modal]);
 
-  // useEffect(() => {
-  //   if (theme === 'dark') {
-  //     document.documentElement.classList.add("dark");
-  //     localStorage.setItem("theme", 'dark')
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //     localStorage.setItem("theme", 'light');
-  //   }
-  // }, [theme]);
-
   useEffect(() => {
     const fetchJobClickedData = async (jobIds) => {
       try {
-        // const validJobIds = await fetchValidJobIds(jobIds);
         const uniqueJobIds = Array.from(new Set(jobIds))
         const jobPromises = uniqueJobIds.map(async (id) => {
           try {
@@ -102,7 +74,6 @@ export default function Profile({ theme, setTheme }) {
 
     const fetchJobCreatedData = async (jobIds) => {
       try {
-        // const validJobIds = await fetchValidJobIds(jobIds);
         const jobPromises = jobIds.map(async (id) => {
           try {
             return await dispatch(getJobById({ id })).unwrap();
@@ -130,15 +101,11 @@ export default function Profile({ theme, setTheme }) {
         role: currentUser.role,
         about: currentUser.about,
         tel: currentUser.tel,
-        // jobs: yourOwnJobs, 
-        // clickedJobs: clickedJobs
       }))
     }
 
     handleJobDataFetch();
   }, []);
-
-
 
   const handleDelele = useCallback(() => {
     try {
@@ -272,58 +239,14 @@ export default function Profile({ theme, setTheme }) {
             <h3>{t('last_clicked_jobs')}</h3>
             <LastRespondedData array={clickedJobs} showMoreClickedJobs={showMoreClickedJobs} setShowMoreClickedJobs={setShowMoreClickedJobs} />
           </div>
-          // <div className='mt-7'>
-          //   <h3>Last clicked jobs:</h3>
-          //   {clickedJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-          //     <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
-          //       <div className='flex flex-row items-center gap-1'>
-          //         <p>{index + 1}.</p>
-          //         <img className='w-14' src={`${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`} alt="imageUrl" />
-          //       </div>
-          //       <div className=''>
-          //         <p>{item.data.title}</p>
-          //         <p>{item.data.salary}</p>
-          //       </div>
-          //     </Link>)}
-          //   {Math.abs(showMoreClickedJobs) >= clickedJobs.length ? (
-          //     <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button>
-          //   ) : (
-          //     <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
-          //   )}
-          // </div>
         }
 
 
         {currentUser.role === 'employer' && currentUser.jobs.length > 0 &&
           <div className='mt-7'>
             <h3>{t('your_created_jobs')}</h3>
-            <h3>Your created Jobs:</h3>
             <LastRespondedData array={clickedJobs} showMoreClickedJobs={showMoreClickedJobs} setShowMoreClickedJobs={setShowMoreClickedJobs} />
           </div>
-          // <div className='mt-7'>
-          //   Your created Jobs:
-          //   {yourOwnJobs.slice(showMoreClickedJobs).reverse().map((item, index) =>
-          //     <Link key={`${item.data._id}-${index}`} className='w-full flex flex-row items-center gap-2' to={`/job/${item.data._id}`}>
-          //       <div className='flex flex-row items-center gap-1'>
-          //         <p>{index + 1}.</p>
-          //         <img className='w-14 h-8 object-cover'
-          //           src={(item.data.imageUrls === null || item.data.imageUrls === undefined || !item.data.imageUrls || item.data.imageUrls.length === 0) ? defaultJobAvatar
-          //             : `${import.meta.env.VITE_HOST}/static/jobAvatar/${item.data.imageUrls[0]}`}
-          //           alt="imageUrl" />
-          //       </div>
-          //       <div className=''>
-          //         <p>{item.data.title}</p>
-          //         <p>{item.data.salary}</p>
-          //       </div>
-          //     </Link>
-          //   )}
-
-          //   {
-          //     Math.abs(showMoreClickedJobs) > yourOwnJobs.length ? <button onClick={() => setShowMoreClickedJobs(-3)}>Hide</button> :
-          //       Math.abs(showMoreClickedJobs) === yourOwnJobs.length ? "" :
-          //         <button onClick={() => setShowMoreClickedJobs(prevState => prevState - 3)}>Show more</button>
-          //   }
-          // </div>
         }
 
 

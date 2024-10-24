@@ -155,7 +155,6 @@ export const deleteUser = async (req, res, next) => {
 
         const deletedJobIds = userToDelete.jobs;
         await Job.deleteMany({ _id: {$in: deletedJobIds} });
-        console.log('deletedJobIds', deletedJobIds);
 
         await User.updateMany(
             { clickedJobs: { $in: deletedJobIds } },
@@ -193,21 +192,6 @@ export const findUserByUserRef = async (req, res, next) => {
         return next(error);
     }
 }
-
-// export const gotResponsesJobByUsers = async (req, res, next) => {
-//     console.log('req.user.id from gotResponsesJobByUsers', req.user.id);
-
-//     try {
-//         const currentUser = await User.findById(req.user.id).populate('jobs');
-
-//         if (!currentUser) return res.status(404).json({ success: false, message: "User is not found" });
-
-        
-//     } catch (error) {
-//         console.log(error)
-//         return next(error);
-//     }
-// }
 
 export const clickedJobsByUser = async (req, res, next) => {
     try {

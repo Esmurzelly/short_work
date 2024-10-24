@@ -1,16 +1,17 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { loginUser } from '../store/user/authSlice'
-import OAuth from '../components/OAuth';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { useForm } from 'react-hook-form';
+
 import { useTranslation } from 'react-i18next';
+
 import Loader from '../components/Loader';
+import OAuth from '../components/OAuth';
 
 export default function Signin() {
   const {
@@ -41,15 +42,6 @@ export default function Signin() {
 
   if (error) return <p>Error...</p>
 
-  console.log('cur user', currentUser);
-
-  const handleChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
-  };
-
   const handleSubmitForm = async (data) => {
     console.log('formData from client', data);
 
@@ -59,8 +51,6 @@ export default function Signin() {
       console.log(error);
     };
   };
-
-  console.log('formData', formData);
 
   return (
     <div className='flex flex-col lg:justify-center text-center w-full min-h-screen bg-white px-2 mt-3 lg:mt-0 text-black dark:text-white dark:bg-black'>

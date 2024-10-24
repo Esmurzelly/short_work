@@ -1,9 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { googleLoginUser } from '../store/user/authSlice';
+
 import { useDispatch } from 'react-redux';
+import { googleLoginUser } from '../store/user/authSlice';
+
 import { app } from '../firebase';
 import { signInWithPopup, GoogleAuthProvider, getAuth } from 'firebase/auth';
+
 import { useTranslation } from 'react-i18next';
 
 export default function OAuth() {

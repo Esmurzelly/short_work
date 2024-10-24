@@ -1,19 +1,26 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux'
 import { deletejob, getAllJobs, getJobById } from '../store/user/jobSlice';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ChangeJobData from '../components/ChangeJobData';
 import { clickedJobsByUser, findUserByUserRefJob, getAllUsers } from '../store/user/authSlice';
-import Contact from '../components/Contact';
+
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
 import 'swiper/css/bundle'
 import 'swiper/css/pagination';
-import 'swiper/css';
+
 import { useTranslation } from 'react-i18next';
-import Loader from '../components/Loader';
-import { defaultJobAvatar, unfacedAvatar } from '../utils/expvars';
+
+import { unfacedAvatar } from '../utils/expvars';
+
 import { IoArrowUpOutline, IoArrowDownOutline } from "react-icons/io5";
+
+import ChangeJobData from '../components/ChangeJobData';
+import Loader from '../components/Loader';
+import Contact from '../components/Contact';
 
 
 export default function CurrentJob() {
@@ -29,8 +36,6 @@ export default function CurrentJob() {
     const params = useParams();
     const filteredUsers = allUsers.filter(user => user.clickedJobs.includes(params.id));
     const { t } = useTranslation();
-
-    console.log('cur job', job);
 
     const handleShowDdetails = () => {
         setShowDetails(prev => !prev)
@@ -82,8 +87,6 @@ export default function CurrentJob() {
         }
     }, [dispatch, job]);
 
-    console.log('filteredUsers', filteredUsers);
-
     if (!job || loading || !jobOwner) return <Loader />
 
     return (
@@ -130,11 +133,11 @@ export default function CurrentJob() {
                     {showDetails && <div className='flex flex-col items-start gap-1'>
                         <p>{t('owner')}: {jobOwner?.name}</p>
 
-                        <div className='flex flex-row items-center gap-2'>
+                        <div className='flex flex-row items-start gap-5'>
                             <p>{t('skills')}: </p>
-                            {job.neededSkils.length === 0 ? "No reqires" : <ul className='flex flex-row items-center gap-1'>
+                            {job.neededSkils.length === 0 ? "No reqires" : <ul className='flex flex-col items-start gap-1'>
                                 {job.neededSkils && job.neededSkils.map((item, index) => <li key={index}>
-                                    {item} {job.neededSkils.length > 1 ? ',' : ''}
+                                    {index + 1}. {item} {index === job.neededSkils.length - 1 ? '.' : job.neededSkils.length > 1 ? ',' : ''}
                                 </li>)}
                             </ul>}
                         </div>
@@ -173,7 +176,7 @@ export default function CurrentJob() {
 
             {job.userRef == currentUser._id && filteredUsers.length > 0 && <div className='flex flex-col gap-4 mt-3 p-1'>
                 <button onClick={() => setClickedPeople(prevState => !prevState)} className='bg-purple-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-                {t('watch_people_who_clicked')}
+                    {t('watch_people_who_clicked')}
                 </button>
                 {clickedPeople && filteredUsers.map((user, index) => (
                     <Link className='w-full border p-1 flex flex-row items-center gap-2' to={`/user/${user._id}`} key={user._id}>

@@ -1,17 +1,24 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllJobs, jobCreate } from '../store/user/jobSlice';
-import { useNavigate } from 'react-router-dom';
+
 import { useForm } from 'react-hook-form';
+
 import Select from 'react-select';
+
 import { FcPicture } from "react-icons/fc";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import { useTranslation } from 'react-i18next';
-import Loader from '../components/Loader';
 
 import { skillOptions } from '../utils/expvars';
+
+import Loader from '../components/Loader';
+
 
 export default function CreateJob() {
   const {
@@ -103,7 +110,6 @@ export default function CreateJob() {
         dispatch(getAllJobs());
         navigate('/');
       } else {
-        // В случае ошибки от сервера, вывести сообщение
         toast.error(resultAction.error.message || "Failed to create job.");
       }
     } catch (error) {

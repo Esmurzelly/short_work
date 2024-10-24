@@ -1,6 +1,8 @@
-import React, { memo, useCallback } from 'react'
-import { getAllJobs } from '../store/user/jobSlice';
+import React, { memo, useCallback } from 'react';
+
 import { useDispatch } from 'react-redux';
+import { getAllJobs } from '../store/user/jobSlice';
+
 import { useTranslation } from 'react-i18next';
 import { IoArrowUpOutline, IoArrowDownOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";

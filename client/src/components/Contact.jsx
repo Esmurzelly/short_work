@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export default function Contact() {
     const [message, setMessage] = useState('');
     const { job, loading } = useSelector(state => state.job);
     const { t } = useTranslation();
     
-    const { currentUser, jobOwner } = useSelector(state => state.user);
+    const { jobOwner } = useSelector(state => state.user);
 
     const onChange = (e) => {
         setMessage(e.target.value);

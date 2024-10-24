@@ -1,6 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom'
+
+import { useTranslation } from 'react-i18next';
 
 export default function LastRespondedData({ array, showMoreClickedJobs, setShowMoreClickedJobs }) {
   const { t } = useTranslation();

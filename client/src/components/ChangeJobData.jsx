@@ -1,7 +1,10 @@
 import React, { memo, useCallback, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { IoMdClose } from "react-icons/io";
 import { updatejob } from '../store/user/jobSlice';
+
+import { IoMdClose } from "react-icons/io";
+
 import { useTranslation } from 'react-i18next';
 
 const ChangeJobData = memo(({ setModal }) => {
@@ -17,8 +20,6 @@ const ChangeJobData = memo(({ setModal }) => {
           [id]: value
         }));
       }, []);
-
-      console.log("formData from ChangeJobData", formData)
 
     const handleSubmit = e => {
         e.preventDefault();

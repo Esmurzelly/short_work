@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { IoHomeOutline } from "react-icons/io5";
 import { CiCirclePlus, CiUser } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
+
 import { useTranslation } from 'react-i18next';
 
 export default function SideBar({ isAuth }) {

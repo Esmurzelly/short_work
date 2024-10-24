@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/bundle'
 import 'swiper/css/pagination';
+
 import IntroductionLogo from '../assets/Introduction/Intoduction_icon.svg'
 import IntroductionHome from '../assets/Introduction/home.svg'
+
 import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function Introduction() {
     return (
         <div className='flex flex-col flex-1 absolute top-0 left-0 w-full text-white'>
-            {/* <p>Introduction</p>
-        <Link to={'/sign-in'}>Sign in</Link> */}
             <div className='w-full'>
                 <Swiper 
                     modules={[Navigation, Pagination]}

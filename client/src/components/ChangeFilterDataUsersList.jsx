@@ -1,6 +1,8 @@
-import React, { memo, useCallback } from 'react'
-import { getAllUsers } from '../store/user/authSlice';
+import React, { memo, useCallback } from 'react';
+
 import { useDispatch } from 'react-redux';
+import { getAllUsers } from '../store/user/authSlice';
+
 import { useTranslation } from 'react-i18next';
 import { MdDeleteForever } from 'react-icons/md';
 import { BiSearchAlt2 } from 'react-icons/bi';
