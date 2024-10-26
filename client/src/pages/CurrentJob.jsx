@@ -34,7 +34,7 @@ export default function CurrentJob() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
-    const filteredUsers = allUsers.filter(user => user.clickedJobs.includes(params.id));
+    const filteredUsers = allUsers?.filter(user => user.clickedJobs.includes(params.id));
     const { t } = useTranslation();
 
     const handleShowDdetails = () => {

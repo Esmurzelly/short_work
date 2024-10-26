@@ -89,10 +89,7 @@ export default function CreateJob() {
   };
 
   const handleSubmitForm = async (data) => {
-    console.log('formData from client', data);
-
     if (!data.title || !data.description || !data.address || !data.salary) {
-      console.log(data.title, data.description, data.address, data.salary)
       toast.error("All required fields must be filled");
       return;
     }

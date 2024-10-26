@@ -18,10 +18,11 @@ const ChangeUserData = memo(({ setModal }) => {
     const { t } = useTranslation();
 
     const handleChange = useCallback((e) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value
-        });
+        const { id, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
     }, []);
 
     const handleSelect = useCallback((selectedOption) => {
