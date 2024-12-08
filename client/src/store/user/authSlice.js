@@ -295,8 +295,6 @@ export const clickedJobsByUser = createAsyncThunk(
                 body: JSON.stringify({ id })
             });
 
-            console.log('id from authSlice/clickedJobsByUser', id);
-
             const data = await response.json();
 
             if (data.success === false) {
@@ -306,8 +304,6 @@ export const clickedJobsByUser = createAsyncThunk(
             if (!data) {
                 throw new Error('No data returned from server');
             }
-
-            console.log('data from authSlice/clickedJobsByUser', data);
 
             return data;
         } catch (error) {

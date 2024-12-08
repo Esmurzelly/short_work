@@ -17,8 +17,6 @@ export default function CurrentUser() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  console.log('neededUser', neededUser);
-
   useEffect(() => {
     dispatch(getUserById({ id }));
 

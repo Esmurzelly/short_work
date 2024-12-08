@@ -43,8 +43,6 @@ export default function Signin() {
   if (error) return <p>Error...</p>
 
   const handleSubmitForm = async (data) => {
-    console.log('formData from client', data);
-
     try {
       dispatch(loginUser(data));
     } catch (error) {
